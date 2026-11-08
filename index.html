@@ -199,13 +199,52 @@ footer { padding-block: 40px 60px; color: var(--muted); font-size: 13px; }
 @media (max-width: 760px) {
   .cover .wrap { grid-template-columns: minmax(0,1fr); padding-block: 40px 28px; }
   .g-body { grid-template-columns: minmax(0,1fr); }
-  .day-head { grid-template-columns: auto minmax(0,1fr); padding: 16px; }
-  .day-act { grid-column: 1 / -1; }
+  .day-head { grid-template-columns: auto minmax(0,1fr) auto; padding: 16px; gap: 12px; }
   .tl { padding: 6px 16px 12px; }
   .tl li { grid-template-columns: 46px 12px minmax(0,1fr); gap: 8px; }
   .guide { padding: 18px 16px; }
 }
-@media print { .nav, .today { display: none; } .day, .guide { break-inside: avoid; } }
+
+/* v2 additions */
+.dchips { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 49px); z-index: 9; display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; padding: 10px 0; margin-bottom: 8px; background: var(--paper); }
+.dchip { flex: none; display: grid; justify-items: center; min-width: 46px; padding: 6px 4px; border-radius: 8px; border: 1px solid var(--rule); background: var(--surface); text-decoration: none; border-bottom: 3px solid var(--c); }
+.dchip b { font-family: var(--f-latin); font-weight: 400; font-size: 20px; line-height: 1; }
+.dchip i { font-style: normal; font-size: 11px; color: var(--muted); }
+.dchip.is-today, .ov.is-today { background: var(--amber-soft); border-color: var(--amber); }
+details.day > summary { list-style: none; cursor: pointer; }
+details.day > summary::-webkit-details-marker { display: none; }
+.caret { width: 12px; height: 12px; border-right: 2px solid var(--muted); border-bottom: 2px solid var(--muted); transform: rotate(45deg); margin-top: 10px; transition: transform .2s; }
+details[open] .caret { transform: rotate(-135deg); margin-top: 16px; }
+@media (prefers-reduced-motion: reduce) { .caret { transition: none; } }
+.day-body { display: grid; }
+.day-act { padding: 14px 22px 0; display: flex; }
+.fact { margin: 0 22px 18px; padding: 12px 14px; background: var(--delft-soft); border-radius: 8px; font-size: 14.5px; display: grid; gap: 2px; }
+.fact span { font-size: 11.5px; font-weight: 700; letter-spacing: .12em; color: var(--delft); }
+.plink { text-decoration: none; border-bottom: 1px dashed currentColor; color: var(--amber); }
+.plink b { color: var(--amber); }
+.pin { min-height: 40px; padding: 8px 14px; }
+.star { margin-left: 8px; font-family: var(--f-mono); font-size: 12.5px; color: var(--muted); font-weight: 400; }
+.b-bar { background: var(--delft-soft); color: var(--delft); }
+.stays { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 10px; }
+.stayc { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 14px 16px; display: grid; gap: 4px; align-content: start; }
+.stay-top { display: flex; gap: 10px; align-items: center; font-size: 13px; color: var(--muted); }
+.nights { font-size: 12px; }
+.sbadge { margin-left: auto; font-size: 11.5px; font-weight: 700; padding: 1px 9px; border-radius: 999px; }
+.s-ok { background: var(--ok-soft); color: var(--ok); } .s-todo { background: var(--warn-soft); color: var(--warn); }
+.stay-name { font-weight: 700; font-size: 17px; }
+.stay-addr, .stay-note { font-size: 13.5px; color: var(--muted); }
+.stayc .pin { justify-self: start; margin-top: 6px; }
+.tgroup li.static { display: grid; grid-template-columns: 22px 64px minmax(0,1fr); gap: 10px; background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; padding: 10px 12px; }
+.sicon { font-weight: 700; color: var(--muted); text-align: center; }
+.tgroup li.done .sicon { color: var(--ok); }
+.card.wide { grid-column: 1 / -1; }
+@media (max-width: 760px) {
+  .day-act { padding: 12px 16px 0; }
+  .fact { margin: 0 16px 14px; }
+  .nav a { padding: 13px 10px; font-size: 14.5px; }
+}
+
+@media print { .nav, .today, .dchips { display: none; } .guide { break-inside: avoid; } }
 </style>
 </head>
 <body>
@@ -220,7 +259,7 @@ footer { padding-block: 40px 60px; color: var(--muted); font-size: 13px; }
         <div class="stat"><b>15</b><span>天</span></div>
         <div class="stat"><b>3</b><span>個國家</span></div>
         <div class="stat"><b>10</b><span>座城市</span></div>
-        <div class="stat"><b>7</b><span>間飯店</span></div>
+        <div class="stat"><b>9</b><span>個聖誕市集</span></div>
       </div>
       <div class="countdown" id="countdown">12 月 5 日出發</div>
     </div>
@@ -235,10 +274,11 @@ footer { padding-block: 40px 60px; color: var(--muted); font-size: 13px; }
   <div class="wrap">
     <ul>
       <li><a href="#overview">總覽</a></li>
-      <li><a href="#days">每日行程</a></li>
-      <li><a href="#guides">城市與美食</a></li>
-      <li><a href="#todo">出發前待辦</a></li>
-      <li><a href="#info">實用資訊</a></li>
+      <li><a href="#days">每日</a></li>
+      <li><a href="#stays">住宿</a></li>
+      <li><a href="#guides">美食</a></li>
+      <li><a href="#todo">待辦</a></li>
+      <li><a href="#info">資訊</a></li>
     </ul>
     <a class="today" id="todayBtn" href="#days" hidden>今天</a>
   </div>
@@ -247,278 +287,335 @@ footer { padding-block: 40px 60px; color: var(--muted); font-size: 13px; }
 <main class="wrap">
   <section class="block" id="overview">
     <div class="block-head"><div class="label">15 天一覽</div><h2>總覽</h2><p>點任何一天，直接跳到那天的行程。</p></div>
-    <div class="ovlist"><a class="ov" href="#d1205" style="--c: var(--c-ams)">
-  <span class="ov-date"><b>12/5</b><i>六</i></span>
-  <span class="ov-main"><span class="ov-city">阿姆斯特丹</span><span class="ov-title">落地、老城、九條街</span></span>
+    <div class="ovlist"><a class="ov" href="#d1205" data-day="1205" style="--c: var(--c-ams)">
+  <span class="ov-date"><b>12/5</b><i>週六</i></span>
+  <span class="ov-main"><span class="ov-city">阿姆斯特丹</span><span class="ov-title">落地、運河、Sinterklaas 前夜</span></span>
   <span class="ov-hotel">Dutch Design Hotel Vondelpark</span>
 </a>
-<a class="ov" href="#d1206" style="--c: var(--c-ams)">
-  <span class="ov-date"><b>12/6</b><i>日</i></span>
-  <span class="ov-main"><span class="ov-city">阿姆斯特丹</span><span class="ov-title">西區市集、安妮之家</span></span>
+<a class="ov" href="#d1206" data-day="1206" style="--c: var(--c-ams)">
+  <span class="ov-date"><b>12/6</b><i>週日</i></span>
+  <span class="ov-main"><span class="ov-city">阿姆斯特丹</span><span class="ov-title">西區市集、安妮之家、荷蘭精釀</span></span>
   <span class="ov-hotel">Dutch Design Hotel Vondelpark</span>
 </a>
-<a class="ov" href="#d1207" style="--c: var(--c-ams)">
-  <span class="ov-date"><b>12/7</b><i>一</i></span>
-  <span class="ov-main"><span class="ov-city">阿姆斯特丹</span><span class="ov-title">De Pijp、國家博物館</span></span>
+<a class="ov" href="#d1207" data-day="1207" style="--c: var(--c-ams)">
+  <span class="ov-date"><b>12/7</b><i>週一</i></span>
+  <span class="ov-main"><span class="ov-city">阿姆斯特丹</span><span class="ov-title">De Pijp、國家博物館、燈光節</span></span>
   <span class="ov-hotel">citizenM Amsterdam South</span>
 </a>
-<a class="ov" href="#d1208" style="--c: var(--c-ams)">
-  <span class="ov-date"><b>12/8</b><i>二</i></span>
+<a class="ov" href="#d1208" data-day="1208" style="--c: var(--c-ams)">
+  <span class="ov-date"><b>12/8</b><i>週二</i></span>
   <span class="ov-main"><span class="ov-city">烏特勒支</span><span class="ov-title">烏特勒支一日遊</span></span>
   <span class="ov-hotel">citizenM Amsterdam South</span>
 </a>
-<a class="ov" href="#d1209" style="--c: var(--c-dh)">
-  <span class="ov-date"><b>12/9</b><i>三</i></span>
-  <span class="ov-main"><span class="ov-city">海牙</span><span class="ov-title">海牙、室內滑雪</span></span>
+<a class="ov" href="#d1209" data-day="1209" style="--c: var(--c-dh)">
+  <span class="ov-date"><b>12/9</b><i>週三</i></span>
+  <span class="ov-main"><span class="ov-city">海牙</span><span class="ov-title">海牙：名畫、大市場、室內滑雪</span></span>
   <span class="ov-hotel">The Social Hub Den Haag</span>
 </a>
-<a class="ov" href="#d1210" style="--c: var(--c-dh)">
-  <span class="ov-date"><b>12/10</b><i>四</i></span>
-  <span class="ov-main"><span class="ov-city">萊登</span><span class="ov-title">萊登一日遊</span></span>
+<a class="ov" href="#d1210" data-day="1210" style="--c: var(--c-dh)">
+  <span class="ov-date"><b>12/10</b><i>週四</i></span>
+  <span class="ov-main"><span class="ov-city">萊登</span><span class="ov-title">萊登：牆上的詩、霸王龍</span></span>
   <span class="ov-hotel">The Social Hub Den Haag</span>
 </a>
-<a class="ov" href="#d1211" style="--c: var(--c-rtm)">
-  <span class="ov-date"><b>12/11</b><i>五</i></span>
-  <span class="ov-main"><span class="ov-city">鹿特丹</span><span class="ov-title">Markthal、舊港、南岸</span></span>
+<a class="ov" href="#d1211" data-day="1211" style="--c: var(--c-rtm)">
+  <span class="ov-date"><b>12/11</b><i>週五</i></span>
+  <span class="ov-main"><span class="ov-city">鹿特丹</span><span class="ov-title">鹿特丹：Markthal、舊港、鏡面倉庫</span></span>
   <span class="ov-hotel">CityHub Rotterdam</span>
 </a>
-<a class="ov" href="#d1212" style="--c: var(--c-rtm)">
-  <span class="ov-date"><b>12/12</b><i>六</i></span>
-  <span class="ov-main"><span class="ov-city">鹿特丹</span><span class="ov-title">跑步、街區、Witte de With</span></span>
+<a class="ov" href="#d1212" data-day="1212" style="--c: var(--c-rtm)">
+  <span class="ov-date"><b>12/12</b><i>週六</i></span>
+  <span class="ov-main"><span class="ov-city">鹿特丹</span><span class="ov-title">跑步、咖啡、Witte de With</span></span>
   <span class="ov-hotel">CityHub Rotterdam</span>
 </a>
-<a class="ov" href="#d1213" style="--c: var(--c-bru)">
-  <span class="ov-date"><b>12/13</b><i>日</i></span>
-  <span class="ov-main"><span class="ov-city">布魯日</span><span class="ov-title">到布魯日、看球</span></span>
+<a class="ov" href="#d1213" data-day="1213" style="--c: var(--c-bru)">
+  <span class="ov-date"><b>12/13</b><i>週日</i></span>
+  <span class="ov-main"><span class="ov-city">布魯日</span><span class="ov-title">到布魯日、看比甲聯賽</span></span>
   <span class="ov-hotel">Hotel Acacia</span>
 </a>
-<a class="ov" href="#d1214" style="--c: var(--c-bru)">
-  <span class="ov-date"><b>12/14</b><i>一</i></span>
-  <span class="ov-main"><span class="ov-city">布魯日</span><span class="ov-title">鐘樓、運河、淡菜</span></span>
+<a class="ov" href="#d1214" data-day="1214" style="--c: var(--c-bru)">
+  <span class="ov-date"><b>12/14</b><i>週一</i></span>
+  <span class="ov-main"><span class="ov-city">布魯日</span><span class="ov-title">鐘樓、淡菜鍋、地窖酒吧</span></span>
   <span class="ov-hotel">Hotel Acacia</span>
 </a>
-<a class="ov" href="#d1215" style="--c: var(--c-bxl)">
-  <span class="ov-date"><b>12/15</b><i>二</i></span>
-  <span class="ov-main"><span class="ov-city">布魯塞爾</span><span class="ov-title">布魯塞爾半日、晚上到科隆</span></span>
+<a class="ov" href="#d1215" data-day="1215" style="--c: var(--c-bxl)">
+  <span class="ov-date"><b>12/15</b><i>週二</i></span>
+  <span class="ov-main"><span class="ov-city">布魯塞爾</span><span class="ov-title">布魯塞爾半日，晚上到科隆</span></span>
   <span class="ov-hotel">Steigenberger Hotel Köln</span>
 </a>
-<a class="ov" href="#d1216" style="--c: var(--c-kol)">
-  <span class="ov-date"><b>12/16</b><i>三</i></span>
-  <span class="ov-main"><span class="ov-city">科隆</span><span class="ov-title">大教堂、老城、萊茵河</span></span>
+<a class="ov" href="#d1216" data-day="1216" style="--c: var(--c-kol)">
+  <span class="ov-date"><b>12/16</b><i>週三</i></span>
+  <span class="ov-main"><span class="ov-city">科隆</span><span class="ov-title">大教堂、酸菜豬腳、市集之夜</span></span>
   <span class="ov-hotel">Steigenberger Hotel Köln</span>
 </a>
-<a class="ov" href="#d1217" style="--c: var(--c-dus)">
-  <span class="ov-date"><b>12/17</b><i>四</i></span>
-  <span class="ov-main"><span class="ov-city">杜塞道夫</span><span class="ov-title">杜塞道夫一日遊</span></span>
+<a class="ov" href="#d1217" data-day="1217" style="--c: var(--c-dus)">
+  <span class="ov-date"><b>12/17</b><i>週四</i></span>
+  <span class="ov-main"><span class="ov-city">杜塞道夫</span><span class="ov-title">杜塞道夫：拉麵、Altbier、最長的吧台</span></span>
   <span class="ov-hotel">Steigenberger Hotel Köln</span>
 </a>
-<a class="ov" href="#d1218" style="--c: var(--c-ams)">
-  <span class="ov-date"><b>12/18</b><i>五</i></span>
-  <span class="ov-main"><span class="ov-city">哈倫</span><span class="ov-title">哈倫，回阿姆斯特丹</span></span>
-  <span class="ov-hotel">阿姆斯特丹最後一晚（待訂）</span>
+<a class="ov" href="#d1218" data-day="1218" style="--c: var(--c-ams)">
+  <span class="ov-date"><b>12/18</b><i>週五</i></span>
+  <span class="ov-main"><span class="ov-city">哈倫</span><span class="ov-title">哈倫，最後一晚在阿姆斯特丹</span></span>
+  <span class="ov-hotel">阿姆斯特丹 Centraal 附近（待訂）</span>
 </a>
-<a class="ov" href="#d1219" style="--c: var(--c-ams)">
-  <span class="ov-date"><b>12/19</b><i>六</i></span>
+<a class="ov" href="#d1219" data-day="1219" style="--c: var(--c-ams)">
+  <span class="ov-date"><b>12/19</b><i>週六</i></span>
   <span class="ov-main"><span class="ov-city">阿姆斯特丹</span><span class="ov-title">回家</span></span>
   <span class="ov-hotel">—</span>
 </a></div>
   </section>
 
   <section class="block" id="days">
-    <div class="block-head"><div class="label">Day by day</div><h2>每日行程</h2><p>每天右上角的「整天步行路線」會開 Google Maps 導航。金色粗體是吃飯的地方。</p></div>
+    <div class="block-head"><div class="label">Day by day</div><h2>每日行程</h2><p>金色粗體的店名可以直接點開地圖；每天的「整天步行路線」會把途經點一次帶進 Google Maps。點日期標題可以收合。</p></div>
+    <div class="dchips" aria-label="選擇日期"><a class="dchip" href="#d1205" data-day="1205" style="--c: var(--c-ams)"><b>5</b><i>六</i></a><a class="dchip" href="#d1206" data-day="1206" style="--c: var(--c-ams)"><b>6</b><i>日</i></a><a class="dchip" href="#d1207" data-day="1207" style="--c: var(--c-ams)"><b>7</b><i>一</i></a><a class="dchip" href="#d1208" data-day="1208" style="--c: var(--c-ams)"><b>8</b><i>二</i></a><a class="dchip" href="#d1209" data-day="1209" style="--c: var(--c-dh)"><b>9</b><i>三</i></a><a class="dchip" href="#d1210" data-day="1210" style="--c: var(--c-dh)"><b>10</b><i>四</i></a><a class="dchip" href="#d1211" data-day="1211" style="--c: var(--c-rtm)"><b>11</b><i>五</i></a><a class="dchip" href="#d1212" data-day="1212" style="--c: var(--c-rtm)"><b>12</b><i>六</i></a><a class="dchip" href="#d1213" data-day="1213" style="--c: var(--c-bru)"><b>13</b><i>日</i></a><a class="dchip" href="#d1214" data-day="1214" style="--c: var(--c-bru)"><b>14</b><i>一</i></a><a class="dchip" href="#d1215" data-day="1215" style="--c: var(--c-bxl)"><b>15</b><i>二</i></a><a class="dchip" href="#d1216" data-day="1216" style="--c: var(--c-kol)"><b>16</b><i>三</i></a><a class="dchip" href="#d1217" data-day="1217" style="--c: var(--c-dus)"><b>17</b><i>四</i></a><a class="dchip" href="#d1218" data-day="1218" style="--c: var(--c-ams)"><b>18</b><i>五</i></a><a class="dchip" href="#d1219" data-day="1219" style="--c: var(--c-ams)"><b>19</b><i>六</i></a></div>
     <div class="legend">
       <span class="k-go"><span class="mark"></span>交通</span>
       <span class="k-see"><span class="mark"></span>景點</span>
-      <span class="k-eat"><span class="mark"></span>吃</span>
+      <span class="k-eat"><span class="mark"></span>吃喝</span>
       <span class="k-book"><span class="mark"></span>已訂</span>
       <span class="k-todo"><span class="mark"></span>要先訂</span>
       <span class="k-rest"><span class="mark"></span>休息</span>
       <span class="k-run"><span class="mark"></span>運動</span>
     </div>
-    <div class="days"><article class="day" id="d1205" style="--c: var(--c-ams)">
-  <header class="day-head">
+    <div class="days"><details class="day" id="d1205" open style="--c: var(--c-ams)">
+  <summary class="day-head">
     <div class="day-num"><span class="m">12</span><span class="slash">/</span><span class="d">5</span><span class="wd">週六</span></div>
     <div class="day-meta">
       <div class="day-city"><span class="dot"></span>阿姆斯特丹 <span class="local">Amsterdam</span></div>
-      <h3>落地、老城、九條街</h3>
-      <p class="mood">第一天不排硬行程，用走的認識運河城。</p>
+      <h3>落地、運河、Sinterklaas 前夜</h3>
+      <p class="mood">紅眼班落地，今天只排三件事：吃、走、早點睡。</p>
       <p class="stay"><span>住</span>Dutch Design Hotel Vondelpark</p>
     </div>
-    <div class="day-act"><a class="pin pin-strong" href="https://www.google.com/maps/dir/?api=1&amp;origin=Amsterdam+Centraal&amp;destination=Restaurant+t+Zwaantje+Amsterdam&amp;waypoints=Dam%20Square%20Amsterdam%7CVan%20Stapele%20Koekmakerij%20Amsterdam%7CBegijnhof%20Amsterdam%7CGreenwoods%20Singel%20103%20Amsterdam%7CWinkel%2043%20Noordermarkt%20Amsterdam&amp;travelmode=walking" target="_blank" rel="noopener">整天步行路線</a></div>
-  </header>
-  <ol class="tl"><li class="k-go"><span class="t">07:50</span><span class="mark" aria-label="交通"></span><span class="x">抵達 Schiphol，入境、領行李</span></li><li class="k-go"><span class="t">08:30</span><span class="mark" aria-label="交通"></span><span class="x">Schiphol → 飯店：火車到 Zuid 或 Centraal，再轉電車</span></li><li class="k-rest"><span class="t">10:30</span><span class="mark" aria-label="休息"></span><span class="x">飯店寄行李</span></li><li class="k-see"><span class="t">11:00</span><span class="mark" aria-label="景點"></span><span class="x">經典老城散步：Centraal → Damrak → Dam 廣場 → Begijnhof 小庭院。順路買 <b>Van Stapele</b> 巧克力餅乾</span></li><li class="k-eat"><span class="t">12:00</span><span class="mark" aria-label="吃"></span><span class="x"><b>Greenwoods Singel</b> 早午餐（備選 Chun Café）</span></li><li class="k-eat"><span class="t">13:00</span><span class="mark" aria-label="吃"></span><span class="x">九條街 → Jordaan 運河 → Noordermarkt。<b>Heertje Friet</b> 薯條、<b>Winkel 43</b> 蘋果派加鮮奶油，咖啡 Toki 或 SAINT-JEAN</span></li><li class="k-rest"><span class="t">15:00</span><span class="mark" aria-label="休息"></span><span class="x">回飯店入住休息。還有力氣就去 <b>The Seafood Bar</b> 生蠔 Happy Hour（15:00–17:00，一顆 €1.5，先問店員）</span></li><li class="k-eat"><span class="t">18:00</span><span class="mark" aria-label="吃"></span><span class="x">晚餐 <b>Restaurant &#x27;t Zwaantje</b>，荷蘭家常菜（建議訂位）</span></li><li class="k-see"><span class="t">19:30</span><span class="mark" aria-label="景點"></span><span class="x">燈光節（候選，跟 12/7 擇一）</span></li></ol>
-</article>
-<article class="day" id="d1206" style="--c: var(--c-ams)">
-  <header class="day-head">
+    <span class="caret" aria-hidden="true"></span>
+  </summary>
+  <div class="day-body">
+    <div class="day-act"><a class="pin pin-strong" href="https://www.google.com/maps/dir/?api=1&amp;origin=Amsterdam+Centraal&amp;destination=Restaurant+t+Zwaantje+Amsterdam&amp;waypoints=Dam%20Square%20Amsterdam%7CBegijnhof%20Amsterdam%7CGreenwoods%20Singel%20103%20Amsterdam%7CWinkel%2043%20Noordermarkt%20Amsterdam&amp;travelmode=walking" target="_blank" rel="noopener">整天步行路線</a></div>
+    <ol class="tl"><li class="k-go"><span class="t">07:50</span><span class="mark" title="交通"></span><span class="x">抵達 Schiphol，入境、領行李</span></li><li class="k-go"><span class="t">08:30</span><span class="mark" title="交通"></span><span class="x">火車到市區（15–20 分），刷信用卡進出，再轉電車到飯店</span></li><li class="k-rest"><span class="t">10:30</span><span class="mark" title="休息"></span><span class="x">飯店寄行李</span></li><li class="k-see"><span class="t">11:00</span><span class="mark" title="景點"></span><span class="x">老城散步：Centraal → Damrak → Dam 廣場 → Begijnhof 小庭院</span></li><li class="k-eat"><span class="t">12:00</span><span class="mark" title="吃喝"></span><span class="x"><a class="plink" href="https://www.google.com/maps/search/?api=1&amp;query=Greenwoods+Singel+103+Amsterdam" target="_blank" rel="noopener"><b>Greenwoods Singel</b></a> 早午餐</span></li><li class="k-eat"><span class="t">13:00</span><span class="mark" title="吃喝"></span><span class="x">九條街 → Jordaan 運河 → Noordermarkt，下午點心 <a class="plink" href="https://www.google.com/maps/search/?api=1&amp;query=Winkel+43+Noordermarkt+Amsterdam" target="_blank" rel="noopener"><b>Winkel 43</b></a> 蘋果派加鮮奶油</span></li><li class="k-rest"><span class="t">15:00</span><span class="mark" title="休息"></span><span class="x">回飯店入住，補眠</span></li><li class="k-eat"><span class="t">18:00</span><span class="mark" title="吃喝"></span><span class="x">晚餐 <a class="plink" href="https://www.google.com/maps/search/?api=1&amp;query=Restaurant+t+Zwaantje+Berenstraat+Amsterdam" target="_blank" rel="noopener"><b>Restaurant &#x27;t Zwaantje</b></a>，荷蘭家常菜</span></li></ol>
+    <p class="fact"><span>你知道嗎</span>12/5 是荷蘭的 Pakjesavond，聖尼古拉斯節前夜，荷蘭人今晚交換禮物。滿街都在賣 pepernoten 小薑餅和巧克力字母，買一包當零嘴。</p>
+  </div>
+</details>
+<details class="day" id="d1206" open style="--c: var(--c-ams)">
+  <summary class="day-head">
     <div class="day-num"><span class="m">12</span><span class="slash">/</span><span class="d">6</span><span class="wd">週日</span></div>
     <div class="day-meta">
       <div class="day-city"><span class="dot"></span>阿姆斯特丹 <span class="local">Amsterdam</span></div>
-      <h3>西區市集、安妮之家</h3>
-      <p class="mood">週日跟著在地人逛市集，傍晚進安妮之家。</p>
+      <h3>西區市集、安妮之家、荷蘭精釀</h3>
+      <p class="mood">週日跟著在地人逛市集，傍晚進安妮之家，晚上喝一杯。</p>
       <p class="stay"><span>住</span>Dutch Design Hotel Vondelpark</p>
     </div>
-    <div class="day-act"><a class="pin pin-strong" href="https://www.google.com/maps/dir/?api=1&amp;origin=Dutch+Design+Hotel+Vondelpark+Amsterdam&amp;destination=Moeders+Rozengracht+Amsterdam&amp;waypoints=De%20Hallen%20Amsterdam%7CWestergas%20Amsterdam%7CAnne%20Frank%20House&amp;travelmode=walking" target="_blank" rel="noopener">整天步行路線</a></div>
-  </header>
-  <ol class="tl"><li class="k-eat"><span class="t">10:00</span><span class="mark" aria-label="吃"></span><span class="x">Oud-West 喝咖啡、逛 De Hallen 室內市集。想坐下吃就去 <b>nNea Pizza</b></span></li><li class="k-see"><span class="t">12:00</span><span class="mark" aria-label="景點"></span><span class="x">Westergas 週日市集：舊煤氣廠園區，設計手作、古著、小吃（每月一次）</span></li><li class="k-see"><span class="t">13:30</span><span class="mark" aria-label="景點"></span><span class="x">Westerpark 散步、喝咖啡。可選：安妮之家旁的 The Pancake Bakery 荷蘭煎餅</span></li><li class="k-book"><span class="t">16:45</span><span class="mark" aria-label="已訂"></span><span class="x">安妮之家（已訂 2 張）。16:30 前到，不能帶大包包<span class="chip k-book">已訂</span></span></li><li class="k-eat"><span class="t">19:00</span><span class="mark" aria-label="吃"></span><span class="x">晚餐 <b>Moeders</b>，牆上掛滿客人媽媽照片的家常菜館（建議訂位；備選 The Pantry、Stoop &amp; Stoop、Akitsu）</span></li></ol>
-</article>
-<article class="day" id="d1207" style="--c: var(--c-ams)">
-  <header class="day-head">
+    <span class="caret" aria-hidden="true"></span>
+  </summary>
+  <div class="day-body">
+    <div class="day-act"><a class="pin pin-strong" href="https://www.google.com/maps/dir/?api=1&amp;origin=Dutch+Design+Hotel+Vondelpark+Amsterdam&amp;destination=Arendsnest+Herengracht+90+Amsterdam&amp;waypoints=De%20Hallen%20Amsterdam%7CWestergas%20Amsterdam%7CAnne%20Frank%20House%7CMoeders%20Rozengracht%20Amsterdam&amp;travelmode=walking" target="_blank" rel="noopener">整天步行路線</a></div>
+    <ol class="tl"><li class="k-eat"><span class="t">10:00</span><span class="mark" title="吃喝"></span><span class="x">Oud-West 喝咖啡、逛 De Hallen 室內市集。想坐下吃就去 <a class="plink" href="https://www.google.com/maps/search/?api=1&amp;query=nNea+Pizza+Bilderdijkstraat+Amsterdam" target="_blank" rel="noopener"><b>nNea Pizza</b></a></span></li><li class="k-see"><span class="t">12:00</span><span class="mark" title="景點"></span><span class="x">Westergas 週日市集：舊煤氣廠園區，設計手作、古著、小吃</span></li><li class="k-eat"><span class="t">13:30</span><span class="mark" title="吃喝"></span><span class="x">Westerpark 散步，路邊買一顆 oliebollen 炸麵球</span></li><li class="k-book"><span class="t">16:45</span><span class="mark" title="已訂"></span><span class="x">安妮之家。16:30 前到，不能帶大包包<span class="chip k-book">已訂</span></span></li><li class="k-eat"><span class="t">19:00</span><span class="mark" title="吃喝"></span><span class="x">晚餐 <a class="plink" href="https://www.google.com/maps/search/?api=1&amp;query=Moeders+Rozengracht+Amsterdam" target="_blank" rel="noopener"><b>Moeders</b></a>，牆上掛滿客人媽媽照片的家常菜館</span></li><li class="k-eat"><span class="t">21:00</span><span class="mark" title="吃喝"></span><span class="x">走 5 分鐘到 <a class="plink" href="https://www.google.com/maps/search/?api=1&amp;query=Arendsnest+Herengracht+90+Amsterdam" target="_blank" rel="noopener"><b>Arendsnest</b></a>，只賣荷蘭啤酒的運河邊酒吧</span></li></ol>
+    <p class="fact"><span>你知道嗎</span>運河屋很多都往前傾，不是蓋歪：屋頂的吊鉤要把家具從窗戶吊進去，往前傾才不會撞牆。</p>
+  </div>
+</details>
+<details class="day" id="d1207" open style="--c: var(--c-ams)">
+  <summary class="day-head">
     <div class="day-num"><span class="m">12</span><span class="slash">/</span><span class="d">7</span><span class="wd">週一</span></div>
     <div class="day-meta">
       <div class="day-city"><span class="dot"></span>阿姆斯特丹 <span class="local">Amsterdam</span></div>
-      <h3>De Pijp、國家博物館</h3>
-      <p class="mood">市場吃一輪，下午看林布蘭，晚上換飯店。</p>
+      <h3>De Pijp、國家博物館、燈光節</h3>
+      <p class="mood">早上先把行李送到新飯店，接下來一整天都輕裝。</p>
       <p class="stay"><span>住</span>citizenM Amsterdam South</p>
     </div>
+    <span class="caret" aria-hidden="true"></span>
+  </summary>
+  <div class="day-body">
     <div class="day-act"><a class="pin pin-strong" href="https://www.google.com/maps/dir/?api=1&amp;origin=Albert+Cuyp+Market+Amsterdam&amp;destination=Museumplein+Amsterdam&amp;waypoints=Rudis%20Original%20Stroopwafels%20Amsterdam%7CWarung%20Spang%20Makandra%20Amsterdam%7CGerard%20Doustraat%20Amsterdam%7CRijksmuseum&amp;travelmode=walking" target="_blank" rel="noopener">整天步行路線</a></div>
-  </header>
-  <ol class="tl"><li class="k-run"><span class="t">08:30</span><span class="mark" aria-label="運動"></span><span class="x">Vondelpark 晨跑 5–6 km（可選）</span></li><li class="k-rest"><span class="t">09:30</span><span class="mark" aria-label="休息"></span><span class="x">洗澡、退房、寄放行李</span></li><li class="k-eat"><span class="t">10:30</span><span class="mark" aria-label="吃"></span><span class="x">De Pijp、Albert Cuyp 市場：<b>Rudi&#x27;s</b> 現做焦糖煎餅</span></li><li class="k-eat"><span class="t">12:00</span><span class="mark" aria-label="吃"></span><span class="x">午餐 <b>Warung Spang Makandra</b>，蘇利南和印尼菜（或 Kaasbar 起司迴轉吧）</span></li><li class="k-see"><span class="t">13:00</span><span class="mark" aria-label="景點"></span><span class="x">Gerard Doustraat 散步</span></li><li class="k-book"><span class="t">15:00</span><span class="mark" aria-label="已訂"></span><span class="x">國家博物館（已訂 15:00）<span class="chip k-book">已訂</span></span></li><li class="k-see"><span class="t">17:00</span><span class="mark" aria-label="景點"></span><span class="x">Museumplein 聖誕市集</span></li><li class="k-eat"><span class="t">18:00</span><span class="mark" aria-label="吃"></span><span class="x">回舊飯店拿行李 → citizenM 入住。晚餐 <b>Hakata Senpachi</b> 博多拉麵，離飯店約 1 公里</span></li><li class="k-see"><span class="t">19:30</span><span class="mark" aria-label="景點"></span><span class="x">燈光節（候選，跟 12/5 擇一）</span></li></ol>
-</article>
-<article class="day" id="d1208" style="--c: var(--c-ams)">
-  <header class="day-head">
+    <ol class="tl"><li class="k-run"><span class="t">08:30</span><span class="mark" title="運動"></span><span class="x">Vondelpark 晨跑 5–6 km（可選）</span></li><li class="k-go"><span class="t">09:30</span><span class="mark" title="交通"></span><span class="x">退房，搭計程車把行李直接送到 citizenM 寄放（約 15–20 分）</span></li><li class="k-eat"><span class="t">10:30</span><span class="mark" title="吃喝"></span><span class="x">De Pijp、Albert Cuyp 市場：<a class="plink" href="https://www.google.com/maps/search/?api=1&amp;query=Rudis+Original+Stroopwafels+Albert+Cuyp+Amsterdam" target="_blank" rel="noopener"><b>Rudi&#x27;s</b></a> 現做焦糖煎餅</span></li><li class="k-eat"><span class="t">12:00</span><span class="mark" title="吃喝"></span><span class="x">午餐 <a class="plink" href="https://www.google.com/maps/search/?api=1&amp;query=Warung+Spang+Makandra+Amsterdam" target="_blank" rel="noopener"><b>Warung Spang Makandra</b></a>，蘇利南和印尼菜</span></li><li class="k-see"><span class="t">13:00</span><span class="mark" title="景點"></span><span class="x">Gerard Doustraat 散步</span></li><li class="k-book"><span class="t">15:00</span><span class="mark" title="已訂"></span><span class="x">國家博物館<span class="chip k-book">已訂</span></span></li><li class="k-see"><span class="t">17:00</span><span class="mark" title="景點"></span><span class="x">Museumplein 聖誕市集</span></li><li class="k-eat"><span class="t">18:30</span><span class="mark" title="吃喝"></span><span class="x">晚餐 <a class="plink" href="https://www.google.com/maps/search/?api=1&amp;query=Hakata+Senpachi+Wielingenstraat+Amsterdam" target="_blank" rel="noopener"><b>Hakata Senpachi</b></a> 博多拉麵，離 citizenM 約 1 公里</span></li><li class="k-see"><span class="t">19:30</span><span class="mark" title="景點"></span><span class="x">燈光節：沿運河走一段看裝置藝術（步行免費，想坐船再訂）</span></li></ol>
+    <p class="fact"><span>你知道嗎</span>Albert Cuyp 市場週日休息、週一到週六都開。焦糖煎餅一定要吃現做的，放涼就差很多。</p>
+  </div>
+</details>
+<details class="day" id="d1208" open style="--c: var(--c-ams)">
+  <summary class="day-head">
     <div class="day-num"><span class="m">12</span><span class="slash">/</span><span class="d">8</span><span class="wd">週二</span></div>
     <div class="day-meta">
       <div class="day-city"><span class="dot"></span>烏特勒支 <span class="local">Utrecht</span></div>
       <h3>烏特勒支一日遊</h3>
-      <p class="mood">運河有兩層的城市，傍晚看光之路。</p>
+      <p class="mood">運河有上下兩層的城市，傍晚看光之路，最後去教堂喝啤酒。</p>
       <p class="stay"><span>住</span>citizenM Amsterdam South</p>
     </div>
-    <div class="day-act"><a class="pin pin-strong" href="https://www.google.com/maps/dir/?api=1&amp;origin=Utrecht+Centraal&amp;destination=Kaasbar+Utrecht+Lijnmarkt&amp;waypoints=Restaurant%20Kartoffel%20Utrecht%7CDomplein%20Utrecht%7CGraaf%20Floris%20Utrecht&amp;travelmode=walking" target="_blank" rel="noopener">整天步行路線</a></div>
-  </header>
-  <ol class="tl"><li class="k-go"><span class="t">10:00</span><span class="mark" aria-label="交通"></span><span class="x">Amsterdam → Utrecht Centraal（約 35–45 分）</span></li><li class="k-see"><span class="t">11:00</span><span class="mark" aria-label="景點"></span><span class="x">Lombok 區 Kanaalstraat、Muntgebouw、Molen de Ster 風車</span></li><li class="k-eat"><span class="t">12:30</span><span class="mark" aria-label="吃"></span><span class="x">午餐 <b>Restaurant Kartoffel</b>：德國豬腳、炸肉排（備選 Soep-er 熱湯）</span></li><li class="k-see"><span class="t">13:30</span><span class="mark" aria-label="景點"></span><span class="x">Oudegracht、Domplein、Pandhof 花園。咖啡 <b>Darras</b>，點心 <b>Dapp</b> 有機薯條</span></li><li class="k-eat"><span class="t">15:30</span><span class="mark" aria-label="吃"></span><span class="x"><b>Graaf Floris</b>：運河地窖裡吃烤蘋果</span></li><li class="k-see"><span class="t">16:30</span><span class="mark" aria-label="景點"></span><span class="x">Trajectum Lumen 光之路（約 1–1.5 小時）</span></li><li class="k-eat"><span class="t">18:00</span><span class="mark" aria-label="吃"></span><span class="x">晚餐 <b>Kaas Bar</b> 起司迴轉吧（平日 17:00 開）或 Utrecht Ramen；備選 O&#x27;Panuozzo</span></li><li class="k-go"><span class="t">19:30</span><span class="mark" aria-label="交通"></span><span class="x">Utrecht → Amsterdam Zuid（約 25 分）。20:00 燈光節候選</span></li></ol>
-</article>
-<article class="day" id="d1209" style="--c: var(--c-dh)">
-  <header class="day-head">
+    <span class="caret" aria-hidden="true"></span>
+  </summary>
+  <div class="day-body">
+    <div class="day-act"><a class="pin pin-strong" href="https://www.google.com/maps/dir/?api=1&amp;origin=Utrecht+Centraal&amp;destination=Olivier+Belgisch+Biercafe+Utrecht&amp;waypoints=Restaurant%20Kartoffel%20Utrecht%7CDomplein%20Utrecht%7CGraaf%20Floris%20Utrecht%7CKaasbar%20Utrecht%20Lijnmarkt&amp;travelmode=walking" target="_blank" rel="noopener">整天步行路線</a></div>
+    <ol class="tl"><li class="k-go"><span class="t">10:00</span><span class="mark" title="交通"></span><span class="x">Amsterdam → Utrecht Centraal（約 35–45 分）</span></li><li class="k-see"><span class="t">11:00</span><span class="mark" title="景點"></span><span class="x">Lombok 區 Kanaalstraat、Muntgebouw、Molen de Ster 風車</span></li><li class="k-eat"><span class="t">12:30</span><span class="mark" title="吃喝"></span><span class="x">午餐 <a class="plink" href="https://www.google.com/maps/search/?api=1&amp;query=Restaurant+Kartoffel+Utrecht" target="_blank" rel="noopener"><b>Restaurant Kartoffel</b></a>：德國豬腳、炸肉排</span></li><li class="k-see"><span class="t">13:30</span><span class="mark" title="景點"></span><span class="x">Oudegracht、Domplein、Pandhof 花園，咖啡 <a class="plink" href="https://www.google.com/maps/search/?api=1&amp;query=Darras+Coffee+Roasters+Utrecht" target="_blank" rel="noopener"><b>Darras</b></a></span></li><li class="k-eat"><span class="t">15:30</span><span class="mark" title="吃喝"></span><span class="x"><a class="plink" href="https://www.google.com/maps/search/?api=1&amp;query=Graaf+Floris+Utrecht" target="_blank" rel="noopener"><b>Graaf Floris</b></a>：運河地窖裡吃烤蘋果</span></li><li class="k-see"><span class="t">16:30</span><span class="mark" title="景點"></span><span class="x">Trajectum Lumen 光之路（約 1–1.5 小時）</span></li><li class="k-eat"><span class="t">18:00</span><span class="mark" title="吃喝"></span><span class="x">晚餐 <a class="plink" href="https://www.google.com/maps/search/?api=1&amp;query=Kaasbar+Utrecht+Lijnmarkt" target="_blank" rel="noopener"><b>Kaasbar</b></a> 起司迴轉吧（平日 17:00 開）</span></li><li class="k-eat"><span class="t">19:30</span><span class="mark" title="吃喝"></span><span class="x"><a class="plink" href="https://www.google.com/maps/search/?api=1&amp;query=Olivier+Belgisch+Biercafe+Utrecht" target="_blank" rel="noopener"><b>Olivier</b></a>：開在老教堂裡的比利時啤酒館，喝一杯再回阿姆斯特丹（約 25 分）</span></li></ol>
+    <p class="fact"><span>你知道嗎</span>Dom 鐘塔跟教堂是分開的，中間那片空地原本是教堂中殿，1674 年被一場暴風吹垮後就沒再蓋回去。</p>
+  </div>
+</details>
+<details class="day" id="d1209" open style="--c: var(--c-dh)">
+  <summary class="day-head">
     <div class="day-num"><span class="m">12</span><span class="slash">/</span><span class="d">9</span><span class="wd">週三</span></div>
     <div class="day-meta">
       <div class="day-city"><span class="dot"></span>海牙 <span class="local">Den Haag</span></div>
-      <h3>海牙、室內滑雪</h3>
-      <p class="mood">上午看珍珠耳環少女，傍晚去滑雪。</p>
+      <h3>海牙：名畫、大市場、室內滑雪</h3>
+      <p class="mood">上午看珍珠耳環少女，中午逛歐洲最大的露天市場之一，傍晚去滑雪。</p>
       <p class="stay"><span>住</span>The Social Hub Den Haag</p>
     </div>
-    <div class="day-act"><a class="pin pin-strong" href="https://www.google.com/maps/dir/?api=1&amp;origin=Den+Haag+Centraal&amp;destination=Zeeheldenkwartier+Den+Haag&amp;waypoints=Mauritshuis%7CChinatown%20Den%20Haag%7CEscher%20in%20het%20Paleis&amp;travelmode=walking" target="_blank" rel="noopener">整天步行路線</a></div>
-  </header>
-  <ol class="tl"><li class="k-eat"><span class="t">08:30</span><span class="mark" aria-label="吃"></span><span class="x">citizenM 退房，Zuid 站旁 <b>Coffee &amp; Coconuts</b> 早餐</span></li><li class="k-go"><span class="t">09:00</span><span class="mark" aria-label="交通"></span><span class="x">Amsterdam Zuid → Den Haag Centraal（約 45–50 分），飯店寄行李</span></li><li class="k-see"><span class="t">10:00</span><span class="mark" aria-label="景點"></span><span class="x">莫瑞泰斯美術館：維梅爾《戴珍珠耳環的少女》真跡</span></li><li class="k-eat"><span class="t">12:00</span><span class="mark" aria-label="吃"></span><span class="x">唐人街午餐：<b>T&amp;C Haus</b> 紅燒牛肉麵（評價兩極）</span></li><li class="k-see"><span class="t">13:00</span><span class="mark" aria-label="景點"></span><span class="x">艾雪宮殿 Escher in het Paleis：不可能的樓梯和無限循環</span></li><li class="k-see"><span class="t">14:00</span><span class="mark" aria-label="景點"></span><span class="x">Zeeheldenkwartier 小店街區，Single Estate 咖啡或 Bookstore Café 歇腳</span></li><li class="k-rest"><span class="t">15:30</span><span class="mark" aria-label="休息"></span><span class="x">回飯店休息、拿裝備</span></li><li class="k-go"><span class="t">16:00</span><span class="mark" aria-label="交通"></span><span class="x">電車 3／4 號 → Zoetermeer（約 30–40 分）</span></li><li class="k-todo"><span class="t">17:00</span><span class="mark" aria-label="要訂"></span><span class="x">SnowWorld 室內真雪滑雪 17:00–20:00<span class="chip k-todo">要訂</span></span></li><li class="k-eat"><span class="t">20:00</span><span class="mark" aria-label="吃"></span><span class="x">回海牙吃印尼菜 <b>Waroeng Padang Lapek</b>（備選 Oblique fusion）</span></li></ol>
-</article>
-<article class="day" id="d1210" style="--c: var(--c-dh)">
-  <header class="day-head">
+    <span class="caret" aria-hidden="true"></span>
+  </summary>
+  <div class="day-body">
+    <div class="day-act"><a class="pin pin-strong" href="https://www.google.com/maps/dir/?api=1&amp;origin=Den+Haag+Centraal&amp;destination=Haagse+Markt+Den+Haag&amp;waypoints=Mauritshuis%7CEscher%20in%20het%20Paleis&amp;travelmode=walking" target="_blank" rel="noopener">整天步行路線</a></div>
+    <ol class="tl"><li class="k-eat"><span class="t">08:15</span><span class="mark" title="吃喝"></span><span class="x">citizenM 退房，在 Zuid 站旁 <a class="plink" href="https://www.google.com/maps/search/?api=1&amp;query=Coffee+%26+Coconuts+Gustav+Mahlerplein+Amsterdam" target="_blank" rel="noopener"><b>Coffee &amp; Coconuts</b></a> 買早餐帶上車</span></li><li class="k-go"><span class="t">08:45</span><span class="mark" title="交通"></span><span class="x">Amsterdam Zuid → Den Haag Centraal（約 45–50 分），刷卡上車，不用訂票</span></li><li class="k-rest"><span class="t">09:45</span><span class="mark" title="休息"></span><span class="x">The Social Hub（Hoefkade）寄行李</span></li><li class="k-see"><span class="t">10:30</span><span class="mark" title="景點"></span><span class="x">莫瑞泰斯美術館：維梅爾《戴珍珠耳環的少女》真跡</span></li><li class="k-eat"><span class="t">12:30</span><span class="mark" title="吃喝"></span><span class="x">午餐 <a class="plink" href="https://www.google.com/maps/search/?api=1&amp;query=Haagse+Markt+Den+Haag" target="_blank" rel="noopener"><b>Haagse Markt</b></a>：歐洲最大的露天市場之一，週三有開（09:00–17:00），入口就在飯店那條 Hoefkade</span></li><li class="k-see"><span class="t">14:00</span><span class="mark" title="景點"></span><span class="x">艾雪宮殿 Escher in het Paleis：不可能的樓梯和無限循環</span></li><li class="k-rest"><span class="t">15:30</span><span class="mark" title="休息"></span><span class="x">回飯店休息、換衣服</span></li><li class="k-go"><span class="t">16:00</span><span class="mark" title="交通"></span><span class="x">電車 3／4 號 → Zoetermeer（約 30–40 分）</span></li><li class="k-todo"><span class="t">17:00</span><span class="mark" title="要先訂"></span><span class="x">SnowWorld 室內真雪滑雪 17:00–20:00，裝備現場租<span class="chip k-todo">要先訂</span></span></li><li class="k-eat"><span class="t">20:00</span><span class="mark" title="吃喝"></span><span class="x">在 SnowWorld 吃晚餐，或回海牙吃印尼菜 <a class="plink" href="https://www.google.com/maps/search/?api=1&amp;query=Waroeng+Padang+Lapek+Den+Haag" target="_blank" rel="noopener"><b>Waroeng Padang Lapek</b></a>（先確認最後點餐時間）</span></li></ol>
+    <p class="fact"><span>你知道嗎</span>海牙不是首都，但國會、政府和國王的辦公室都在這裡，國際法院也是。</p>
+  </div>
+</details>
+<details class="day" id="d1210" open style="--c: var(--c-dh)">
+  <summary class="day-head">
     <div class="day-num"><span class="m">12</span><span class="slash">/</span><span class="d">10</span><span class="wd">週四</span></div>
     <div class="day-meta">
       <div class="day-city"><span class="dot"></span>萊登 <span class="local">Leiden</span></div>
-      <h3>萊登一日遊</h3>
-      <p class="mood">林布蘭的故鄉，看霸王龍。</p>
+      <h3>萊登：牆上的詩、霸王龍</h3>
+      <p class="mood">林布蘭的故鄉，邊走邊找牆上的詩。</p>
       <p class="stay"><span>住</span>The Social Hub Den Haag</p>
     </div>
-    <div class="day-act"><a class="pin pin-strong" href="https://www.google.com/maps/dir/?api=1&amp;origin=Leiden+Centraal&amp;destination=Leiden+Centraal&amp;waypoints=Stadsbakkerij%20Water%20%26%20Bloem%20Leiden%7CNaturalis%20Biodiversity%20Center%20Leiden%7CRijksmuseum%20van%20Oudheden%20Leiden&amp;travelmode=walking" target="_blank" rel="noopener">整天步行路線</a></div>
-  </header>
-  <ol class="tl"><li class="k-go"><span class="t">09:30</span><span class="mark" aria-label="交通"></span><span class="x">Den Haag → Leiden（約 15 分）</span></li><li class="k-see"><span class="t">10:00</span><span class="mark" aria-label="景點"></span><span class="x">萊登老城運河：林布蘭出生地、荷蘭最古老的大學城</span></li><li class="k-eat"><span class="t">12:00</span><span class="mark" aria-label="吃"></span><span class="x">午餐，麵包店 <b>Water &amp; Bloem</b>（Pieterskerk 旁）</span></li><li class="k-todo"><span class="t">13:00</span><span class="mark" aria-label="要訂"></span><span class="x">Naturalis 自然史博物館：真的霸王龍骨骼（€18，先網路訂票）<span class="chip k-todo">要訂</span></span></li><li class="k-see"><span class="t">15:30</span><span class="mark" aria-label="景點"></span><span class="x">擇一：RMO 古物博物館（中庭有整座埃及神廟）或 Boerhaave 科學館</span></li><li class="k-eat"><span class="t">17:00</span><span class="mark" aria-label="吃"></span><span class="x">運河夜景、晚餐 Spaghetteria</span></li><li class="k-go"><span class="t">19:00</span><span class="mark" aria-label="交通"></span><span class="x">Leiden → Den Haag</span></li></ol>
-</article>
-<article class="day" id="d1211" style="--c: var(--c-rtm)">
-  <header class="day-head">
+    <span class="caret" aria-hidden="true"></span>
+  </summary>
+  <div class="day-body">
+    <div class="day-act"><a class="pin pin-strong" href="https://www.google.com/maps/dir/?api=1&amp;origin=Leiden+Centraal&amp;destination=Leiden+Centraal&amp;waypoints=Burcht%20van%20Leiden%7CStadsbakkerij%20Water%20%26%20Bloem%20Leiden%7CNaturalis%20Biodiversity%20Center%20Leiden%7CRijksmuseum%20van%20Oudheden%20Leiden&amp;travelmode=walking" target="_blank" rel="noopener">整天步行路線</a></div>
+    <ol class="tl"><li class="k-go"><span class="t">09:30</span><span class="mark" title="交通"></span><span class="x">Den Haag → Leiden（約 15 分）</span></li><li class="k-see"><span class="t">10:00</span><span class="mark" title="景點"></span><span class="x">老城運河找牆上的詩，爬上 De Burcht 古堡土丘看全城（免費）</span></li><li class="k-eat"><span class="t">12:00</span><span class="mark" title="吃喝"></span><span class="x">午餐，麵包店 <a class="plink" href="https://www.google.com/maps/search/?api=1&amp;query=Stadsbakkerij+Water+%26+Bloem+Leiden" target="_blank" rel="noopener"><b>Water &amp; Bloem</b></a>（Pieterskerk 旁）</span></li><li class="k-todo"><span class="t">13:00</span><span class="mark" title="要先訂"></span><span class="x">Naturalis 自然史博物館：真的霸王龍骨骼（€18，先網路訂票）<span class="chip k-todo">要先訂</span></span></li><li class="k-see"><span class="t">15:30</span><span class="mark" title="景點"></span><span class="x">擇一：RMO 古物博物館（中庭有整座埃及神廟）或 Boerhaave 科學館</span></li><li class="k-eat"><span class="t">17:00</span><span class="mark" title="吃喝"></span><span class="x">運河夜景、晚餐 Spaghetteria</span></li><li class="k-go"><span class="t">19:00</span><span class="mark" title="交通"></span><span class="x">Leiden → Den Haag</span></li></ol>
+    <p class="fact"><span>你知道嗎</span>萊登的牆上畫了一百多首詩（muurgedichten），各種語言都有，邊走邊找很好拍。</p>
+  </div>
+</details>
+<details class="day" id="d1211" open style="--c: var(--c-rtm)">
+  <summary class="day-head">
     <div class="day-num"><span class="m">12</span><span class="slash">/</span><span class="d">11</span><span class="wd">週五</span></div>
     <div class="day-meta">
       <div class="day-city"><span class="dot"></span>鹿特丹 <span class="local">Rotterdam</span></div>
-      <h3>Markthal、舊港、南岸</h3>
+      <h3>鹿特丹：Markthal、舊港、鏡面倉庫</h3>
       <p class="mood">戰後重建的建築之城，一天看新舊兩面。</p>
       <p class="stay"><span>住</span>CityHub Rotterdam</p>
     </div>
-    <div class="day-act"><a class="pin pin-strong" href="https://www.google.com/maps/dir/?api=1&amp;origin=Rotterdam+Centraal&amp;destination=Katendrecht+Rotterdam&amp;waypoints=CityHub%20Rotterdam%7CMarkthal%20Rotterdam%7CDudok%20Meent%20Rotterdam%7CDelfshaven%20Rotterdam%7CHotel%20New%20York%20Rotterdam&amp;travelmode=walking" target="_blank" rel="noopener">整天步行路線</a></div>
-  </header>
-  <ol class="tl"><li class="k-go"><span class="t">08:30</span><span class="mark" aria-label="交通"></span><span class="x">退房，Den Haag → Rotterdam Centraal（約 25 分）</span></li><li class="k-rest"><span class="t">09:30</span><span class="mark" aria-label="休息"></span><span class="x">CityHub 寄行李</span></li><li class="k-eat"><span class="t">10:00</span><span class="mark" aria-label="吃"></span><span class="x">Markthal、方塊屋。順路吃 <b>Dudok</b> 蘋果派</span></li><li class="k-eat"><span class="t">11:30</span><span class="mark" aria-label="吃"></span><span class="x">Markthal 午餐：<b>The Duck Truck</b> 鴨肉漢堡、Goudstroop 焦糖煎餅</span></li><li class="k-see"><span class="t">13:00</span><span class="mark" aria-label="景點"></span><span class="x">Delfshaven 舊港、Pelgrimvaderskerk 教堂（路上可吃 Balkan Deli）</span></li><li class="k-see"><span class="t">15:30</span><span class="mark" aria-label="景點"></span><span class="x">Kop van Zuid、Hotel New York</span></li><li class="k-see"><span class="t">16:30</span><span class="mark" aria-label="景點"></span><span class="x">Rijnhavenbrug → Katendrecht、Kaapse Fenix</span></li><li class="k-eat"><span class="t">18:30</span><span class="mark" aria-label="吃"></span><span class="x">Deliplein 晚餐</span></li></ol>
-</article>
-<article class="day" id="d1212" style="--c: var(--c-rtm)">
-  <header class="day-head">
+    <span class="caret" aria-hidden="true"></span>
+  </summary>
+  <div class="day-body">
+    <div class="day-act"><a class="pin pin-strong" href="https://www.google.com/maps/dir/?api=1&amp;origin=Rotterdam+Centraal&amp;destination=Katendrecht+Rotterdam&amp;waypoints=CityHub%20Rotterdam%7CMarkthal%20Rotterdam%7CDudok%20Meent%20Rotterdam%7CDelfshaven%20Rotterdam%7CDepot%20Boijmans%20Van%20Beuningen%7CHotel%20New%20York%20Rotterdam&amp;travelmode=walking" target="_blank" rel="noopener">整天步行路線</a></div>
+    <ol class="tl"><li class="k-go"><span class="t">08:30</span><span class="mark" title="交通"></span><span class="x">退房，Den Haag → Rotterdam Centraal（約 25 分）</span></li><li class="k-rest"><span class="t">09:30</span><span class="mark" title="休息"></span><span class="x">CityHub 寄行李</span></li><li class="k-eat"><span class="t">10:00</span><span class="mark" title="吃喝"></span><span class="x">Markthal、方塊屋，順路吃 <a class="plink" href="https://www.google.com/maps/search/?api=1&amp;query=Dudok+Meent+Rotterdam" target="_blank" rel="noopener"><b>Dudok</b></a> 蘋果派</span></li><li class="k-eat"><span class="t">11:30</span><span class="mark" title="吃喝"></span><span class="x">Markthal 午餐：<a class="plink" href="https://www.google.com/maps/search/?api=1&amp;query=The+Duck+Truck+Markthal+Rotterdam" target="_blank" rel="noopener"><b>The Duck Truck</b></a> 鴨肉漢堡</span></li><li class="k-see"><span class="t">13:00</span><span class="mark" title="景點"></span><span class="x">Delfshaven 舊港、Pelgrimvaderskerk 教堂</span></li><li class="k-see"><span class="t">14:30</span><span class="mark" title="景點"></span><span class="x"><a class="plink" href="https://www.google.com/maps/search/?api=1&amp;query=Depot+Boijmans+Van+Beuningen" target="_blank" rel="noopener"><b>Depot Boijmans</b></a>：整棟鏡面的藝術倉庫，上頂樓看市景（白天要門票）</span></li><li class="k-see"><span class="t">16:00</span><span class="mark" title="景點"></span><span class="x">走過天鵝橋 → Hotel New York → Rijnhavenbrug → Katendrecht</span></li><li class="k-eat"><span class="t">18:30</span><span class="mark" title="吃喝"></span><span class="x">Katendrecht 的 Deliplein 晚餐，一整排餐廳現場挑</span></li></ol>
+    <p class="fact"><span>你知道嗎</span>Markthal 天花板上那幅蔬果壁畫叫《豐饒之角》，面積大約 11,000 平方公尺，是世界上最大的藝術品之一。</p>
+  </div>
+</details>
+<details class="day" id="d1212" open style="--c: var(--c-rtm)">
+  <summary class="day-head">
     <div class="day-num"><span class="m">12</span><span class="slash">/</span><span class="d">12</span><span class="wd">週六</span></div>
     <div class="day-meta">
       <div class="day-city"><span class="dot"></span>鹿特丹 <span class="local">Rotterdam</span></div>
-      <h3>跑步、街區、Witte de With</h3>
-      <p class="mood">早上跟在地人跑 parkrun，下午慢慢逛。</p>
+      <h3>跑步、咖啡、Witte de With</h3>
+      <p class="mood">早上跟在地人跑 parkrun，下午慢慢逛，明天要早起。</p>
       <p class="stay"><span>住</span>CityHub Rotterdam</p>
     </div>
-    <div class="day-act"><a class="pin pin-strong" href="https://www.google.com/maps/dir/?api=1&amp;origin=Kralingse+Bos+Rotterdam&amp;destination=SHIN+True+Japanese+Flavours+Rotterdam&amp;waypoints=Lusthofstraat%20Rotterdam%7COude%20Noorden%20Rotterdam%7CWitte%20de%20Withstraat%20Rotterdam&amp;travelmode=walking" target="_blank" rel="noopener">整天步行路線</a></div>
-  </header>
-  <ol class="tl"><li class="k-run"><span class="t">09:00</span><span class="mark" aria-label="運動"></span><span class="x">Kralingse Bos parkrun，免費 5 km（先上官網註冊拿條碼）</span></li><li class="k-rest"><span class="t">10:00</span><span class="mark" aria-label="休息"></span><span class="x">回飯店洗澡</span></li><li class="k-see"><span class="t">11:00</span><span class="mark" aria-label="景點"></span><span class="x">Kralingen Lusthofstraat 咖啡小店</span></li><li class="k-eat"><span class="t">12:30</span><span class="mark" aria-label="吃"></span><span class="x">Oude Noorden 午餐、街區</span></li><li class="k-eat"><span class="t">14:00</span><span class="mark" aria-label="吃"></span><span class="x">Witte de Withstraat 散步：<b>Ter Marsch</b> 地瓜薯條</span></li><li class="k-rest"><span class="t">17:00</span><span class="mark" aria-label="休息"></span><span class="x">回飯店休息，隔天要早起</span></li><li class="k-eat"><span class="t">18:00</span><span class="mark" aria-label="吃"></span><span class="x">晚餐 <b>SHIN</b> 日本料理（或 Bao Haus 台灣刈包）</span></li></ol>
-</article>
-<article class="day" id="d1213" style="--c: var(--c-bru)">
-  <header class="day-head">
+    <span class="caret" aria-hidden="true"></span>
+  </summary>
+  <div class="day-body">
+    <div class="day-act"><a class="pin pin-strong" href="https://www.google.com/maps/dir/?api=1&amp;origin=Kralingse+Bos+Rotterdam&amp;destination=SHIN+True+Japanese+Flavours+Rotterdam&amp;waypoints=Man%20Met%20Bril%20Koffie%20Rotterdam%7COude%20Noorden%20Rotterdam%7CWitte%20de%20Withstraat%20Rotterdam&amp;travelmode=walking" target="_blank" rel="noopener">整天步行路線</a></div>
+    <ol class="tl"><li class="k-run"><span class="t">09:00</span><span class="mark" title="運動"></span><span class="x">Kralingse Bos parkrun，免費 5 km（先上官網註冊拿條碼）</span></li><li class="k-rest"><span class="t">10:00</span><span class="mark" title="休息"></span><span class="x">回飯店洗澡</span></li><li class="k-eat"><span class="t">11:30</span><span class="mark" title="吃喝"></span><span class="x"><a class="plink" href="https://www.google.com/maps/search/?api=1&amp;query=Man+Met+Bril+Koffie+Rotterdam" target="_blank" rel="noopener"><b>Man Met Bril</b></a> 咖啡，在 Hofbogen 舊鐵道橋下</span></li><li class="k-eat"><span class="t">12:30</span><span class="mark" title="吃喝"></span><span class="x">Oude Noorden 午餐、逛街區</span></li><li class="k-eat"><span class="t">14:00</span><span class="mark" title="吃喝"></span><span class="x">Witte de Withstraat 散步，點心 <a class="plink" href="https://www.google.com/maps/search/?api=1&amp;query=Ter+Marsch+%26+Co+Rotterdam" target="_blank" rel="noopener"><b>Ter Marsch</b></a> 地瓜薯條</span></li><li class="k-rest"><span class="t">17:00</span><span class="mark" title="休息"></span><span class="x">回飯店休息</span></li><li class="k-eat"><span class="t">18:00</span><span class="mark" title="吃喝"></span><span class="x">晚餐 <a class="plink" href="https://www.google.com/maps/search/?api=1&amp;query=SHIN+True+Japanese+Flavours+Rotterdam" target="_blank" rel="noopener"><b>SHIN</b></a> 日本料理</span></li></ol>
+    <p class="fact"><span>你知道嗎</span>鹿特丹港是歐洲最大的港口，1940 年轟炸後市中心幾乎全毀，所以這裡的建築都很大膽。</p>
+  </div>
+</details>
+<details class="day" id="d1213" open style="--c: var(--c-bru)">
+  <summary class="day-head">
     <div class="day-num"><span class="m">12</span><span class="slash">/</span><span class="d">13</span><span class="wd">週日</span></div>
     <div class="day-meta">
       <div class="day-city"><span class="dot"></span>布魯日 <span class="local">Brugge</span></div>
-      <h3>到布魯日、看球</h3>
-      <p class="mood">中世紀小城＋比利時足球＋啤酒燉牛肉。</p>
+      <h3>到布魯日、看比甲聯賽</h3>
+      <p class="mood">中世紀小城＋主場足球＋啤酒燉牛肉。</p>
       <p class="stay"><span>住</span>Hotel Acacia</p>
     </div>
-    <div class="day-act"><a class="pin pin-strong" href="https://www.google.com/maps/dir/?api=1&amp;origin=Brugge+station&amp;destination=Bierbrasserie+Cambrinus+Brugge&amp;waypoints=Hotel%20Acacia%20Brugge%7CMarkt%20Brugge&amp;travelmode=walking" target="_blank" rel="noopener">整天步行路線</a></div>
-  </header>
-  <ol class="tl"><li class="k-go"><span class="t">08:30</span><span class="mark" aria-label="交通"></span><span class="x">Rotterdam → Brussel-Zuid → Brugge（約 2h10–2h45，轉 1 次）。這天有施工又是新時刻表第一天，出發前一週查班次、多留 1 小時</span></li><li class="k-rest"><span class="t">11:30</span><span class="mark" aria-label="休息"></span><span class="x">車站 → Hotel Acacia 寄行李</span></li><li class="k-eat"><span class="t">12:00</span><span class="mark" aria-label="吃"></span><span class="x">老城午餐、散步：鐘樓前兩台綠色薯條車</span></li><li class="k-todo"><span class="t">14:00</span><span class="mark" aria-label="要訂"></span><span class="x">前往 Jan Breydel 球場：Club Brugge vs KVC Westerlo，16:00 開球（clubbrugge.be 買票）<span class="chip k-todo">要訂</span></span></li><li class="k-see"><span class="t">19:00</span><span class="mark" aria-label="景點"></span><span class="x">Markt 聖誕市集</span></li><li class="k-eat"><span class="t">19:30</span><span class="mark" aria-label="吃"></span><span class="x">晚餐 <b>Cambrinus</b> 啤酒燉牛肉（一定要先訂位）</span></li></ol>
-</article>
-<article class="day" id="d1214" style="--c: var(--c-bru)">
-  <header class="day-head">
+    <span class="caret" aria-hidden="true"></span>
+  </summary>
+  <div class="day-body">
+    <div class="day-act"><a class="pin pin-strong" href="https://www.google.com/maps/dir/?api=1&amp;origin=Brugge+station&amp;destination=Bierbrasserie+Cambrinus+Brugge&amp;waypoints=Hotel%20Acacia%20Brugge%7CMarkt%20Brugge%7CJan%20Breydel%20Stadion%20Brugge&amp;travelmode=walking" target="_blank" rel="noopener">整天步行路線</a></div>
+    <ol class="tl"><li class="k-go"><span class="t">08:00</span><span class="mark" title="交通"></span><span class="x">Rotterdam → Brussel-Zuid（Midi）→ Brugge，約 2h10–2h45，轉 1 次</span></li><li class="k-rest"><span class="t">12:00</span><span class="mark" title="休息"></span><span class="x">到 Hotel Acacia 寄行李</span></li><li class="k-eat"><span class="t">12:30</span><span class="mark" title="吃喝"></span><span class="x">鐘樓前兩台綠色薯條車，邊走邊吃當午餐</span></li><li class="k-todo"><span class="t">14:30</span><span class="mark" title="要先訂"></span><span class="x">前往 Jan Breydel 球場：Club Brugge vs KVC Westerlo，16:00 開球（開球時間以官方為準）<span class="chip k-todo">要先訂</span></span></li><li class="k-see"><span class="t">19:00</span><span class="mark" title="景點"></span><span class="x">Markt 聖誕市集</span></li><li class="k-eat"><span class="t">19:30</span><span class="mark" title="吃喝"></span><span class="x">晚餐 <a class="plink" href="https://www.google.com/maps/search/?api=1&amp;query=Bierbrasserie+Cambrinus+Brugge" target="_blank" rel="noopener"><b>Cambrinus</b></a> 啤酒燉牛肉（一定要先訂位）</span></li></ol>
+    <p class="fact"><span>你知道嗎</span>這天鐵路有施工，又是歐洲新時刻表上路第一天。出發前一週查班次，抵達時間多抓一小時。</p>
+  </div>
+</details>
+<details class="day" id="d1214" open style="--c: var(--c-bru)">
+  <summary class="day-head">
     <div class="day-num"><span class="m">12</span><span class="slash">/</span><span class="d">14</span><span class="wd">週一</span></div>
     <div class="day-meta">
       <div class="day-city"><span class="dot"></span>布魯日 <span class="local">Brugge</span></div>
-      <h3>鐘樓、運河、淡菜</h3>
-      <p class="mood">爬鐘樓、吃淡菜鍋、喝 300 款啤酒的老酒館。</p>
+      <h3>鐘樓、淡菜鍋、地窖酒吧</h3>
+      <p class="mood">爬 366 階，吃一整鍋淡菜，晚上泡在比利時啤酒裡。</p>
       <p class="stay"><span>住</span>Hotel Acacia</p>
     </div>
-    <div class="day-act"><a class="pin pin-strong" href="https://www.google.com/maps/dir/?api=1&amp;origin=Dees+Koffiebranders+Brugge&amp;destination=t+Brugs+Beertje+Brugge&amp;waypoints=Belfort%20Brugge%7CRozenhoedkaai%20Brugge%7CBreydel%20De%20Coninc%20Brugge%7CBonifaciusbrug%20Brugge%7CSint-Annakerk%20Brugge%7CThe%20Chocolate%20Line%20Brugge&amp;travelmode=walking" target="_blank" rel="noopener">整天步行路線</a></div>
-  </header>
-  <ol class="tl"><li class="k-run"><span class="t">08:30</span><span class="mark" aria-label="運動"></span><span class="x">Minnewater、Begijnhof 晨跑 6–8 km（可選）</span></li><li class="k-eat"><span class="t">09:30</span><span class="mark" aria-label="吃"></span><span class="x"><b>DEES</b> 咖啡（週一可能沒開，沒開就吃飯店早餐）</span></li><li class="k-todo"><span class="t">10:00</span><span class="mark" aria-label="要訂"></span><span class="x">登鐘樓 Belfort，366 階（先訂 10:00 時段票）<span class="chip k-todo">要訂</span></span></li><li class="k-see"><span class="t">11:00</span><span class="mark" aria-label="景點"></span><span class="x">Burg → 玫瑰碼頭 → 博尼法斯橋</span></li><li class="k-eat"><span class="t">12:30</span><span class="mark" aria-label="吃"></span><span class="x">淡菜鍋 <b>Breydel De Coninc</b>，兩人一鍋就很飽（備選 De Gastro、Poules Moules）</span></li><li class="k-see"><span class="t">14:00</span><span class="mark" aria-label="景點"></span><span class="x">Langestraat → Sint-Anna → Langerei 街區散步，路上吃鬆餅（Chez Albert）</span></li><li class="k-see"><span class="t">17:00</span><span class="mark" aria-label="景點"></span><span class="x">聖誕市集 Markt → Simon Stevinplein，<b>The Chocolate Line</b> 買巧克力</span></li><li class="k-eat"><span class="t">18:30</span><span class="mark" aria-label="吃"></span><span class="x">晚餐自由，然後去 <b>&#x27;t Brugs Beertje</b> 喝比利時啤酒</span></li></ol>
-</article>
-<article class="day" id="d1215" style="--c: var(--c-bxl)">
-  <header class="day-head">
+    <span class="caret" aria-hidden="true"></span>
+  </summary>
+  <div class="day-body">
+    <div class="day-act"><a class="pin pin-strong" href="https://www.google.com/maps/dir/?api=1&amp;origin=Dees+Koffiebranders+Brugge&amp;destination=t+Brugs+Beertje+Brugge&amp;waypoints=Belfort%20Brugge%7CRozenhoedkaai%20Brugge%7CBreydel%20De%20Coninc%20Brugge%7CSint-Annakerk%20Brugge%7CThe%20Chocolate%20Line%20Brugge&amp;travelmode=walking" target="_blank" rel="noopener">整天步行路線</a></div>
+    <ol class="tl"><li class="k-run"><span class="t">08:30</span><span class="mark" title="運動"></span><span class="x">Minnewater、Begijnhof 晨跑 6–8 km（可選），路過 De Halve Maan 酒廠</span></li><li class="k-eat"><span class="t">09:30</span><span class="mark" title="吃喝"></span><span class="x"><a class="plink" href="https://www.google.com/maps/search/?api=1&amp;query=Dees+Koffiebranders+Brugge" target="_blank" rel="noopener"><b>DEES</b></a> 咖啡（週一可能沒開，沒開就吃飯店早餐）</span></li><li class="k-todo"><span class="t">10:00</span><span class="mark" title="要先訂"></span><span class="x">登鐘樓 Belfort，366 階<span class="chip k-todo">要先訂</span></span></li><li class="k-see"><span class="t">11:00</span><span class="mark" title="景點"></span><span class="x">Burg → 玫瑰碼頭 → 博尼法斯橋</span></li><li class="k-eat"><span class="t">12:30</span><span class="mark" title="吃喝"></span><span class="x">淡菜鍋 <a class="plink" href="https://www.google.com/maps/search/?api=1&amp;query=Breydel+De+Coninc+Brugge" target="_blank" rel="noopener"><b>Breydel De Coninc</b></a>，一鍋約 1.2 公斤，兩人一鍋加一份薯條就很飽</span></li><li class="k-see"><span class="t">14:00</span><span class="mark" title="景點"></span><span class="x">Langestraat → Sint-Anna → Langerei 街區，路上吃 <a class="plink" href="https://www.google.com/maps/search/?api=1&amp;query=Chez+Albert+Brugge" target="_blank" rel="noopener"><b>Chez Albert</b></a> 鬆餅</span></li><li class="k-see"><span class="t">16:15</span><span class="mark" title="景點"></span><span class="x">回玫瑰碼頭拍藍調時刻（日落約 16:40）</span></li><li class="k-see"><span class="t">17:00</span><span class="mark" title="景點"></span><span class="x">聖誕市集 Markt → Simon Stevinplein，<a class="plink" href="https://www.google.com/maps/search/?api=1&amp;query=The+Chocolate+Line+Simon+Stevinplein+Brugge" target="_blank" rel="noopener"><b>The Chocolate Line</b></a> 買巧克力</span></li><li class="k-eat"><span class="t">19:00</span><span class="mark" title="吃喝"></span><span class="x">晚餐在市集或附近隨意吃，然後 <a class="plink" href="https://www.google.com/maps/search/?api=1&amp;query=t+Brugs+Beertje+Kemelstraat+5+Brugge" target="_blank" rel="noopener"><b>&#x27;t Brugs Beertje</b></a> 或地窖酒吧 <a class="plink" href="https://www.google.com/maps/search/?api=1&amp;query=Le+Trappiste+Brugge" target="_blank" rel="noopener"><b>Le Trappiste</b></a></span></li></ol>
+    <p class="fact"><span>你知道嗎</span>De Halve Maan 酒廠埋了一條約 3 公里的地下啤酒管線，直接把酒送到郊外的裝瓶廠，因為卡車開不進中世紀的小巷。</p>
+  </div>
+</details>
+<details class="day" id="d1215" open style="--c: var(--c-bxl)">
+  <summary class="day-head">
     <div class="day-num"><span class="m">12</span><span class="slash">/</span><span class="d">15</span><span class="wd">週二</span></div>
     <div class="day-meta">
       <div class="day-city"><span class="dot"></span>布魯塞爾 <span class="local">Bruxelles</span></div>
-      <h3>布魯塞爾半日、晚上到科隆</h3>
-      <p class="mood">行李寄在車站，輕裝逛大廣場。</p>
+      <h3>布魯塞爾半日，晚上到科隆</h3>
+      <p class="mood">行李寄在車站，輕裝逛大廣場，傍晚換國家。</p>
       <p class="stay"><span>住</span>Steigenberger Hotel Köln</p>
     </div>
-    <div class="day-act"><a class="pin pin-strong" href="https://www.google.com/maps/dir/?api=1&amp;origin=Bruxelles-Central&amp;destination=Bruxelles-Central&amp;waypoints=Grand-Place%20Brussels%7CNoordzee%20Mer%20du%20Nord%20Brussels%7CBourse%20Brussels%7CManneken%20Pis%7CPlace%20du%20Grand%20Sablon%7CBarkboy%20Cantersteen%20Brussels&amp;travelmode=walking" target="_blank" rel="noopener">整天步行路線</a></div>
-  </header>
-  <ol class="tl"><li class="k-go"><span class="t">09:00</span><span class="mark" aria-label="交通"></span><span class="x">退房，Brugge → Bruxelles-Midi IC 直達（約 1 小時）</span></li><li class="k-rest"><span class="t">10:30</span><span class="mark" aria-label="休息"></span><span class="x">Midi 寄行李（站內寄物櫃或人工寄放；備案 Bounce、Stasher）</span></li><li class="k-see"><span class="t">11:00</span><span class="mark" aria-label="景點"></span><span class="x">Midi → Central（約 5 分），大廣場、Galeries Royales Saint-Hubert</span></li><li class="k-eat"><span class="t">11:30</span><span class="mark" aria-label="吃"></span><span class="x"><b>Noordzee</b> 海鮮攤，站著吃蝦可樂餅、生蠔（趕在上班族之前）</span></li><li class="k-see"><span class="t">13:00</span><span class="mark" aria-label="景點"></span><span class="x">Plaisirs d&#x27;Hiver 聖誕市集、<b>Fritland</b> 薯條 → 尿尿小童 → Sablon 巧克力店、Dandoy 焦糖餅乾</span></li><li class="k-eat"><span class="t">15:00</span><span class="mark" aria-label="吃"></span><span class="x"><b>BARKBOY</b> 咖啡（中央車站旁）</span></li><li class="k-go"><span class="t">15:30</span><span class="mark" aria-label="交通"></span><span class="x">Central → Midi 取行李</span></li><li class="k-todo"><span class="t">16:22</span><span class="mark" aria-label="要訂"></span><span class="x">Bruxelles-Midi → Köln Hbf 18:15（ICE 直達；等 12/13 新時刻表開賣再訂，備選 17:25）<span class="chip k-todo">要訂</span></span></li><li class="k-rest"><span class="t">18:15</span><span class="mark" aria-label="休息"></span><span class="x">Köln Hbf → Rudolfplatz，入住 Steigenberger</span></li><li class="k-eat"><span class="t">19:00</span><span class="mark" aria-label="吃"></span><span class="x"><b>Päffgen</b> 晚餐：烤啤酒豬腳＋Halven Hahn，順路逛比利時區</span></li></ol>
-</article>
-<article class="day" id="d1216" style="--c: var(--c-kol)">
-  <header class="day-head">
+    <span class="caret" aria-hidden="true"></span>
+  </summary>
+  <div class="day-body">
+    <div class="day-act"><a class="pin pin-strong" href="https://www.google.com/maps/dir/?api=1&amp;origin=Bruxelles-Central&amp;destination=Bruxelles-Central&amp;waypoints=Grand-Place%20Brussels%7CNoordzee%20Mer%20du%20Nord%20Brussels%7CBourse%20Brussels%7CManneken%20Pis%7CPlace%20du%20Grand%20Sablon%7CA%20La%20Mort%20Subite%20Brussels&amp;travelmode=walking" target="_blank" rel="noopener">整天步行路線</a></div>
+    <ol class="tl"><li class="k-go"><span class="t">09:00</span><span class="mark" title="交通"></span><span class="x">退房，Brugge → Brussel-Zuid（Midi）IC 直達，約 1 小時</span></li><li class="k-rest"><span class="t">10:30</span><span class="mark" title="休息"></span><span class="x">Midi 站寄行李（站內寄物櫃或人工寄放；備案 Bounce、Stasher）</span></li><li class="k-see"><span class="t">11:00</span><span class="mark" title="景點"></span><span class="x">Midi → Central（約 5 分），大廣場、Galeries Royales Saint-Hubert</span></li><li class="k-eat"><span class="t">11:30</span><span class="mark" title="吃喝"></span><span class="x"><a class="plink" href="https://www.google.com/maps/search/?api=1&amp;query=Noordzee+Mer+du+Nord+Brussels" target="_blank" rel="noopener"><b>Noordzee</b></a> 海鮮攤，站著吃蝦可樂餅、生蠔，趕在上班族之前</span></li><li class="k-see"><span class="t">13:00</span><span class="mark" title="景點"></span><span class="x">Plaisirs d&#x27;Hiver 聖誕市集、<a class="plink" href="https://www.google.com/maps/search/?api=1&amp;query=Fritland+Brussels" target="_blank" rel="noopener"><b>Fritland</b></a> 薯條 → 尿尿小童 → Sablon 巧克力店</span></li><li class="k-eat"><span class="t">14:45</span><span class="mark" title="吃喝"></span><span class="x"><a class="plink" href="https://www.google.com/maps/search/?api=1&amp;query=A+La+Mort+Subite+Brussels" target="_blank" rel="noopener"><b>À La Mort Subite</b></a> 喝一杯 kriek 櫻桃啤酒，或 <a class="plink" href="https://www.google.com/maps/search/?api=1&amp;query=Barkboy+Cantersteen+55+Brussels" target="_blank" rel="noopener"><b>BARKBOY</b></a> 咖啡</span></li><li class="k-go"><span class="t">15:30</span><span class="mark" title="交通"></span><span class="x">Central → Midi 取行李</span></li><li class="k-todo"><span class="t">16:22</span><span class="mark" title="要先訂"></span><span class="x">Brussel-Zuid（Midi）→ Köln Hbf 18:15，ICE 直達<span class="chip k-todo">要先訂</span></span></li><li class="k-rest"><span class="t">18:15</span><span class="mark" title="休息"></span><span class="x">Köln Hbf → Rudolfplatz，入住 Steigenberger</span></li><li class="k-eat"><span class="t">19:00</span><span class="mark" title="吃喝"></span><span class="x"><a class="plink" href="https://www.google.com/maps/search/?api=1&amp;query=Brauhaus+Paeffgen+Friesenstrasse+Koeln" target="_blank" rel="noopener"><b>Päffgen</b></a> 晚餐：烤啤酒豬腳＋Halve Hahn，飯後走到比利時區的 <a class="plink" href="https://www.google.com/maps/search/?api=1&amp;query=Weihnachtsmarkt+Stadtgarten+Koeln" target="_blank" rel="noopener"><b>Stadtgarten</b></a> 聖誕市集</span></li></ol>
+    <p class="fact"><span>你知道嗎</span>尿尿小童有一千多套衣服，幾乎每週都換裝，看到他穿什麼要看運氣。</p>
+  </div>
+</details>
+<details class="day" id="d1216" open style="--c: var(--c-kol)">
+  <summary class="day-head">
     <div class="day-num"><span class="m">12</span><span class="slash">/</span><span class="d">16</span><span class="wd">週三</span></div>
     <div class="day-meta">
       <div class="day-city"><span class="dot"></span>科隆 <span class="local">Köln</span></div>
-      <h3>大教堂、老城、萊茵河</h3>
+      <h3>大教堂、酸菜豬腳、市集之夜</h3>
       <p class="mood">爬 533 階、吃酸菜豬腳、在市集過晚上。</p>
       <p class="stay"><span>住</span>Steigenberger Hotel Köln</p>
     </div>
-    <div class="day-act"><a class="pin pin-strong" href="https://www.google.com/maps/dir/?api=1&amp;origin=Koelner+Dom&amp;destination=Heumarkt+Koeln&amp;waypoints=Frueh%20am%20Dom%20Koeln%7CSchokoladenmuseum%20Koeln%7CHohenzollernbruecke%7CKoelnTriangle%7CRoncalliplatz%20Koeln&amp;travelmode=walking" target="_blank" rel="noopener">整天步行路線</a></div>
-  </header>
-  <ol class="tl"><li class="k-todo"><span class="t">09:00</span><span class="mark" aria-label="要訂"></span><span class="x">科隆大教堂＋南塔 533 階（2026 年 7 月起要買票，先訂 09:00）<span class="chip k-todo">要訂</span></span></li><li class="k-see"><span class="t">11:00</span><span class="mark" aria-label="景點"></span><span class="x">老城：市政廳、Alter Markt</span></li><li class="k-eat"><span class="t">12:30</span><span class="mark" aria-label="吃"></span><span class="x"><b>Brauhaus FRÜH am Dom</b>：酸菜燉豬腳 Hämchen 配 Kölsch</span></li><li class="k-see"><span class="t">14:00</span><span class="mark" aria-label="景點"></span><span class="x">沿萊茵河 → Rheinauhafen：巧克力博物館＋港口聖誕市集</span></li><li class="k-see"><span class="t">16:00</span><span class="mark" aria-label="景點"></span><span class="x">過 Hohenzollernbrücke 愛情鎖鐵橋到 Deutz，KölnTriangle 看日落（€5，開到 20:00）</span></li><li class="k-see"><span class="t">17:00</span><span class="mark" aria-label="景點"></span><span class="x">大教堂前市集＋Heinzels Wintermärchen</span></li><li class="k-eat"><span class="t">18:00</span><span class="mark" aria-label="吃"></span><span class="x">晚餐在市集邊走邊吃：馬鈴薯煎餅、蘑菇、香腸、熱紅酒</span></li></ol>
-</article>
-<article class="day" id="d1217" style="--c: var(--c-dus)">
-  <header class="day-head">
+    <span class="caret" aria-hidden="true"></span>
+  </summary>
+  <div class="day-body">
+    <div class="day-act"><a class="pin pin-strong" href="https://www.google.com/maps/dir/?api=1&amp;origin=Koelner+Dom&amp;destination=Heumarkt+Koeln&amp;waypoints=4711%20House%20Glockengasse%20Koeln%7CFrueh%20am%20Dom%20Koeln%7CSchokoladenmuseum%20Koeln%7CHohenzollernbruecke%7CKoelnTriangle&amp;travelmode=walking" target="_blank" rel="noopener">整天步行路線</a></div>
+    <ol class="tl"><li class="k-todo"><span class="t">09:00</span><span class="mark" title="要先訂"></span><span class="x">科隆大教堂＋南塔 533 階（2026 年 7 月起要買票，先訂 09:00）<span class="chip k-todo">要先訂</span></span></li><li class="k-see"><span class="t">11:00</span><span class="mark" title="景點"></span><span class="x">老城：市政廳、Alter Markt、Glockengasse 的 <a class="plink" href="https://www.google.com/maps/search/?api=1&amp;query=4711+House+Glockengasse+Koeln" target="_blank" rel="noopener"><b>4711</b></a> 古龍水本店</span></li><li class="k-eat"><span class="t">12:30</span><span class="mark" title="吃喝"></span><span class="x"><a class="plink" href="https://www.google.com/maps/search/?api=1&amp;query=Frueh+am+Dom+Koeln" target="_blank" rel="noopener"><b>Brauhaus FRÜH am Dom</b></a>：酸菜燉豬腳 Hämchen 配 Kölsch</span></li><li class="k-see"><span class="t">14:00</span><span class="mark" title="景點"></span><span class="x">沿萊茵河 → Rheinauhafen：巧克力博物館＋港口聖誕市集</span></li><li class="k-see"><span class="t">16:00</span><span class="mark" title="景點"></span><span class="x">過 Hohenzollernbrücke 愛情鎖鐵橋到 Deutz，KölnTriangle 看日落（€5）</span></li><li class="k-see"><span class="t">17:00</span><span class="mark" title="景點"></span><span class="x">大教堂前市集＋Heinzels Wintermärchen</span></li><li class="k-eat"><span class="t">18:00</span><span class="mark" title="吃喝"></span><span class="x">晚餐在市集邊走邊吃：馬鈴薯煎餅、蘑菇、香腸、熱紅酒</span></li></ol>
+    <p class="fact"><span>你知道嗎</span>每個聖誕市集的熱紅酒杯都不一樣。付了押金不拿回來，杯子就是最好的伴手禮。</p>
+  </div>
+</details>
+<details class="day" id="d1217" open style="--c: var(--c-dus)">
+  <summary class="day-head">
     <div class="day-num"><span class="m">12</span><span class="slash">/</span><span class="d">17</span><span class="wd">週四</span></div>
     <div class="day-meta">
       <div class="day-city"><span class="dot"></span>杜塞道夫 <span class="local">Düsseldorf</span></div>
-      <h3>杜塞道夫一日遊</h3>
-      <p class="mood">精品大道、日本街拉麵、全世界最長的吧台。</p>
+      <h3>杜塞道夫：拉麵、Altbier、最長的吧台</h3>
+      <p class="mood">精品大道、日本街拉麵、站著喝的老酒館。</p>
       <p class="stay"><span>住</span>Steigenberger Hotel Köln</p>
     </div>
+    <span class="caret" aria-hidden="true"></span>
+  </summary>
+  <div class="day-body">
     <div class="day-act"><a class="pin pin-strong" href="https://www.google.com/maps/dir/?api=1&amp;origin=Duesseldorf+Hbf&amp;destination=Brauerei+im+Fuechschen+Duesseldorf&amp;waypoints=Koenigsallee%20Duesseldorf%7CTakumi%20Immermannstrasse%2028%20Duesseldorf%7CZum%20Uerige%20Duesseldorf%7CMedienHafen%20Duesseldorf&amp;travelmode=walking" target="_blank" rel="noopener">整天步行路線</a></div>
-  </header>
-  <ol class="tl"><li class="k-run"><span class="t">08:00</span><span class="mark" aria-label="運動"></span><span class="x">萊茵河岸、Hohenzollernbrücke 晨跑 7–10 km</span></li><li class="k-go"><span class="t">10:00</span><span class="mark" aria-label="交通"></span><span class="x">Köln Hbf → Düsseldorf Hbf（25–35 分，當天用 DB App 買票）</span></li><li class="k-see"><span class="t">10:30</span><span class="mark" aria-label="景點"></span><span class="x">國王大道 Königsallee、Kö-Bogen 綠牆建築</span></li><li class="k-eat"><span class="t">11:45</span><span class="mark" aria-label="吃"></span><span class="x">日本街 <b>Takumi</b> 拉麵，開門前排隊（備選 Naniwa、Takeichi；甜點 Bing Go 鯛魚燒）</span></li><li class="k-eat"><span class="t">13:00</span><span class="mark" aria-label="吃"></span><span class="x">老城：在 <b>Zum Uerige</b> 站著喝一杯 Altbier</span></li><li class="k-see"><span class="t">14:30</span><span class="mark" aria-label="景點"></span><span class="x">萊茵河岸步道 → MedienHafen 媒體港</span></li><li class="k-see"><span class="t">16:00</span><span class="mark" aria-label="景點"></span><span class="x">老城聖誕市集</span></li><li class="k-eat"><span class="t">18:30</span><span class="mark" aria-label="吃"></span><span class="x"><b>Brauerei im Füchschen</b>：烤豬腳或醋燜牛肉（不訂位；備選 Schumacher）</span></li><li class="k-go"><span class="t">20:00</span><span class="mark" aria-label="交通"></span><span class="x">Düsseldorf → Köln（約 30 分）</span></li></ol>
-</article>
-<article class="day" id="d1218" style="--c: var(--c-ams)">
-  <header class="day-head">
+    <ol class="tl"><li class="k-run"><span class="t">08:00</span><span class="mark" title="運動"></span><span class="x">萊茵河岸、Hohenzollernbrücke 晨跑 7–10 km</span></li><li class="k-go"><span class="t">10:00</span><span class="mark" title="交通"></span><span class="x">Köln Hbf → Düsseldorf Hbf（25–35 分，當天用 DB App 買票）</span></li><li class="k-see"><span class="t">10:30</span><span class="mark" title="景點"></span><span class="x">國王大道 Königsallee、Kö-Bogen 綠牆建築</span></li><li class="k-eat"><span class="t">11:45</span><span class="mark" title="吃喝"></span><span class="x">日本街 <a class="plink" href="https://www.google.com/maps/search/?api=1&amp;query=Takumi+Immermannstrasse+28+Duesseldorf" target="_blank" rel="noopener"><b>Takumi</b></a> 拉麵，開門前排隊。甜點 Bing Go 鯛魚燒</span></li><li class="k-eat"><span class="t">13:00</span><span class="mark" title="吃喝"></span><span class="x">老城：<a class="plink" href="https://www.google.com/maps/search/?api=1&amp;query=Zum+Uerige+Duesseldorf" target="_blank" rel="noopener"><b>Zum Uerige</b></a> 站著喝 Altbier，再去 <a class="plink" href="https://www.google.com/maps/search/?api=1&amp;query=Et+Kabueffke+Duesseldorf" target="_blank" rel="noopener"><b>Et Kabüffke</b></a> 試一小杯 Killepitsch 草本利口酒</span></li><li class="k-see"><span class="t">14:30</span><span class="mark" title="景點"></span><span class="x">萊茵河岸步道 → MedienHafen 媒體港的扭曲大樓</span></li><li class="k-see"><span class="t">16:00</span><span class="mark" title="景點"></span><span class="x">老城聖誕市集</span></li><li class="k-eat"><span class="t">18:30</span><span class="mark" title="吃喝"></span><span class="x"><a class="plink" href="https://www.google.com/maps/search/?api=1&amp;query=Brauerei+im+Fuechschen+Duesseldorf" target="_blank" rel="noopener"><b>Brauerei im Füchschen</b></a>：烤豬腳，外皮比科隆的脆（不接受訂位）</span></li><li class="k-go"><span class="t">20:00</span><span class="mark" title="交通"></span><span class="x">Düsseldorf → Köln（約 30 分）</span></li></ol>
+    <p class="fact"><span>你知道嗎</span>杜塞道夫和科隆是死對頭。在這裡點 Kölsch 會被白眼，回科隆也別提 Altbier。</p>
+  </div>
+</details>
+<details class="day" id="d1218" open style="--c: var(--c-ams)">
+  <summary class="day-head">
     <div class="day-num"><span class="m">12</span><span class="slash">/</span><span class="d">18</span><span class="wd">週五</span></div>
     <div class="day-meta">
       <div class="day-city"><span class="dot"></span>哈倫 <span class="local">Haarlem</span></div>
-      <h3>哈倫，回阿姆斯特丹</h3>
-      <p class="mood">回程路上停一個安靜的小城看畫。</p>
-      <p class="stay"><span>住</span>阿姆斯特丹最後一晚（待訂）</p>
+      <h3>哈倫，最後一晚在阿姆斯特丹</h3>
+      <p class="mood">先把行李放好，下午去小城喝教堂裡的啤酒，最後一晚好好喝一杯。</p>
+      <p class="stay"><span>住</span>阿姆斯特丹 Centraal 附近（待訂）</p>
     </div>
-    <div class="day-act"><a class="pin pin-strong" href="https://www.google.com/maps/dir/?api=1&amp;origin=Haarlem+station&amp;destination=Haarlem+station&amp;waypoints=Grote%20Markt%20Haarlem%7CFrans%20Hals%20Museum%7CTeylers%20Museum%7CSpaarne%20Haarlem&amp;travelmode=walking" target="_blank" rel="noopener">整天步行路線</a></div>
-  </header>
-  <ol class="tl"><li class="k-go"><span class="t">09:00</span><span class="mark" aria-label="交通"></span><span class="x">Köln Hbf → Amsterdam ICE（約 2h40–3h），轉車到 Haarlem。行李先找寄物</span></li><li class="k-eat"><span class="t">12:30</span><span class="mark" aria-label="吃"></span><span class="x">Grote Markt 午餐</span></li><li class="k-see"><span class="t">13:30</span><span class="mark" aria-label="景點"></span><span class="x">Frans Hals Museum</span></li><li class="k-see"><span class="t">15:00</span><span class="mark" aria-label="景點"></span><span class="x">Teylers Museum，荷蘭最古老的博物館</span></li><li class="k-see"><span class="t">16:30</span><span class="mark" aria-label="景點"></span><span class="x">Hofjes 庭院、Spaarne 河邊</span></li><li class="k-go"><span class="t">17:30</span><span class="mark" aria-label="交通"></span><span class="x">回 Amsterdam 入住</span></li></ol>
-</article>
-<article class="day" id="d1219" style="--c: var(--c-ams)">
-  <header class="day-head">
+    <span class="caret" aria-hidden="true"></span>
+  </summary>
+  <div class="day-body">
+    <div class="day-act"><a class="pin pin-strong" href="https://www.google.com/maps/dir/?api=1&amp;origin=Haarlem+station&amp;destination=Haarlem+station&amp;waypoints=Jopenkerk%20Haarlem%7CGrote%20Markt%20Haarlem%7CTeylers%20Museum%20Haarlem%7CSpaarne%20Haarlem&amp;travelmode=walking" target="_blank" rel="noopener">整天步行路線</a></div>
+    <ol class="tl"><li class="k-go"><span class="t">09:00</span><span class="mark" title="交通"></span><span class="x">Köln Hbf → Amsterdam Centraal ICE（約 2h40）</span></li><li class="k-eat"><span class="t">12:00</span><span class="mark" title="吃喝"></span><span class="x">到 Centraal 附近的飯店寄行李；路上吃 <a class="plink" href="https://www.google.com/maps/search/?api=1&amp;query=Stubbes+Haring+Amsterdam" target="_blank" rel="noopener"><b>Stubbe&#x27;s Haring</b></a> 生鯡魚</span></li><li class="k-go"><span class="t">13:00</span><span class="mark" title="交通"></span><span class="x">Amsterdam Centraal → Haarlem（約 15 分）</span></li><li class="k-eat"><span class="t">13:30</span><span class="mark" title="吃喝"></span><span class="x"><a class="plink" href="https://www.google.com/maps/search/?api=1&amp;query=Jopenkerk+Haarlem" target="_blank" rel="noopener"><b>Jopenkerk</b></a> 午餐：教堂裡的精釀酒廠</span></li><li class="k-see"><span class="t">15:00</span><span class="mark" title="景點"></span><span class="x"><a class="plink" href="https://www.google.com/maps/search/?api=1&amp;query=Teylers+Museum+Haarlem" target="_blank" rel="noopener"><b>Teylers Museum</b></a>，荷蘭最古老的博物館</span></li><li class="k-see"><span class="t">16:15</span><span class="mark" title="景點"></span><span class="x">Grote Markt、Hofjes 庭院、Spaarne 河邊</span></li><li class="k-go"><span class="t">17:30</span><span class="mark" title="交通"></span><span class="x">回 Amsterdam</span></li><li class="k-eat"><span class="t">19:00</span><span class="mark" title="吃喝"></span><span class="x">最後一晚：<a class="plink" href="https://www.google.com/maps/search/?api=1&amp;query=Wynand+Fockink+Amsterdam" target="_blank" rel="noopener"><b>Wynand Fockink</b></a> 試荷蘭琴酒 genever，再去 <a class="plink" href="https://www.google.com/maps/search/?api=1&amp;query=In+de+Wildeman+Amsterdam" target="_blank" rel="noopener"><b>In de Wildeman</b></a> 喝啤酒，宵夜 FEBO 投幣炸肉丸</span></li></ol>
+    <p class="fact"><span>你知道嗎</span>Jopenkerk 是把一座教堂改成的精釀酒廠，在彩繪玻璃窗下喝啤酒。</p>
+  </div>
+</details>
+<details class="day" id="d1219" open style="--c: var(--c-ams)">
+  <summary class="day-head">
     <div class="day-num"><span class="m">12</span><span class="slash">/</span><span class="d">19</span><span class="wd">週六</span></div>
     <div class="day-meta">
       <div class="day-city"><span class="dot"></span>阿姆斯特丹 <span class="local">Amsterdam</span></div>
@@ -526,361 +623,431 @@ footer { padding-block: 40px 60px; color: var(--muted); font-size: 13px; }
       <p class="mood">早點出門，Schiphol 很大。</p>
       <p class="stay"><span>住</span>—</p>
     </div>
+    <span class="caret" aria-hidden="true"></span>
+  </summary>
+  <div class="day-body">
     <div class="day-act"></div>
-  </header>
-  <ol class="tl"><li class="k-go"><span class="t">07:00</span><span class="mark" aria-label="交通"></span><span class="x">市區 → Schiphol 火車（約 15–20 分）</span></li><li class="k-go"><span class="t">08:00</span><span class="mark" aria-label="交通"></span><span class="x">報到、安檢</span></li><li class="k-book"><span class="t">10:35</span><span class="mark" aria-label="已訂"></span><span class="x">起飛回台灣<span class="chip k-book">已訂</span></span></li></ol>
-</article></div>
+    <ol class="tl"><li class="k-go"><span class="t">07:00</span><span class="mark" title="交通"></span><span class="x">Centraal → Schiphol 火車（約 15 分）</span></li><li class="k-go"><span class="t">08:00</span><span class="mark" title="交通"></span><span class="x">報到、安檢、退稅</span></li><li class="k-book"><span class="t">10:35</span><span class="mark" title="已訂"></span><span class="x">起飛回台灣<span class="chip k-book">已訂</span></span></li></ol>
+    
+  </div>
+</details></div>
+  </section>
+
+  <section class="block" id="stays">
+    <div class="block-head"><div class="label">Where you sleep</div><h2>住宿</h2><p>7 間飯店、14 晚。入住和退房時間以訂房確認信為準。</p></div>
+    <ul class="stays"><li class="stayc">
+  <div class="stay-top"><span class="mono">12/5–12/7</span><span class="nights">2 晚</span><span class="sbadge s-ok">已訂</span></div>
+  <div class="stay-name">Dutch Design Hotel Vondelpark</div>
+  <div class="stay-addr">Waldeck Pyrmontlaan 9, Amsterdam</div>
+  <div class="stay-note">Vondelpark 旁，Oud-West</div>
+  <a class="pin" href="https://www.google.com/maps/search/?api=1&amp;query=Dutch+Design+Hotel+Vondelpark+Amsterdam" target="_blank" rel="noopener">地圖</a>
+</li>
+<li class="stayc">
+  <div class="stay-top"><span class="mono">12/7–12/9</span><span class="nights">2 晚</span><span class="sbadge s-ok">已訂</span></div>
+  <div class="stay-name">citizenM Amsterdam South</div>
+  <div class="stay-addr">Prinses Irenestraat 30, Amsterdam</div>
+  <div class="stay-note">Zuid 站走路 7 分</div>
+  <a class="pin" href="https://www.google.com/maps/search/?api=1&amp;query=citizenM+Amsterdam+South" target="_blank" rel="noopener">地圖</a>
+</li>
+<li class="stayc">
+  <div class="stay-top"><span class="mono">12/9–12/11</span><span class="nights">2 晚</span><span class="sbadge s-ok">已訂</span></div>
+  <div class="stay-name">The Social Hub Den Haag</div>
+  <div class="stay-addr">Hoefkade 9, Den Haag</div>
+  <div class="stay-note">Haagse Markt 旁</div>
+  <a class="pin" href="https://www.google.com/maps/search/?api=1&amp;query=The+Social+Hub+The+Hague" target="_blank" rel="noopener">地圖</a>
+</li>
+<li class="stayc">
+  <div class="stay-top"><span class="mono">12/11–12/13</span><span class="nights">2 晚</span><span class="sbadge s-ok">已訂</span></div>
+  <div class="stay-name">CityHub Rotterdam</div>
+  <div class="stay-addr">Witte de With 一帶</div>
+  <div class="stay-note">Ter Marsch 就在旁邊</div>
+  <a class="pin" href="https://www.google.com/maps/search/?api=1&amp;query=CityHub+Rotterdam" target="_blank" rel="noopener">地圖</a>
+</li>
+<li class="stayc">
+  <div class="stay-top"><span class="mono">12/13–12/15</span><span class="nights">2 晚</span><span class="sbadge s-ok">已訂</span></div>
+  <div class="stay-name">Hotel Acacia</div>
+  <div class="stay-addr">Korte Zilverstraat 5, Brugge</div>
+  <div class="stay-note">Markt 走路幾分鐘</div>
+  <a class="pin" href="https://www.google.com/maps/search/?api=1&amp;query=Hotel+Acacia+Brugge" target="_blank" rel="noopener">地圖</a>
+</li>
+<li class="stayc">
+  <div class="stay-top"><span class="mono">12/15–12/18</span><span class="nights">3 晚</span><span class="sbadge s-ok">已訂</span></div>
+  <div class="stay-name">Steigenberger Hotel Köln</div>
+  <div class="stay-addr">Habsburgerring 9–13, Köln</div>
+  <div class="stay-note">Rudolfplatz，比利時區旁</div>
+  <a class="pin" href="https://www.google.com/maps/search/?api=1&amp;query=Steigenberger+Hotel+Koeln" target="_blank" rel="noopener">地圖</a>
+</li>
+<li class="stayc">
+  <div class="stay-top"><span class="mono">12/18–12/19</span><span class="nights">1 晚</span><span class="sbadge s-todo">待訂</span></div>
+  <div class="stay-name">阿姆斯特丹最後一晚</div>
+  <div class="stay-addr">建議 Centraal 附近</div>
+  <div class="stay-note">隔天搭火車 15 分到機場</div>
+  <a class="pin" href="https://www.google.com/maps/search/?api=1&amp;query=Amsterdam+Centraal" target="_blank" rel="noopener">地圖</a>
+</li></ul>
   </section>
 
   <section class="block" id="guides">
-    <div class="block-head"><div class="label">Eat like a local</div><h2>城市與美食</h2><p>每間店都對照過 Google 評分、旅遊指南和 Threads 實際心得。評價兩極或時間不合的會直接寫出來。</p></div>
+    <div class="block-head"><div class="label">Eat · Drink · Like a local</div><h2>城市與美食</h2><p>每間店都對照過 Google 評分、旅遊指南和 Threads 上的實際心得。</p></div>
     <div class="guides"><section class="guide" id="g-ams" style="--c: var(--c-ams)">
   <header class="g-head"><span class="g-dates">12/5–12/8、12/18</span><h3>阿姆斯特丹・烏特勒支・哈倫</h3></header>
   <div class="g-body">
-    <div class="g-story"><p>17 世紀黃金時代，阿姆斯特丹是全世界最富有的貿易城市。當時挖的三圈半月形運河至今幾乎沒變，2010 年列入世界遺產。</p><p>市中心很小，走路加電車就夠，但腳踏車道是紅色的，走路別踩進去。荷蘭殖民過印尼和蘇利南，所以這兩國的菜在這裡又道地又平價。</p><dl class="g-facts"><dt>謝謝</dt><dd>Dank je wel</dd><dt>交通</dt><dd>刷信用卡進出電車、火車（OVpay）</dd><dt>特產</dt><dd>生鯡魚、焦糖煎餅、蘋果派、起司</dd></dl></div>
-    <div class="g-eat"><div class="label">一定要吃</div><ul class="dishes"><li><b>生鯡魚</b><i>Haring</i><span>抓著尾巴整條吃，或切塊配洋蔥和酸黃瓜。</span></li><li><b>炸肉丸</b><i>Bitterballen</i><span>酥皮包燉肉泥，配芥末，酒吧下酒菜。</span></li><li><b>焦糖煎餅</b><i>Stroopwafel</i><span>兩片薄餅夾焦糖，一定要吃現做熱的。</span></li><li><b>蘋果派</b><i>Appeltaart</i><span>肉桂味重，一定要加鮮奶油。</span></li><li><b>蘇利南菜</b><i>Roti</i><span>咖哩雞配薄餅，殖民歷史留下的味道。</span></li></ul></div>
+    <div class="g-story"><p>17 世紀全世界最富的貿易城市，三圈半月形運河 2010 年列入世界遺產。荷蘭殖民過印尼和蘇利南，所以這兩國的菜在這裡又道地又便宜。</p><dl class="g-facts"><dt>謝謝</dt><dd>Dank je wel</dd><dt>乾杯</dt><dd>Proost</dd><dt>交通</dt><dd>刷信用卡搭火車、電車（OVpay）</dd></dl></div>
+    <div class="g-eat"><div class="label">一定要吃喝</div><ul class="dishes"><li><b>生鯡魚</b><i>Haring</i><span>抓尾巴整條吃，或切塊配洋蔥酸黃瓜，完全不腥。</span></li><li><b>炸肉丸</b><i>Bitterballen</i><span>酥皮包燉肉泥，沾芥末，酒吧必點。</span></li><li><b>焦糖煎餅</b><i>Stroopwafel</i><span>一定要吃現做熱的。</span></li><li><b>炸麵球</b><i>Oliebollen</i><span>12 月限定，滿街小攤，撒糖粉吃。</span></li><li><b>蘋果派</b><i>Appeltaart</i><span>一定要加鮮奶油。</span></li></ul></div>
   </div>
-  <div class="label">推薦的店 <small>星等是 Google 評分（評論數）</small></div>
+  <div class="label">推薦的店 <small>★ 是 Google 評分；酒吧和咖啡是加碼選項</small></div>
   <ul class="places"><li class="pl">
   <div class="pl-top"><span class="badge b-top">首選</span><span class="when">12/5</span></div>
   <div class="pl-name">Greenwoods Singel</div>
-  <div class="pl-dish">早午餐</div>
-  <div class="pl-why">4.6（5,464）</div>
-  <div class="pl-note">人氣店，可能要等位</div>
+  <div class="pl-dish">早午餐<span class="star">★ 4.6</span></div>
+  <div class="pl-why">落地第一頓，在老城路線上</div>
   <a class="pin" href="https://www.google.com/maps/search/?api=1&amp;query=Greenwoods+Singel+103+Amsterdam" target="_blank" rel="noopener">地圖</a>
 </li><li class="pl">
   <div class="pl-top"><span class="badge b-top">首選</span><span class="when">12/5</span></div>
-  <div class="pl-name">Van Stapele Koekmakerij</div>
-  <div class="pl-dish">巧克力夾心餅乾</div>
-  <div class="pl-why">4.8（16,389）· 只賣一種餅乾</div>
-  <div class="pl-note">常要排隊</div>
-  <a class="pin" href="https://www.google.com/maps/search/?api=1&amp;query=Van+Stapele+Koekmakerij+Amsterdam" target="_blank" rel="noopener">地圖</a>
-</li><li class="pl">
-  <div class="pl-top"><span class="badge b-top">首選</span><span class="when">12/5</span></div>
   <div class="pl-name">Winkel 43</div>
-  <div class="pl-dish">蘋果派加鮮奶油</div>
-  <div class="pl-why">4.5（16,910）· Threads 上 11 月還有人吃，€6.3</div>
-  
+  <div class="pl-dish">蘋果派<span class="star">★ 4.5</span></div>
+  <div class="pl-why">全城最有名，一大塊加鮮奶油約 €6</div>
   <a class="pin" href="https://www.google.com/maps/search/?api=1&amp;query=Winkel+43+Noordermarkt+Amsterdam" target="_blank" rel="noopener">地圖</a>
-</li><li class="pl">
-  <div class="pl-top"><span class="badge b-snack">點心</span><span class="when">12/5</span></div>
-  <div class="pl-name">Heertje Friet</div>
-  <div class="pl-dish">薯條</div>
-  <div class="pl-why">4.6（1,503）</div>
-  
-  <a class="pin" href="https://www.google.com/maps/search/?api=1&amp;query=Heertje+Friet+Herengracht+Amsterdam" target="_blank" rel="noopener">地圖</a>
-</li><li class="pl">
-  <div class="pl-top"><span class="badge b-top">首選</span><span class="when">12/5</span></div>
-  <div class="pl-name">The Seafood Bar</div>
-  <div class="pl-dish">生蠔 Happy Hour</div>
-  <div class="pl-why">每天 15:00–17:00 一顆 €1.5</div>
-  <div class="pl-note">不是每家分店都有，先問</div>
-  <a class="pin" href="https://www.google.com/maps/search/?api=1&amp;query=The+Seafood+Bar+Spui+Amsterdam" target="_blank" rel="noopener">地圖</a>
 </li><li class="pl">
   <div class="pl-top"><span class="badge b-top">首選</span><span class="when">12/5</span></div>
   <div class="pl-name">Restaurant &#x27;t Zwaantje</div>
-  <div class="pl-dish">荷蘭家常菜</div>
-  <div class="pl-why">4.5（2,720）</div>
-  <div class="pl-note">建議訂位</div>
+  <div class="pl-dish">荷蘭家常菜<span class="star">★ 4.5</span></div>
+  <div class="pl-why">九條街裡的老式小館</div>
   <a class="pin" href="https://www.google.com/maps/search/?api=1&amp;query=Restaurant+t+Zwaantje+Berenstraat+Amsterdam" target="_blank" rel="noopener">地圖</a>
-</li><li class="pl">
-  <div class="pl-top"><span class="badge b-alt">備選</span><span class="when">12/6</span></div>
-  <div class="pl-name">nNea Pizza</div>
-  <div class="pl-dish">拿坡里披薩</div>
-  <div class="pl-why">4.6（4,617）</div>
-  
-  <a class="pin" href="https://www.google.com/maps/search/?api=1&amp;query=nNea+Pizza+Bilderdijkstraat+Amsterdam" target="_blank" rel="noopener">地圖</a>
 </li><li class="pl">
   <div class="pl-top"><span class="badge b-top">首選</span><span class="when">12/6</span></div>
   <div class="pl-name">Moeders</div>
-  <div class="pl-dish">家常菜</div>
-  <div class="pl-why">4.5（6,019）</div>
-  <div class="pl-note">建議訂位</div>
+  <div class="pl-dish">家常菜<span class="star">★ 4.5</span></div>
+  <div class="pl-why">牆上掛滿客人媽媽的照片</div>
   <a class="pin" href="https://www.google.com/maps/search/?api=1&amp;query=Moeders+Rozengracht+Amsterdam" target="_blank" rel="noopener">地圖</a>
+</li><li class="pl">
+  <div class="pl-top"><span class="badge b-bar">酒吧</span><span class="when">12/6</span></div>
+  <div class="pl-name">Arendsnest</div>
+  <div class="pl-dish">荷蘭精釀</div>
+  <div class="pl-why">只賣荷蘭啤酒，運河邊</div>
+  <a class="pin" href="https://www.google.com/maps/search/?api=1&amp;query=Arendsnest+Herengracht+90+Amsterdam" target="_blank" rel="noopener">地圖</a>
 </li><li class="pl">
   <div class="pl-top"><span class="badge b-top">首選</span><span class="when">12/7</span></div>
   <div class="pl-name">Rudi&#x27;s Original Stroopwafels</div>
-  <div class="pl-dish">現做焦糖煎餅</div>
-  <div class="pl-why">4.9（2,564）</div>
-  
+  <div class="pl-dish">現做焦糖煎餅<span class="star">★ 4.9</span></div>
+  <div class="pl-why">Albert Cuyp 市場攤位</div>
   <a class="pin" href="https://www.google.com/maps/search/?api=1&amp;query=Rudis+Original+Stroopwafels+Albert+Cuyp+Amsterdam" target="_blank" rel="noopener">地圖</a>
 </li><li class="pl">
   <div class="pl-top"><span class="badge b-top">首選</span><span class="when">12/7</span></div>
   <div class="pl-name">Warung Spang Makandra</div>
-  <div class="pl-dish">蘇利南、印尼菜</div>
-  <div class="pl-why">4.2（2,029）</div>
-  
+  <div class="pl-dish">蘇利南菜<span class="star">★ 4.2</span></div>
+  <div class="pl-why">咖哩雞配薄餅，便宜大碗</div>
   <a class="pin" href="https://www.google.com/maps/search/?api=1&amp;query=Warung+Spang+Makandra+Amsterdam" target="_blank" rel="noopener">地圖</a>
 </li><li class="pl">
   <div class="pl-top"><span class="badge b-top">首選</span><span class="when">12/7</span></div>
   <div class="pl-name">Hakata Senpachi</div>
-  <div class="pl-dish">博多拉麵</div>
-  <div class="pl-why">4.3（1,198）· 離 citizenM 約 1 公里</div>
-  
+  <div class="pl-dish">博多拉麵<span class="star">★ 4.3</span></div>
+  <div class="pl-why">換飯店那晚就近吃</div>
   <a class="pin" href="https://www.google.com/maps/search/?api=1&amp;query=Hakata+Senpachi+Wielingenstraat+Amsterdam" target="_blank" rel="noopener">地圖</a>
 </li><li class="pl">
   <div class="pl-top"><span class="badge b-top">首選</span><span class="when">12/8</span></div>
   <div class="pl-name">Restaurant Kartoffel</div>
-  <div class="pl-dish">德國豬腳、炸肉排</div>
-  <div class="pl-why">4.4（2,587）· 烏特勒支</div>
-  
+  <div class="pl-dish">德國豬腳<span class="star">★ 4.4</span></div>
+  <div class="pl-why">烏特勒支</div>
   <a class="pin" href="https://www.google.com/maps/search/?api=1&amp;query=Restaurant+Kartoffel+Utrecht" target="_blank" rel="noopener">地圖</a>
 </li><li class="pl">
   <div class="pl-top"><span class="badge b-snack">點心</span><span class="when">12/8</span></div>
   <div class="pl-name">Graaf Floris</div>
-  <div class="pl-dish">運河地窖烤蘋果</div>
-  <div class="pl-why">4.4（1,841）· 烏特勒支</div>
-  
+  <div class="pl-dish">烤蘋果<span class="star">★ 4.4</span></div>
+  <div class="pl-why">烏特勒支運河地窖</div>
   <a class="pin" href="https://www.google.com/maps/search/?api=1&amp;query=Graaf+Floris+Utrecht" target="_blank" rel="noopener">地圖</a>
 </li><li class="pl">
   <div class="pl-top"><span class="badge b-top">首選</span><span class="when">12/8</span></div>
-  <div class="pl-name">Kaasbar Utrecht</div>
+  <div class="pl-name">Kaasbar</div>
   <div class="pl-dish">起司迴轉吧</div>
-  <div class="pl-why">烏特勒支 Lijnmarkt</div>
-  <div class="pl-note">平日 17:00 才開</div>
+  <div class="pl-why">烏特勒支 Lijnmarkt；阿姆斯特丹 De Pijp 也有一家</div>
   <a class="pin" href="https://www.google.com/maps/search/?api=1&amp;query=Kaasbar+Utrecht+Lijnmarkt" target="_blank" rel="noopener">地圖</a>
+</li><li class="pl">
+  <div class="pl-top"><span class="badge b-bar">酒吧</span><span class="when">12/8</span></div>
+  <div class="pl-name">Olivier</div>
+  <div class="pl-dish">比利時啤酒</div>
+  <div class="pl-why">開在老教堂裡</div>
+  <a class="pin" href="https://www.google.com/maps/search/?api=1&amp;query=Olivier+Belgisch+Biercafe+Utrecht" target="_blank" rel="noopener">地圖</a>
+</li><li class="pl">
+  <div class="pl-top"><span class="badge b-snack">點心</span><span class="when">12/18</span></div>
+  <div class="pl-name">Stubbe&#x27;s Haring</div>
+  <div class="pl-dish">生鯡魚</div>
+  <div class="pl-why">Centraal 旁的小攤</div>
+  <a class="pin" href="https://www.google.com/maps/search/?api=1&amp;query=Stubbes+Haring+Amsterdam" target="_blank" rel="noopener">地圖</a>
+</li><li class="pl">
+  <div class="pl-top"><span class="badge b-bar">酒吧</span><span class="when">12/18</span></div>
+  <div class="pl-name">Jopenkerk</div>
+  <div class="pl-dish">精釀</div>
+  <div class="pl-why">哈倫，教堂改成的酒廠</div>
+  <a class="pin" href="https://www.google.com/maps/search/?api=1&amp;query=Jopenkerk+Haarlem" target="_blank" rel="noopener">地圖</a>
+</li><li class="pl">
+  <div class="pl-top"><span class="badge b-bar">酒吧</span><span class="when">12/18</span></div>
+  <div class="pl-name">Wynand Fockink</div>
+  <div class="pl-dish">荷蘭琴酒</div>
+  <div class="pl-why">老品酒室，站著喝</div>
+  <a class="pin" href="https://www.google.com/maps/search/?api=1&amp;query=Wynand+Fockink+Amsterdam" target="_blank" rel="noopener">地圖</a>
+</li><li class="pl">
+  <div class="pl-top"><span class="badge b-bar">酒吧</span><span class="when">12/18</span></div>
+  <div class="pl-name">In de Wildeman</div>
+  <div class="pl-dish">啤酒</div>
+  <div class="pl-why">老派啤酒吧</div>
+  <a class="pin" href="https://www.google.com/maps/search/?api=1&amp;query=In+de+Wildeman+Amsterdam" target="_blank" rel="noopener">地圖</a>
+</li><li class="pl">
+  <div class="pl-top"><span class="badge b-alt">備選</span></div>
+  <div class="pl-name">Café Papeneiland</div>
+  <div class="pl-dish">蘋果派</div>
+  <div class="pl-why">Jordaan 的棕色老酒館，Winkel 43 排太長就來這</div>
+  <a class="pin" href="https://www.google.com/maps/search/?api=1&amp;query=Cafe+Papeneiland+Amsterdam" target="_blank" rel="noopener">地圖</a>
+</li><li class="pl">
+  <div class="pl-top"><span class="badge b-bar">酒吧</span></div>
+  <div class="pl-name">Brouwerij &#x27;t IJ</div>
+  <div class="pl-dish">精釀</div>
+  <div class="pl-why">在風車旁邊的酒廠</div>
+  <a class="pin" href="https://www.google.com/maps/search/?api=1&amp;query=Brouwerij+t+IJ+Amsterdam" target="_blank" rel="noopener">地圖</a>
 </li></ul>
 </section>
 <section class="guide" id="g-dh" style="--c: var(--c-dh)">
   <header class="g-head"><span class="g-dates">12/9–12/10</span><h3>海牙・萊登</h3></header>
   <div class="g-body">
-    <div class="g-story"><p>阿姆斯特丹是首都，但政府、國會和國王辦公的地方都在海牙，國際法院也在這裡。莫瑞泰斯美術館收著維梅爾的《戴珍珠耳環的少女》。</p><p>萊登有荷蘭最古老的大學（1575 年），也是林布蘭的出生地。運河比阿姆斯特丹安靜，自然史博物館裡有真的霸王龍。</p><dl class="g-facts"><dt>交通</dt><dd>海牙 ↔ 萊登火車約 15 分鐘</dd><dt>特產</dt><dd>印尼菜，海牙的印尼社群很大</dd></dl></div>
-    <div class="g-eat"><div class="label">一定要吃</div><ul class="dishes"><li><b>印尼菜</b><i>Rijsttafel</i><span>海牙的巴東菜、沙爹、印尼飯桌都很道地。</span></li></ul></div>
+    <div class="g-story"><p>海牙是政府和國王辦公的城市，莫瑞泰斯美術館有《戴珍珠耳環的少女》。萊登有荷蘭最古老的大學，也是林布蘭的出生地。</p><dl class="g-facts"><dt>交通</dt><dd>海牙 ↔ 萊登火車約 15 分</dd><dt>在地味</dt><dd>海牙的印尼社群很大</dd></dl></div>
+    <div class="g-eat"><div class="label">一定要吃喝</div><ul class="dishes"><li><b>印尼菜</b><i>Rijsttafel</i><span>一桌十幾小碟，海牙最道地。</span></li><li><b>市場小吃</b><i>Haagse Markt</i><span>炸魚塊 kibbeling、各國小吃，歐洲最大的露天市場之一。</span></li></ul></div>
   </div>
-  <div class="label">推薦的店 <small>星等是 Google 評分（評論數）</small></div>
+  <div class="label">推薦的店 <small>★ 是 Google 評分；酒吧和咖啡是加碼選項</small></div>
   <ul class="places"><li class="pl">
-  <div class="pl-top"><span class="badge b-alt">備選</span><span class="when">12/9</span></div>
-  <div class="pl-name">T&amp;C Haus</div>
-  <div class="pl-dish">紅燒牛肉麵</div>
-  <div class="pl-why">有人說是全荷蘭最好吃</div>
-  <div class="pl-note">也有人說像泡麵、€17 不值得</div>
-  <a class="pin" href="https://www.google.com/maps/search/?api=1&amp;query=T%26C+Haus+Den+Haag" target="_blank" rel="noopener">地圖</a>
+  <div class="pl-top"><span class="badge b-top">首選</span><span class="when">12/9</span></div>
+  <div class="pl-name">Haagse Markt</div>
+  <div class="pl-dish">市場小吃</div>
+  <div class="pl-why">週一三五六開，入口在飯店那條街</div>
+  <a class="pin" href="https://www.google.com/maps/search/?api=1&amp;query=Haagse+Markt+Den+Haag" target="_blank" rel="noopener">地圖</a>
 </li><li class="pl">
   <div class="pl-top"><span class="badge b-top">首選</span><span class="when">12/9</span></div>
   <div class="pl-name">Waroeng Padang Lapek</div>
   <div class="pl-dish">印尼巴東菜</div>
-  <div class="pl-why">表上原本的首選</div>
-  
+  <div class="pl-why">晚上回海牙吃</div>
   <a class="pin" href="https://www.google.com/maps/search/?api=1&amp;query=Waroeng+Padang+Lapek+Den+Haag" target="_blank" rel="noopener">地圖</a>
 </li><li class="pl">
   <div class="pl-top"><span class="badge b-top">首選</span><span class="when">12/10</span></div>
   <div class="pl-name">Stadsbakkerij Water &amp; Bloem</div>
-  <div class="pl-dish">麵包</div>
-  <div class="pl-why">4.9（294）· 萊登</div>
-  
+  <div class="pl-dish">麵包<span class="star">★ 4.9</span></div>
+  <div class="pl-why">萊登老城</div>
   <a class="pin" href="https://www.google.com/maps/search/?api=1&amp;query=Stadsbakkerij+Water+%26+Bloem+Leiden" target="_blank" rel="noopener">地圖</a>
 </li></ul>
 </section>
 <section class="guide" id="g-rtm" style="--c: var(--c-rtm)">
   <header class="g-head"><span class="g-dates">12/11–12/12</span><h3>鹿特丹</h3></header>
   <div class="g-body">
-    <div class="g-story"><p>1940 年的轟炸幾乎把市中心夷為平地。戰後鹿特丹沒有復原舊城，而是大膽蓋新建築，所以現在是荷蘭最現代的城市：方塊屋、馬蹄形的 Markthal、天鵝橋都是代表。</p><p>鹿特丹港是歐洲最大的港口。南岸的 Katendrecht 以前是水手區，現在是餐廳酒吧聚集地；Delfshaven 是少數沒被炸毀的老港。</p><dl class="g-facts"><dt>交通</dt><dd>海牙 → 鹿特丹火車約 25 分鐘</dd><dt>特產</dt><dd>Markthal 小吃、蘋果派</dd></dl></div>
-    <div class="g-eat"><div class="label">一定要吃</div><ul class="dishes"><li><b>蘋果派</b><i>Appeltaart</i><span>Dudok 公認是鹿特丹最有名的蘋果派。</span></li><li><b>地瓜薯條</b><i>Zoete friet</i><span>住荷蘭的人推 Ter Marsch。</span></li></ul></div>
+    <div class="g-story"><p>1940 年的轟炸幾乎把市中心夷平，戰後鹿特丹沒有復原，而是大膽蓋新建築：方塊屋、Markthal、天鵝橋、鏡面倉庫都在這。</p><dl class="g-facts"><dt>交通</dt><dd>海牙 → 鹿特丹約 25 分</dd><dt>拍照</dt><dd>Depot Boijmans 頂樓、天鵝橋</dd></dl></div>
+    <div class="g-eat"><div class="label">一定要吃喝</div><ul class="dishes"><li><b>蘋果派</b><i>Appeltaart</i><span>Dudok 公認全城最有名。</span></li><li><b>地瓜薯條</b><i>Zoete friet</i><span>住荷蘭的人推 Ter Marsch。</span></li></ul></div>
   </div>
-  <div class="label">推薦的店 <small>星等是 Google 評分（評論數）</small></div>
+  <div class="label">推薦的店 <small>★ 是 Google 評分；酒吧和咖啡是加碼選項</small></div>
   <ul class="places"><li class="pl">
   <div class="pl-top"><span class="badge b-top">首選</span><span class="when">12/11</span></div>
   <div class="pl-name">Dudok</div>
-  <div class="pl-dish">蘋果派</div>
-  <div class="pl-why">4.2（6,036）</div>
-  
+  <div class="pl-dish">蘋果派<span class="star">★ 4.2</span></div>
+  <div class="pl-why">Markthal 走過去幾分鐘</div>
   <a class="pin" href="https://www.google.com/maps/search/?api=1&amp;query=Dudok+Meent+Rotterdam" target="_blank" rel="noopener">地圖</a>
 </li><li class="pl">
   <div class="pl-top"><span class="badge b-top">首選</span><span class="when">12/11</span></div>
   <div class="pl-name">The Duck Truck</div>
-  <div class="pl-dish">鴨肉漢堡</div>
-  <div class="pl-why">4.6（498）· Markthal 裡</div>
-  
+  <div class="pl-dish">鴨肉漢堡<span class="star">★ 4.6</span></div>
+  <div class="pl-why">Markthal 裡</div>
   <a class="pin" href="https://www.google.com/maps/search/?api=1&amp;query=The+Duck+Truck+Markthal+Rotterdam" target="_blank" rel="noopener">地圖</a>
+</li><li class="pl">
+  <div class="pl-top"><span class="badge b-snack">咖啡</span><span class="when">12/12</span></div>
+  <div class="pl-name">Man Met Bril</div>
+  <div class="pl-dish">咖啡</div>
+  <div class="pl-why">舊鐵道橋下的烘豆店</div>
+  <a class="pin" href="https://www.google.com/maps/search/?api=1&amp;query=Man+Met+Bril+Koffie+Rotterdam" target="_blank" rel="noopener">地圖</a>
 </li><li class="pl">
   <div class="pl-top"><span class="badge b-top">首選</span><span class="when">12/12</span></div>
   <div class="pl-name">Ter Marsch &amp; Co</div>
-  <div class="pl-dish">地瓜薯條</div>
-  <div class="pl-why">4.4（2,557）· 就在 CityHub 旁</div>
-  
+  <div class="pl-dish">地瓜薯條<span class="star">★ 4.4</span></div>
+  <div class="pl-why">就在 CityHub 旁</div>
   <a class="pin" href="https://www.google.com/maps/search/?api=1&amp;query=Ter+Marsch+%26+Co+Rotterdam" target="_blank" rel="noopener">地圖</a>
 </li><li class="pl">
   <div class="pl-top"><span class="badge b-top">首選</span><span class="when">12/12</span></div>
   <div class="pl-name">SHIN</div>
-  <div class="pl-dish">日本料理</div>
-  <div class="pl-why">4.7（781）</div>
-  
+  <div class="pl-dish">日本料理<span class="star">★ 4.7</span></div>
+  <div class="pl-why">最後一晚好好吃</div>
   <a class="pin" href="https://www.google.com/maps/search/?api=1&amp;query=SHIN+True+Japanese+Flavours+Rotterdam" target="_blank" rel="noopener">地圖</a>
 </li></ul>
 </section>
 <section class="guide" id="g-bru" style="--c: var(--c-bru)">
   <header class="g-head"><span class="g-dates">12/13–12/14</span><h3>布魯日</h3></header>
   <div class="g-body">
-    <div class="g-story"><p>中世紀時布魯日是北歐最重要的貿易港，靠布料生意致富。15 世紀水道淤積、商人離開，城市沒落，卻因此把中世紀街景完整留下，2000 年老城整區列入世界遺產。</p><p>運河繞老城一圈，景點幾乎都走得到。冬天遊船多半停駛，但有聖誕市集和夜晚燈光，老城反而更有氣氛。</p><dl class="g-facts"><dt>謝謝</dt><dd>Dank u wel</dd><dt>怎麼走</dt><dd>車站走到 Markt 約 20 分鐘</dd><dt>特產</dt><dd>巧克力、蕾絲、Brugse Zot 啤酒</dd></dl></div>
-    <div class="g-eat"><div class="label">一定要吃</div><ul class="dishes"><li><b>淡菜鍋</b><i>Mosselen</i><span>整鍋上桌附薯條，一鍋約 1.2 公斤，兩人一鍋就夠。</span></li><li><b>啤酒燉牛肉</b><i>Stoofvlees</i><span>深色啤酒慢燉，醬汁沾薯條剛好。</span></li><li><b>薯條</b><i>Frieten</i><span>鐘樓前兩台綠色薯條車是布魯日的象徵。</span></li><li><b>巧克力</b><i>Pralines</i><span>The Chocolate Line 被選為全比利時最好的巧克力店。</span></li></ul></div>
+    <div class="g-story"><p>中世紀北歐最重要的貿易港，水道淤積後沒落，反而把整座老城原封不動留下來，2000 年列入世界遺產。冬天遊船多半停駛，但聖誕市集和夜晚燈光讓老城更有氣氛。</p><dl class="g-facts"><dt>謝謝</dt><dd>Dank u wel</dd><dt>乾杯</dt><dd>Santé／Proost</dd><dt>走路</dt><dd>車站到 Markt 約 20 分</dd></dl></div>
+    <div class="g-eat"><div class="label">一定要吃喝</div><ul class="dishes"><li><b>淡菜鍋</b><i>Mosselen</i><span>一鍋約 1.2 公斤附薯條，兩人一鍋就夠。</span></li><li><b>啤酒燉牛肉</b><i>Stoofvlees</i><span>深色啤酒慢燉，醬汁沾薯條。</span></li><li><b>薯條</b><i>Frieten</i><span>鐘樓前的綠色薯條車是城市象徵。</span></li><li><b>巧克力</b><i>Pralines</i><span>The Chocolate Line 是 2023 年全比利時最佳。</span></li></ul></div>
   </div>
-  <div class="label">推薦的店 <small>星等是 Google 評分（評論數）</small></div>
+  <div class="label">推薦的店 <small>★ 是 Google 評分；酒吧和咖啡是加碼選項</small></div>
   <ul class="places"><li class="pl">
   <div class="pl-top"><span class="badge b-top">首選</span><span class="when">12/13</span></div>
   <div class="pl-name">Cambrinus</div>
-  <div class="pl-dish">啤酒燉牛肉</div>
-  <div class="pl-why">約 400 款啤酒 · 週日有開</div>
-  <div class="pl-note">一定要先訂位</div>
+  <div class="pl-dish">啤酒燉牛肉<span class="star">★ 4.3</span></div>
+  <div class="pl-why">約 400 款啤酒，週日有開</div>
   <a class="pin" href="https://www.google.com/maps/search/?api=1&amp;query=Bierbrasserie+Cambrinus+Brugge" target="_blank" rel="noopener">地圖</a>
 </li><li class="pl">
   <div class="pl-top"><span class="badge b-top">首選</span><span class="when">12/14</span></div>
   <div class="pl-name">Breydel De Coninc</div>
-  <div class="pl-dish">淡菜鍋</div>
-  <div class="pl-why">鎮上淡菜口碑最好 · 週三休</div>
-  <div class="pl-note">價位偏高</div>
+  <div class="pl-dish">淡菜鍋<span class="star">★ 4.1</span></div>
+  <div class="pl-why">鎮上淡菜口碑最好，週三休</div>
   <a class="pin" href="https://www.google.com/maps/search/?api=1&amp;query=Breydel+De+Coninc+Brugge" target="_blank" rel="noopener">地圖</a>
-</li><li class="pl">
-  <div class="pl-top"><span class="badge b-alt">備選</span><span class="when">12/14</span></div>
-  <div class="pl-name">De Gastro</div>
-  <div class="pl-dish">淡菜鍋</div>
-  <div class="pl-why">家庭經營小館</div>
-  
-  <a class="pin" href="https://www.google.com/maps/search/?api=1&amp;query=De+Gastro+Brugge" target="_blank" rel="noopener">地圖</a>
-</li><li class="pl">
-  <div class="pl-top"><span class="badge b-top">首選</span><span class="when">12/14</span></div>
-  <div class="pl-name">&#x27;t Brugs Beertje</div>
-  <div class="pl-dish">比利時啤酒</div>
-  <div class="pl-why">4.6（1,500+）· 約 300 款</div>
-  <div class="pl-note">16:00 開，週三休</div>
-  <a class="pin" href="https://www.google.com/maps/search/?api=1&amp;query=t+Brugs+Beertje+Kemelstraat+5+Brugge" target="_blank" rel="noopener">地圖</a>
-</li><li class="pl">
-  <div class="pl-top"><span class="badge b-top">首選</span><span class="when">12/14</span></div>
-  <div class="pl-name">The Chocolate Line</div>
-  <div class="pl-dish">巧克力</div>
-  <div class="pl-why">2023 年全比利時最佳巧克力店</div>
-  <div class="pl-note">週一 10:30–18:30</div>
-  <a class="pin" href="https://www.google.com/maps/search/?api=1&amp;query=The+Chocolate+Line+Simon+Stevinplein+Brugge" target="_blank" rel="noopener">地圖</a>
 </li><li class="pl">
   <div class="pl-top"><span class="badge b-snack">點心</span><span class="when">12/14</span></div>
   <div class="pl-name">Chez Albert</div>
   <div class="pl-dish">鬆餅</div>
   <div class="pl-why">剛烤好的原味最好吃</div>
-  
   <a class="pin" href="https://www.google.com/maps/search/?api=1&amp;query=Chez+Albert+Brugge" target="_blank" rel="noopener">地圖</a>
+</li><li class="pl">
+  <div class="pl-top"><span class="badge b-top">首選</span><span class="when">12/14</span></div>
+  <div class="pl-name">The Chocolate Line</div>
+  <div class="pl-dish">巧克力</div>
+  <div class="pl-why">2023 年全比利時最佳巧克力店</div>
+  <a class="pin" href="https://www.google.com/maps/search/?api=1&amp;query=The+Chocolate+Line+Simon+Stevinplein+Brugge" target="_blank" rel="noopener">地圖</a>
+</li><li class="pl">
+  <div class="pl-top"><span class="badge b-bar">酒吧</span><span class="when">12/14</span></div>
+  <div class="pl-name">&#x27;t Brugs Beertje</div>
+  <div class="pl-dish">比利時啤酒<span class="star">★ 4.6</span></div>
+  <div class="pl-why">約 300 款，16:00 開，週三休</div>
+  <a class="pin" href="https://www.google.com/maps/search/?api=1&amp;query=t+Brugs+Beertje+Kemelstraat+5+Brugge" target="_blank" rel="noopener">地圖</a>
+</li><li class="pl">
+  <div class="pl-top"><span class="badge b-bar">酒吧</span><span class="when">12/14</span></div>
+  <div class="pl-name">Le Trappiste</div>
+  <div class="pl-dish">修道院啤酒</div>
+  <div class="pl-why">中世紀地窖改的酒吧</div>
+  <a class="pin" href="https://www.google.com/maps/search/?api=1&amp;query=Le+Trappiste+Brugge" target="_blank" rel="noopener">地圖</a>
+</li><li class="pl">
+  <div class="pl-top"><span class="badge b-bar">酒吧</span></div>
+  <div class="pl-name">De Halve Maan</div>
+  <div class="pl-dish">Brugse Zot</div>
+  <div class="pl-why">老城裡的家族酒廠，導覽 €16 含一杯</div>
+  <a class="pin" href="https://www.google.com/maps/search/?api=1&amp;query=De+Halve+Maan+Brugge" target="_blank" rel="noopener">地圖</a>
+</li><li class="pl">
+  <div class="pl-top"><span class="badge b-alt">備選</span></div>
+  <div class="pl-name">Poules Moules</div>
+  <div class="pl-dish">淡菜鍋<span class="star">★ 4.3</span></div>
+  <div class="pl-why">Breydel 客滿就來這</div>
+  <a class="pin" href="https://www.google.com/maps/search/?api=1&amp;query=Poules+Moules+Brugge" target="_blank" rel="noopener">地圖</a>
 </li></ul>
 </section>
 <section class="guide" id="g-bxl" style="--c: var(--c-bxl)">
   <header class="g-head"><span class="g-dates">12/15 白天</span><h3>布魯塞爾</h3></header>
   <div class="g-body">
-    <div class="g-story"><p>比利時首都，也是歐盟總部所在地。法語和荷蘭語雙語，所以 Bruxelles-Midi 和 Brussel-Zuid 是同一個車站。</p><p>大廣場四周是 17 世紀末重建的公會建築，1998 年列入世界遺產。這裡也是丁丁的故鄉，只停半天，集中在大廣場到 Sablon 就夠了。</p><dl class="g-facts"><dt>謝謝</dt><dd>Merci</dd><dt>車站</dt><dd>Midi 停國際列車，Central 離大廣場最近</dd></dl></div>
-    <div class="g-eat"><div class="label">一定要吃</div><ul class="dishes"><li><b>薯條</b><i>Frites</i><span>炸兩次，醬料可以試 andalouse。</span></li><li><b>鬆餅</b><i>Gaufre</i><span>長方形的是布魯塞爾式，圓形有珍珠糖的是列日式。</span></li><li><b>焦糖餅乾</b><i>Speculoos</i><span>最好帶的伴手禮。</span></li></ul></div>
+    <div class="g-story"><p>比利時首都、歐盟總部所在地，法語和荷蘭語雙語，所以 Bruxelles-Midi 和 Brussel-Zuid 是同一個站。也是丁丁的故鄉。</p><dl class="g-facts"><dt>謝謝</dt><dd>Merci</dd><dt>乾杯</dt><dd>Santé</dd><dt>車站</dt><dd>Midi 停國際列車，Central 離大廣場最近</dd></dl></div>
+    <div class="g-eat"><div class="label">一定要吃喝</div><ul class="dishes"><li><b>薯條</b><i>Frites</i><span>炸兩次，醬料試試 andalouse。</span></li><li><b>Kriek</b><i>櫻桃啤酒</i><span>酸甜的布魯塞爾特產。</span></li><li><b>鬆餅</b><i>Gaufre</i><span>長方形是布魯塞爾式，圓形有珍珠糖的是列日式。</span></li></ul></div>
   </div>
-  <div class="label">推薦的店 <small>星等是 Google 評分（評論數）</small></div>
+  <div class="label">推薦的店 <small>★ 是 Google 評分；酒吧和咖啡是加碼選項</small></div>
   <ul class="places"><li class="pl">
   <div class="pl-top"><span class="badge b-top">首選</span><span class="when">12/15</span></div>
-  <div class="pl-name">Noordzee／Mer du Nord</div>
-  <div class="pl-dish">海鮮攤</div>
-  <div class="pl-why">Google 4.6（近 4,800）</div>
-  <div class="pl-note">週一休；中午人多</div>
+  <div class="pl-name">Noordzee</div>
+  <div class="pl-dish">海鮮攤<span class="star">★ 4.6</span></div>
+  <div class="pl-why">站著吃，週一休</div>
   <a class="pin" href="https://www.google.com/maps/search/?api=1&amp;query=Noordzee+Mer+du+Nord+Brussels" target="_blank" rel="noopener">地圖</a>
 </li><li class="pl">
   <div class="pl-top"><span class="badge b-snack">點心</span><span class="when">12/15</span></div>
   <div class="pl-name">Fritland</div>
   <div class="pl-dish">薯條</div>
   <div class="pl-why">離大廣場最近的人氣店</div>
-  
   <a class="pin" href="https://www.google.com/maps/search/?api=1&amp;query=Fritland+Brussels" target="_blank" rel="noopener">地圖</a>
 </li><li class="pl">
-  <div class="pl-top"><span class="badge b-snack">點心</span><span class="when">12/15</span></div>
-  <div class="pl-name">Maison Dandoy</div>
-  <div class="pl-dish">焦糖餅乾</div>
-  <div class="pl-why">老字號</div>
-  <div class="pl-note">鬆餅評價兩極</div>
-  <a class="pin" href="https://www.google.com/maps/search/?api=1&amp;query=Maison+Dandoy+Grand+Place+Brussels" target="_blank" rel="noopener">地圖</a>
+  <div class="pl-top"><span class="badge b-bar">酒吧</span><span class="when">12/15</span></div>
+  <div class="pl-name">À La Mort Subite</div>
+  <div class="pl-dish">kriek</div>
+  <div class="pl-why">1928 年的老酒館</div>
+  <a class="pin" href="https://www.google.com/maps/search/?api=1&amp;query=A+La+Mort+Subite+Brussels" target="_blank" rel="noopener">地圖</a>
 </li><li class="pl">
-  <div class="pl-top"><span class="badge b-top">首選</span><span class="when">12/15</span></div>
+  <div class="pl-top"><span class="badge b-snack">咖啡</span><span class="when">12/15</span></div>
   <div class="pl-name">BARKBOY</div>
-  <div class="pl-dish">咖啡</div>
-  <div class="pl-why">約 4.7 · Threads 實測抹茶拿鐵滿分</div>
-  <div class="pl-note">出餐可能慢</div>
+  <div class="pl-dish">咖啡<span class="star">★ 4.7</span></div>
+  <div class="pl-why">中央車站旁</div>
   <a class="pin" href="https://www.google.com/maps/search/?api=1&amp;query=Barkboy+Cantersteen+55+Brussels" target="_blank" rel="noopener">地圖</a>
 </li></ul>
 </section>
 <section class="guide" id="g-kol" style="--c: var(--c-kol)">
   <header class="g-head"><span class="g-dates">12/15 晚–12/16</span><h3>科隆</h3></header>
   <div class="g-body">
-    <div class="g-story"><p>德國第四大城。羅馬人在西元 1 世紀就在這裡建城，城名來自拉丁文 Colonia。大教堂 1248 年動工，到 1880 年才完工，二戰時市區大半被炸毀，大教堂卻挺了下來。</p><p>「古龍水」就是「科隆之水」的意思。科隆人隨和愛熱鬧，啤酒屋文化是這座城市的日常。</p><dl class="g-facts"><dt>謝謝</dt><dd>Danke</dd><dt>車站</dt><dd>中央車站一出來就是大教堂</dd><dt>飯店</dt><dd>Rudolfplatz，老城西邊</dd></dl></div>
-    <div class="g-eat"><div class="label">一定要吃</div><ul class="dishes"><li><b>Kölsch</b><i>0.2 L Stange</i><span>小杯清爽啤酒，空了服務生會自動補，蓋杯墊表示不要了。</span></li><li><b>酸菜燉豬腳</b><i>Hämchen</i><span>科隆式是水煮的，軟嫩，配酸菜和馬鈴薯泥。</span></li><li><b>半隻雞</b><i>Halve Hahn</i><span>其實是黑麥麵包配起司，不是雞。</span></li><li><b>馬鈴薯煎餅</b><i>Reibekuchen</i><span>聖誕市集必吃，配蘋果泥。</span></li></ul></div>
+    <div class="g-story"><p>羅馬人建的城，城名來自拉丁文 Colonia。大教堂蓋了 600 多年，二戰時市區大半被炸毀，大教堂卻挺了下來。「古龍水」就是「科隆之水」。</p><dl class="g-facts"><dt>謝謝</dt><dd>Danke</dd><dt>乾杯</dt><dd>Prost</dd><dt>飯店</dt><dd>Rudolfplatz，比利時區旁</dd></dl></div>
+    <div class="g-eat"><div class="label">一定要吃喝</div><ul class="dishes"><li><b>Kölsch</b><i>0.2 L 小杯</i><span>空了會自動補，蓋杯墊才會停。</span></li><li><b>酸菜燉豬腳</b><i>Hämchen</i><span>科隆是水煮的，軟嫩。</span></li><li><b>Halve Hahn</b><i>「半隻雞」</i><span>其實是黑麥麵包配起司，沒有雞。</span></li><li><b>馬鈴薯煎餅</b><i>Reibekuchen</i><span>市集必吃，配蘋果泥。</span></li></ul></div>
   </div>
-  <div class="label">推薦的店 <small>星等是 Google 評分（評論數）</small></div>
+  <div class="label">推薦的店 <small>★ 是 Google 評分；酒吧和咖啡是加碼選項</small></div>
   <ul class="places"><li class="pl">
   <div class="pl-top"><span class="badge b-done">已決定</span><span class="when">12/15</span></div>
   <div class="pl-name">Päffgen</div>
-  <div class="pl-dish">烤啤酒豬腳＋Halven Hahn</div>
-  <div class="pl-why">讀者票選第一 · 離飯店 10 分</div>
-  <div class="pl-note">只接受電話訂位</div>
+  <div class="pl-dish">烤啤酒豬腳</div>
+  <div class="pl-why">讀者票選第一，離飯店 10 分；只接受電話訂位</div>
   <a class="pin" href="https://www.google.com/maps/search/?api=1&amp;query=Brauhaus+Paeffgen+Friesenstrasse+Koeln" target="_blank" rel="noopener">地圖</a>
 </li><li class="pl">
   <div class="pl-top"><span class="badge b-done">已決定</span><span class="when">12/16</span></div>
   <div class="pl-name">Brauhaus FRÜH am Dom</div>
-  <div class="pl-dish">酸菜燉豬腳 Hämchen</div>
+  <div class="pl-dish">酸菜燉豬腳<span class="star">★ 4.2</span></div>
   <div class="pl-why">大教堂旁的經典啤酒屋</div>
-  <div class="pl-note">觀光客多</div>
   <a class="pin" href="https://www.google.com/maps/search/?api=1&amp;query=Frueh+am+Dom+Koeln" target="_blank" rel="noopener">地圖</a>
 </li><li class="pl">
   <div class="pl-top"><span class="badge b-top">首選</span><span class="when">12/16</span></div>
   <div class="pl-name">大教堂前＋Heinzels 市集</div>
-  <div class="pl-dish">馬鈴薯煎餅、熱紅酒</div>
-  <div class="pl-why">人就在市集裡</div>
-  <div class="pl-note">熱紅酒杯有押金</div>
+  <div class="pl-dish">市集晚餐</div>
+  <div class="pl-why">熱紅酒杯可以帶走當紀念</div>
   <a class="pin" href="https://www.google.com/maps/search/?api=1&amp;query=Heumarkt+Koeln" target="_blank" rel="noopener">地圖</a>
 </li><li class="pl">
-  <div class="pl-top"><span class="badge b-alt">備選</span></div>
-  <div class="pl-name">Brauerei zur Malzmühle</div>
-  <div class="pl-dish">醋燜牛肉</div>
-  <div class="pl-why">讀者票選第二</div>
-  <div class="pl-note">跟 FRÜH 太像所以改備選</div>
-  <a class="pin" href="https://www.google.com/maps/search/?api=1&amp;query=Brauerei+zur+Malzmuehle+Koeln" target="_blank" rel="noopener">地圖</a>
+  <div class="pl-top"><span class="badge b-top">首選</span><span class="when">12/15</span></div>
+  <div class="pl-name">Stadtgarten 市集</div>
+  <div class="pl-dish">獨立風聖誕市集</div>
+  <div class="pl-why">比利時區旁，比較少觀光客</div>
+  <a class="pin" href="https://www.google.com/maps/search/?api=1&amp;query=Weihnachtsmarkt+Stadtgarten+Koeln" target="_blank" rel="noopener">地圖</a>
+</li><li class="pl">
+  <div class="pl-top"><span class="badge b-snack">咖啡</span></div>
+  <div class="pl-name">The Coffee Gang</div>
+  <div class="pl-dish">精品咖啡</div>
+  <div class="pl-why">比利時區 Maastrichter Straße</div>
+  <a class="pin" href="https://www.google.com/maps/search/?api=1&amp;query=The+Coffee+Gang+Koeln" target="_blank" rel="noopener">地圖</a>
 </li></ul>
 </section>
 <section class="guide" id="g-dus" style="--c: var(--c-dus)">
   <header class="g-head"><span class="g-dates">12/17</span><h3>杜塞道夫</h3></header>
   <div class="g-body">
-    <div class="g-story"><p>北萊茵－西發利亞邦首府，以時尚、廣告和藝術聞名，國王大道是德國最有名的精品街之一。</p><p>二戰後大批日本企業進駐，形成歐洲最大的日本社群之一，Immermannstraße 一帶就是「小東京」。老城的酒吧一家接一家，被稱為「全世界最長的吧台」。</p><dl class="g-facts"><dt>怎麼去</dt><dd>科隆火車約 25–35 分鐘</dd><dt>特產</dt><dd>Altbier 深色啤酒、Löwensenf 芥末</dd></dl></div>
-    <div class="g-eat"><div class="label">一定要吃</div><ul class="dishes"><li><b>Altbier</b><i>0.25 L</i><span>深琥珀色、麥香重，在這裡千萬別點 Kölsch。</span></li><li><b>日本拉麵</b><i>Ramen</i><span>日本人開的拉麵店，中午常排隊。</span></li><li><b>烤豬腳</b><i>Schweinshaxe</i><span>外皮酥脆，跟科隆的水煮版剛好對照。</span></li></ul></div>
+    <div class="g-story"><p>時尚、廣告和藝術之城，二戰後大批日本企業進駐，形成歐洲最大的日本社群之一。老城酒吧一家接一家，被叫作「全世界最長的吧台」。</p><dl class="g-facts"><dt>交通</dt><dd>科隆火車 25–35 分</dd><dt>別做</dt><dd>別點 Kölsch</dd></dl></div>
+    <div class="g-eat"><div class="label">一定要吃喝</div><ul class="dishes"><li><b>Altbier</b><i>0.25 L</i><span>深琥珀色、麥香重。</span></li><li><b>Killepitsch</b><i>草本利口酒</i><span>老城的小杯烈酒，站著一口乾。</span></li><li><b>烤豬腳</b><i>Schweinshaxe</i><span>外皮酥脆，跟科隆的水煮版對照。</span></li></ul></div>
   </div>
-  <div class="label">推薦的店 <small>星等是 Google 評分（評論數）</small></div>
+  <div class="label">推薦的店 <small>★ 是 Google 評分；酒吧和咖啡是加碼選項</small></div>
   <ul class="places"><li class="pl">
   <div class="pl-top"><span class="badge b-top">首選</span><span class="when">12/17</span></div>
   <div class="pl-name">Takumi</div>
   <div class="pl-dish">拉麵</div>
-  <div class="pl-why">城裡最好的拉麵之一</div>
-  <div class="pl-note">店小，開門前排隊</div>
+  <div class="pl-why">開門前排隊</div>
   <a class="pin" href="https://www.google.com/maps/search/?api=1&amp;query=Takumi+Immermannstrasse+28+Duesseldorf" target="_blank" rel="noopener">地圖</a>
 </li><li class="pl">
-  <div class="pl-top"><span class="badge b-alt">備選</span><span class="when">12/17</span></div>
-  <div class="pl-name">Naniwa</div>
-  <div class="pl-dish">擔擔麵、蒜味味噌</div>
-  <div class="pl-why">1986 年開業</div>
-  
-  <a class="pin" href="https://www.google.com/maps/search/?api=1&amp;query=Naniwa+Noodles+Soups+Duesseldorf" target="_blank" rel="noopener">地圖</a>
-</li><li class="pl">
-  <div class="pl-top"><span class="badge b-snack">喝一杯</span><span class="when">12/17</span></div>
+  <div class="pl-top"><span class="badge b-bar">酒吧</span><span class="when">12/17</span></div>
   <div class="pl-name">Zum Uerige</div>
   <div class="pl-dish">Altbier</div>
   <div class="pl-why">名氣最大的 Altbier</div>
-  <div class="pl-note">只有小點心</div>
   <a class="pin" href="https://www.google.com/maps/search/?api=1&amp;query=Zum+Uerige+Duesseldorf" target="_blank" rel="noopener">地圖</a>
+</li><li class="pl">
+  <div class="pl-top"><span class="badge b-bar">酒吧</span><span class="when">12/17</span></div>
+  <div class="pl-name">Et Kabüffke</div>
+  <div class="pl-dish">Killepitsch</div>
+  <div class="pl-why">小到只能站著</div>
+  <a class="pin" href="https://www.google.com/maps/search/?api=1&amp;query=Et+Kabueffke+Duesseldorf" target="_blank" rel="noopener">地圖</a>
 </li><li class="pl">
   <div class="pl-top"><span class="badge b-top">首選</span><span class="when">12/17</span></div>
   <div class="pl-name">Brauerei im Füchschen</div>
   <div class="pl-dish">烤豬腳</div>
-  <div class="pl-why">Lonely Planet 推薦</div>
-  <div class="pl-note">不訂位</div>
+  <div class="pl-why">不接受訂位</div>
   <a class="pin" href="https://www.google.com/maps/search/?api=1&amp;query=Brauerei+im+Fuechschen+Duesseldorf" target="_blank" rel="noopener">地圖</a>
+</li><li class="pl">
+  <div class="pl-top"><span class="badge b-snack">咖啡</span></div>
+  <div class="pl-name">Rösterei VIER</div>
+  <div class="pl-dish">咖啡</div>
+  <div class="pl-why">老城 Marktplatz</div>
+  <a class="pin" href="https://www.google.com/maps/search/?api=1&amp;query=Roesterei+VIER+Marktplatz+Duesseldorf" target="_blank" rel="noopener">地圖</a>
 </li></ul>
 </section></div>
   </section>
 
   <section class="block" id="todo">
-    <div class="block-head"><div class="label">Before you go</div><h2>出發前待辦</h2><p>打勾會記在這支手機的瀏覽器裡，換手機不會同步。</p></div>
-    <div class="progress">已完成 <b id="todoCount">0</b> / 18</div>
-    <div class="todo-wrap"><div class="tgroup"><div class="label">盡早</div><ul><li><label><input type="checkbox" id="todo-1" data-todo="1"><span class="box"></span><span class="tdate">12/13</span><span class="titem">Cambrinus 晚餐訂位（啤酒燉牛肉）<small>看完球賽約 19:30 到</small></span></label></li><li><label><input type="checkbox" id="todo-2" data-todo="2"><span class="box"></span><span class="tdate">12/13</span><span class="titem">Club Brugge vs KVC Westerlo 門票<small>clubbrugge.be 官方票</small></span></label></li><li><label><input type="checkbox" id="todo-3" data-todo="3"><span class="box"></span><span class="tdate">12/18</span><span class="titem">阿姆斯特丹最後一晚住宿<small>靠近 Centraal 或 Schiphol</small></span></label></li></ul></div>
-<div class="tgroup"><div class="label">訂票</div><ul><li><label><input type="checkbox" id="todo-4" data-todo="4"><span class="box"></span><span class="tdate">12/16</span><span class="titem">科隆大教堂＋南塔 09:00<small>koelner-dom.de；塔 €8、塔＋寶物館 €12</small></span></label></li><li><label><input type="checkbox" id="todo-5" data-todo="5"><span class="box"></span><span class="tdate">12/14</span><span class="titem">布魯日鐘樓 10:00 時段票</span></label></li><li><label><input type="checkbox" id="todo-6" data-todo="6"><span class="box"></span><span class="tdate">12/10</span><span class="titem">Naturalis 自然史博物館<small>€18，每天 10:00–17:00</small></span></label></li><li><label><input type="checkbox" id="todo-7" data-todo="7"><span class="box"></span><span class="tdate">12/9</span><span class="titem">SnowWorld 17:00–20:00<small>滑雪時段＋裝備租借</small></span></label></li></ul></div>
-<div class="tgroup"><div class="label">訂位</div><ul><li><label><input type="checkbox" id="todo-8" data-todo="8"><span class="box"></span><span class="tdate">12/5</span><span class="titem">Restaurant &#x27;t Zwaantje 晚餐</span></label></li><li><label><input type="checkbox" id="todo-9" data-todo="9"><span class="box"></span><span class="tdate">12/6</span><span class="titem">Moeders 晚餐</span></label></li><li><label><input type="checkbox" id="todo-10" data-todo="10"><span class="box"></span><span class="tdate">12/15</span><span class="titem">Päffgen 晚餐（只接受電話訂位）<small>可選</small></span></label></li></ul></div>
-<div class="tgroup"><div class="label">交通</div><ul><li><label><input type="checkbox" id="todo-11" data-todo="11"><span class="box"></span><span class="tdate">12/13</span><span class="titem">Rotterdam → Brugge 火車<small>施工＋新時刻表首日，出發前一週再查</small></span></label></li><li><label><input type="checkbox" id="todo-12" data-todo="12"><span class="box"></span><span class="tdate">12/15</span><span class="titem">Brussels → Köln 16:22<small>等新時刻表開賣，選可改的票</small></span></label></li><li><label><input type="checkbox" id="todo-13" data-todo="13"><span class="box"></span><span class="tdate">12/18</span><span class="titem">Köln → Amsterdam ICE</span></label></li><li><label><input type="checkbox" id="todo-14" data-todo="14"><span class="box"></span><span class="tdate">12/9</span><span class="titem">Amsterdam Zuid → Den Haag</span></label></li></ul></div>
-<div class="tgroup"><div class="label">其他</div><ul><li><label><input type="checkbox" id="todo-15" data-todo="15"><span class="box"></span><span class="tdate">12/12</span><span class="titem">parkrun 註冊拿條碼<small>免費</small></span></label></li><li><label><input type="checkbox" id="todo-16" data-todo="16"><span class="box"></span><span class="tdate">12/19</span><span class="titem">回程轉機服務申請<small>起飛前 24 小時</small></span></label></li></ul></div>
-<div class="tgroup"><div class="label">候選</div><ul><li><label><input type="checkbox" id="todo-17" data-todo="17"><span class="box"></span><span class="tdate">12/5 或 12/7</span><span class="titem">燈光節遊船<small>步行看免費</small></span></label></li><li><label><input type="checkbox" id="todo-18" data-todo="18"><span class="box"></span><span class="tdate">12/18</span><span class="titem">Frans Hals、Teylers 門票<small>各 €18.50</small></span></label></li></ul></div></div>
+    <div class="block-head"><div class="label">Before you go</div><h2>預訂與待辦</h2><p>打勾只記在這支手機的瀏覽器裡。兩個人一起出發，建議由一個人負責打勾，訂好了在群組說一聲。</p></div>
+    <div class="progress">待辦已完成 <b id="todoCount">0</b> / 15</div>
+    <div class="todo-wrap"><div class="tgroup"><div class="label">待訂</div><ul><li><label><input type="checkbox" id="todo-1" data-todo="1"><span class="box"></span><span class="tdate">12/13</span><span class="titem">Club Brugge vs KVC Westerlo 門票<small>clubbrugge.be 官方票；開球時間以官方為準</small></span></label></li><li><label><input type="checkbox" id="todo-2" data-todo="2"><span class="box"></span><span class="tdate">12/13</span><span class="titem">Cambrinus 晚餐訂位<small>看完球約 19:30 到</small></span></label></li><li><label><input type="checkbox" id="todo-3" data-todo="3"><span class="box"></span><span class="tdate">12/18</span><span class="titem">阿姆斯特丹最後一晚住宿<small>Centraal 附近</small></span></label></li><li><label><input type="checkbox" id="todo-4" data-todo="4"><span class="box"></span><span class="tdate">12/16</span><span class="titem">科隆大教堂＋南塔 09:00<small>koelner-dom.de；塔 €8、塔＋寶物館 €12</small></span></label></li><li><label><input type="checkbox" id="todo-5" data-todo="5"><span class="box"></span><span class="tdate">12/14</span><span class="titem">布魯日鐘樓 10:00 時段票</span></label></li><li><label><input type="checkbox" id="todo-6" data-todo="6"><span class="box"></span><span class="tdate">12/10</span><span class="titem">Naturalis 自然史博物館<small>€18</small></span></label></li><li><label><input type="checkbox" id="todo-7" data-todo="7"><span class="box"></span><span class="tdate">12/9</span><span class="titem">SnowWorld 17:00–20:00<small>滑雪時段＋裝備租借</small></span></label></li><li><label><input type="checkbox" id="todo-8" data-todo="8"><span class="box"></span><span class="tdate">12/5</span><span class="titem">Restaurant &#x27;t Zwaantje 晚餐訂位</span></label></li><li><label><input type="checkbox" id="todo-9" data-todo="9"><span class="box"></span><span class="tdate">12/6</span><span class="titem">Moeders 晚餐訂位</span></label></li><li><label><input type="checkbox" id="todo-10" data-todo="10"><span class="box"></span><span class="tdate">12/15</span><span class="titem">Brussels → Köln 16:22 車票<small>新時刻表的票通常已開賣，現在就查；選可改的票</small></span></label></li><li><label><input type="checkbox" id="todo-11" data-todo="11"><span class="box"></span><span class="tdate">12/18</span><span class="titem">Köln → Amsterdam ICE</span></label></li><li><label><input type="checkbox" id="todo-12" data-todo="12"><span class="box"></span><span class="tdate">12/13</span><span class="titem">Rotterdam → Brugge 火車<small>施工日，出發前一週再確認</small></span></label></li><li><label><input type="checkbox" id="todo-13" data-todo="13"><span class="box"></span><span class="tdate">12/15</span><span class="titem">Päffgen 晚餐電話訂位<small>建議</small></span></label></li></ul></div>
+<div class="tgroup"><div class="label">待確認</div><ul><li><label><input type="checkbox" id="todo-14" data-todo="14"><span class="box"></span><span class="tdate">12/12</span><span class="titem">parkrun 註冊拿條碼<small>免費</small></span></label></li><li><label><input type="checkbox" id="todo-15" data-todo="15"><span class="box"></span><span class="tdate">12/19</span><span class="titem">回程轉機服務申請<small>起飛前 24 小時</small></span></label></li></ul></div>
+<div class="tgroup"><div class="label">已訂</div><ul><li class="static done"><span class="sicon">✓</span><span class="tdate">12/6</span><span class="titem">安妮之家 16:45–17:00，2 張<small>16:30 前到</small></span></li><li class="static done"><span class="sicon">✓</span><span class="tdate">12/7</span><span class="titem">國家博物館 15:00</span></li></ul></div>
+<div class="tgroup"><div class="label">當天買</div><ul><li class="static "><span class="sicon">→</span><span class="tdate">—</span><span class="titem">荷蘭境內火車、電車<small>刷信用卡進出（OVpay）</small></span></li><li class="static "><span class="sicon">→</span><span class="tdate">12/17</span><span class="titem">Köln ↔ Düsseldorf 區域火車<small>DB App</small></span></li></ul></div></div>
   </section>
 
   <section class="block" id="info">
@@ -889,43 +1056,53 @@ footer { padding-block: 40px 60px; color: var(--muted); font-size: 13px; }
       <div class="card">
         <div class="label">12 月天氣</div>
         <div class="big">0–7°C</div>
-        <ul><li>常下雨、風大，體感比溫度冷。</li><li>日出約 08:45，日落約 16:30，下午四點多天就黑了，戶外景點排在白天。</li><li>聖誕市集晚上最好看。</li></ul>
+        <ul><li>常下雨、風大，體感比溫度冷。</li><li>日出約 08:45，日落約 16:30，戶外行程排在白天。</li><li>聖誕市集晚上最好看。</li></ul>
       </div>
       <div class="card">
         <div class="label">要帶</div>
         <h3>行李清單</h3>
-        <ul><li>防風防水外套，裡面洋蔥式穿法</li><li>好走的防水鞋（石板路多）</li><li>毛帽、手套、圍巾</li><li>摺疊傘</li><li>歐規插頭轉接頭（Type C／F，230V）</li><li>跑步裝備（12/7、12/12、12/14、12/17 有晨跑）</li></ul>
+        <ul><li>防風防水外套，裡面洋蔥式穿法</li><li>好走的防水鞋，石板路很多</li><li>毛帽、手套、圍巾、摺疊傘</li><li>歐規轉接頭（Type C／F，230V）</li><li>跑步裝備：12/7、12/12、12/14、12/17 有晨跑</li><li>12/9 滑雪：手套、厚襪，雪衣雪鞋可以現場租</li></ul>
       </div>
       <div class="card">
         <div class="label">付款與交通</div>
         <h3>錢和 App</h3>
-        <ul><li>幾乎都能刷卡；少數老啤酒屋只收現金，帶一點歐元。</li><li>荷蘭的火車和電車可以直接刷信用卡進出（OVpay），出站也要刷。</li><li>App：NS（荷蘭）、SNCB（比利時）、DB Navigator（德國）、Google Maps。</li></ul>
+        <ul><li>幾乎都能刷卡；少數老啤酒屋只收現金，帶一點歐元。</li><li>荷蘭火車、電車直接刷信用卡進出（OVpay），出站也要刷。</li><li>App：NS（荷蘭）、SNCB（比利時）、DB Navigator（德國）、Google Maps。</li><li>把這頁加到手機主畫面，收訊差的時候比較好開。</li></ul>
       </div>
-      <div class="card" style="grid-column: 1 / -1;">
+      <div class="card wide">
         <div class="label">火車一覽</div>
-        <div class="tablewrap"><table><thead><tr><th>日期</th><th>路段</th><th>車程</th><th>備註</th></tr></thead><tbody><tr><td class='mono'>12/5</td><td>Schiphol → 市區</td><td class='mono'>15–20 分</td><td>NS，刷卡進出</td></tr><tr><td class='mono'>12/8</td><td>Amsterdam ↔ Utrecht</td><td class='mono'>35–45 分</td><td>NS</td></tr><tr><td class='mono'>12/9</td><td>Amsterdam Zuid → Den Haag</td><td class='mono'>45–50 分</td><td>NS，可能在 Schiphol 轉車</td></tr><tr><td class='mono'>12/10</td><td>Den Haag ↔ Leiden</td><td class='mono'>15 分</td><td>NS</td></tr><tr><td class='mono'>12/11</td><td>Den Haag → Rotterdam</td><td class='mono'>25 分</td><td>NS</td></tr><tr><td class='mono'>12/13</td><td>Rotterdam → Brugge</td><td class='mono'>2h10–2h45</td><td>經 Brussel-Zuid 轉 1 次；施工日</td></tr><tr><td class='mono'>12/15</td><td>Brugge → Bruxelles-Midi</td><td class='mono'>約 1 小時</td><td>SNCB IC 直達</td></tr><tr><td class='mono'>12/15</td><td>Bruxelles-Midi → Köln</td><td class='mono'>約 1h53</td><td>ICE／Eurostar，等新時刻表</td></tr><tr><td class='mono'>12/17</td><td>Köln ↔ Düsseldorf</td><td class='mono'>25–35 分</td><td>DB 區域車，當天買</td></tr><tr><td class='mono'>12/18</td><td>Köln → Amsterdam</td><td class='mono'>2h40–3h</td><td>ICE，再轉車到 Haarlem</td></tr><tr><td class='mono'>12/19</td><td>市區 → Schiphol</td><td class='mono'>15–20 分</td><td>NS</td></tr></tbody></table></div>
+        <div class="tablewrap"><table><thead><tr><th>日期</th><th>路段</th><th>車程</th><th>備註</th></tr></thead><tbody><tr><td class='mono'>12/5</td><td>Schiphol → 市區</td><td class='mono'>15–20 分</td><td>NS，刷卡進出</td></tr><tr><td class='mono'>12/8</td><td>Amsterdam ↔ Utrecht</td><td class='mono'>35–45 分</td><td>NS</td></tr><tr><td class='mono'>12/9</td><td>Amsterdam Zuid → Den Haag</td><td class='mono'>45–50 分</td><td>NS，可能在 Schiphol 轉車</td></tr><tr><td class='mono'>12/10</td><td>Den Haag ↔ Leiden</td><td class='mono'>15 分</td><td>NS</td></tr><tr><td class='mono'>12/11</td><td>Den Haag → Rotterdam</td><td class='mono'>25 分</td><td>NS</td></tr><tr><td class='mono'>12/13</td><td>Rotterdam → Brugge</td><td class='mono'>2h10–2h45</td><td>在 Brussel-Zuid（Midi）轉 1 次；施工日</td></tr><tr><td class='mono'>12/15</td><td>Brugge → Brussel-Zuid（Midi）</td><td class='mono'>約 1 小時</td><td>SNCB IC 直達</td></tr><tr><td class='mono'>12/15</td><td>Brussel-Zuid（Midi）→ Köln</td><td class='mono'>約 1h53</td><td>ICE，備選 17:25</td></tr><tr><td class='mono'>12/17</td><td>Köln ↔ Düsseldorf</td><td class='mono'>25–35 分</td><td>DB 區域車，當天買</td></tr><tr><td class='mono'>12/18</td><td>Köln → Amsterdam Centraal</td><td class='mono'>約 2h40</td><td>ICE</td></tr><tr><td class='mono'>12/18</td><td>Amsterdam ↔ Haarlem</td><td class='mono'>15 分</td><td>NS</td></tr><tr><td class='mono'>12/19</td><td>Centraal → Schiphol</td><td class='mono'>15 分</td><td>NS</td></tr></tbody></table></div>
+      </div>
+      <div class="card wide">
+        <div class="label">營業日檢查</div>
+        <h3>休館日都避開了</h3>
+        <div class="tablewrap"><table><thead><tr><th>地方</th><th>要注意</th><th>我們去的時間</th></tr></thead><tbody><tr><td>Albert Cuyp 市場</td><td>週日休</td><td>12/7 週一 ✓</td></tr><tr><td>Haagse Markt</td><td>只開週一、三、五、六</td><td>12/9 週三 ✓</td></tr><tr><td>Kaasbar Utrecht</td><td>平日 17:00 才開</td><td>12/8 晚餐 ✓</td></tr><tr><td>Breydel De Coninc</td><td>週三休</td><td>12/14 週一 ✓</td></tr><tr><td>&#x27;t Brugs Beertje</td><td>週三休、16:00 開</td><td>12/14 週一 ✓</td></tr><tr><td>DEES</td><td>週一可能休</td><td>12/14 週一 ⚠️ 先查</td></tr><tr><td>Noordzee</td><td>週一休</td><td>12/15 週二 ✓</td></tr><tr><td>巧克力博物館</td><td>冬季週一休</td><td>12/16 週三 ✓</td></tr><tr><td>科隆大教堂前市集</td><td>開到 12/23</td><td>12/16 ✓</td></tr><tr><td>KölnTriangle</td><td>冬季 11:00–20:00</td><td>12/16 16:00 ✓</td></tr><tr><td>Takumi</td><td>平日 12:00 開</td><td>12/17 週四 ✓</td></tr></tbody></table></div>
+      </div>
+      <div class="card wide">
+        <div class="label">Plan B</div>
+        <h3>出狀況怎麼辦</h3>
+        <ul><li><b>下雨天</b>：阿姆斯特丹改去 NEMO 科學館或 De Hallen；鹿特丹的 Markthal 和 Depot Boijmans 都在室內；科隆可以泡巧克力博物館。</li><li><b>12/13 火車延誤</b>：先直奔球場，行李寄車站寄物櫃；比賽結束再去飯店。真的趕不上，就改去 De Halve Maan 酒廠。</li><li><b>球票買不到</b>：De Halve Maan 酒廠導覽（€16 含一杯），或在 2be 看整面啤酒牆。</li><li><b>SnowWorld 取消</b>：海牙晚上改逛 Zeeheldenkwartier，晚餐吃印尼菜。</li><li><b>12/15 車次異動</b>：布魯塞爾 → 科隆大約每小時一班，備選 17:25 → 19:15；晚餐 Päffgen 改晚一點也沒關係。</li><li><b>東西掉了</b>：信用卡先打發卡銀行海外掛失；護照遺失先報警拿證明，再聯絡駐外館處。</li></ul>
       </div>
       <div class="card">
         <div class="label">啤酒規矩</div>
         <h3>三地三種喝法</h3>
-        <ul><li><b>比利時</b>：每款酒有專用杯，修道院啤酒常 8–10% 以上，小心後勁。</li><li><b>科隆 Kölsch</b>：0.2 L 小杯，空了會自動補，不想喝就把杯墊蓋在杯口。</li><li><b>杜塞道夫 Altbier</b>：深色、只賣自家釀的，別點 Kölsch。</li></ul>
+        <ul><li><b>比利時</b>：每款酒有專用杯，修道院啤酒常 8–10% 以上，小心後勁。</li><li><b>科隆 Kölsch</b>：0.2 L 小杯，空了會自動補，把杯墊蓋在杯口才會停。</li><li><b>杜塞道夫 Altbier</b>：深色、只賣自家釀的，千萬別點 Kölsch。</li></ul>
       </div>
       <div class="card">
-        <div class="label">說一句當地話</div>
-        <h3>謝謝、乾杯</h3>
-        <ul><li>荷蘭／比利時北部：Dank je wel、Proost</li><li>布魯塞爾：Merci、Santé</li><li>德國：Danke、Prost</li></ul>
+        <div class="label">伴手禮</div>
+        <h3>帶什麼回家</h3>
+        <ul><li><b>荷蘭</b>：Tony&#x27;s Chocolonely 旗艦店的巧克力、HEMA 的日用小物、Dille &amp; Kamille 廚房雜貨、焦糖煎餅鐵盒</li><li><b>比利時</b>：Galeries Royales 裡的 Neuhaus 創始店巧克力、Dandoy 焦糖餅乾、The Chocolate Line</li><li><b>德國</b>：4711 古龍水、每個聖誕市集不一樣的熱紅酒杯</li></ul>
       </div>
       <div class="card">
         <div class="label">緊急</div>
         <h3>先存起來</h3>
-        <ul><li>歐盟緊急電話：<b class="mono">112</b></li><li>外交部旅外急難救助全球免付費專線：<span class="mono">800-0885-0885</span></li><li>駐荷蘭（海牙）、駐比利時（布魯塞爾）、駐德國（柏林）都有台北代表處。</li></ul>
+        <ul><li>歐盟緊急電話：<b class="mono">112</b></li><li>外交部旅外急難救助：<span class="mono">+800-0885-0885</span>（全球免付費）</li><li>駐荷蘭（海牙）、駐比利時（布魯塞爾）、駐德國（柏林）都有台北代表處，出發前把地址電話存到手機。</li></ul>
       </div>
     </div>
   </section>
 </main>
 
 <footer class="wrap">
-  營業時間、票價和車次是 2026 年 11 月查的資料，各來源常有出入；出發前一週請再用 Google Maps 或官網確認。評分來自 Google 地圖，心得來自旅遊指南、評論網站和 Threads。
+  營業時間、票價和車次是 2026 年 11 月查的資料，出發前一週請再用 Google Maps 或官網確認。評分來自 Google 地圖，心得來自旅遊指南、評論網站和 Threads。
 </footer>
 
 <script>
@@ -933,19 +1110,29 @@ footer { padding-block: 40px 60px; color: var(--muted); font-size: 13px; }
   var start = new Date(2026, 11, 5), end = new Date(2026, 11, 19);
   var now = new Date(); var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
   var cd = document.getElementById('countdown'), btn = document.getElementById('todayBtn');
-  var days = Math.round((start - today) / 86400000);
-  if (today < start) { cd.innerHTML = '距離出發還有 <b>' + days + '</b> 天'; }
+  var todayId = null;
+  if (today < start) { cd.innerHTML = '距離出發還有 <b>' + Math.round((start - today) / 86400000) + '</b> 天'; }
   else if (today <= end) {
-    var id = 'd12' + String(today.getDate()).padStart(2,'0');
+    todayId = 'd12' + String(today.getDate()).padStart(2,'0');
     cd.innerHTML = '旅行第 <b>' + (Math.round((today - start)/86400000) + 1) + '</b> 天';
-    if (document.getElementById(id)) { btn.href = '#' + id; btn.hidden = false; }
+    if (document.getElementById(todayId)) { btn.href = '#' + todayId; btn.hidden = false;
+      document.querySelectorAll('[data-day="' + todayId.slice(1) + '"]').forEach(function(e){ e.classList.add('is-today'); }); }
   } else { cd.textContent = '旅程結束，歡迎回家'; }
+  var days = document.querySelectorAll('details.day');
+  if (window.matchMedia('(max-width: 760px)').matches) {
+    days.forEach(function(d, i){ d.open = todayId ? d.id === todayId : i === 0; });
+  }
+  function openHash(){ var h = location.hash.slice(1); var el = h && document.getElementById(h);
+    if (el && el.tagName === 'DETAILS') { el.open = true; } }
+  window.addEventListener('hashchange', openHash); openHash();
+  document.querySelectorAll('a[href^="#d"]').forEach(function(a){ a.addEventListener('click', function(){
+    var el = document.getElementById(a.getAttribute('href').slice(1)); if (el) el.open = true; }); });
   var boxes = document.querySelectorAll('input[data-todo]'), out = document.getElementById('todoCount');
   function count(){ var n = 0; boxes.forEach(function(b){ if (b.checked) n++; }); out.textContent = n; }
-  var saved = {}; try { saved = JSON.parse(localStorage.getItem('trip-todos') || '{}'); } catch(e) {}
+  var saved = {}; try { saved = JSON.parse(localStorage.getItem('trip-todos-v2') || '{}'); } catch(e) {}
   boxes.forEach(function(b){
     if (saved[b.dataset.todo]) b.checked = true;
-    b.addEventListener('change', function(){ saved[b.dataset.todo] = b.checked; try { localStorage.setItem('trip-todos', JSON.stringify(saved)); } catch(e) {} count(); });
+    b.addEventListener('change', function(){ saved[b.dataset.todo] = b.checked; try { localStorage.setItem('trip-todos-v2', JSON.stringify(saved)); } catch(e) {} count(); });
   });
   count();
 })();
