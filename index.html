@@ -297,7 +297,7 @@ footer{padding-block:var(--s7) var(--s8);color:var(--muted);font-size:13px;borde
     <div>
       <div class="eyebrow">PRIVATE ITINERARY · WINTER 2026</div>
       <h1>從低地<br>到萊茵河</h1>
-      <p class="sub">荷蘭・比利時・德國　冬日十五天 · 12.5–12.19</p>
+      <p class="sub"><span class="nb">荷蘭・比利時・德國</span>　<span class="nb">冬日十五天 · 12.5–12.19</span></p>
       <div class="stats">
         <div class="stat"><b>15</b><span>天</span></div>
         <div class="stat"><b>3</b><span>個國家</span></div>
@@ -1193,6 +1193,7 @@ footer{padding-block:var(--s7) var(--s8);color:var(--muted);font-size:13px;borde
   else{document.querySelectorAll('details.tgroup.fold').forEach(function(d){d.open=true;});}
   function openHash(){var h=location.hash.slice(1),el=h&&document.getElementById(h); if(el&&el.tagName==='DETAILS')el.open=true;}
   window.addEventListener('hashchange',openHash); openHash();
+  if(location.hash){var t=document.getElementById(location.hash.slice(1)); if(t)setTimeout(function(){t.scrollIntoView();},60);}
   document.querySelectorAll('a[href^="#d1"]').forEach(function(a){a.addEventListener('click',function(){var el=document.getElementById(a.getAttribute('href').slice(1)); if(el)el.open=true;});});
   // checklist
   var boxes=document.querySelectorAll('input[data-todo]'), out=document.getElementById('todoCount'), prog=document.querySelector('.progress'), done=document.getElementById('allDone');
