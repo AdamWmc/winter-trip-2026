@@ -29,14 +29,14 @@
  --paper:#0B0F15; --surface:#121820; --sunk:#19212B; --ink:#E9EDF2; --ink-2:#C4CCD6; --muted:#93A0AE;
  --rule:#25303C; --rule-strong:#E9EDF2; --delft:#93B2F2; --delft-wash:#16233D; --lamp:#F2C14E; --lamp-wash:#2E2614;
  --ok:#7CCBA2; --ok-wash:#132A20; --warn:#F28B74; --warn-wash:#33190F;
- --night:#070C18; --night-ink:#EEF2F8; --night-muted:#8E9CC0; --sun:#F2C14E; --day-band:#6B5A24; --night-band:#1B2430;
+ --night:#070C18; --night-ink:#EEF2F8; --night-muted:#8E9CC0; --sun:#F2C14E; --day-band:#8A7230; --night-band:#1E2834;
  --c-ams:#F09A66; --c-dh:#C3A3DD; --c-rtm:#86C2DE; --c-bru:#8CC7A8; --c-bxl:#E0BC5E; --c-kol:#AEB6C4; --c-dus:#8DB6E6;
  color-scheme:dark;}}
 :root[data-theme="dark"]{
  --paper:#0B0F15; --surface:#121820; --sunk:#19212B; --ink:#E9EDF2; --ink-2:#C4CCD6; --muted:#93A0AE;
  --rule:#25303C; --rule-strong:#E9EDF2; --delft:#93B2F2; --delft-wash:#16233D; --lamp:#F2C14E; --lamp-wash:#2E2614;
  --ok:#7CCBA2; --ok-wash:#132A20; --warn:#F28B74; --warn-wash:#33190F;
- --night:#070C18; --night-ink:#EEF2F8; --night-muted:#8E9CC0; --sun:#F2C14E; --day-band:#6B5A24; --night-band:#1B2430;
+ --night:#070C18; --night-ink:#EEF2F8; --night-muted:#8E9CC0; --sun:#F2C14E; --day-band:#8A7230; --night-band:#1E2834;
  --c-ams:#F09A66; --c-dh:#C3A3DD; --c-rtm:#86C2DE; --c-bru:#8CC7A8; --c-bxl:#E0BC5E; --c-kol:#AEB6C4; --c-dus:#8DB6E6;
  color-scheme:dark;}
 
@@ -51,7 +51,8 @@ h1,h2,h3{margin:0;text-wrap:balance} p{margin:0}
 .wrap{max-width:1040px;margin:0 auto;padding-left:max(var(--gutter),env(safe-area-inset-left,0px));padding-right:max(var(--gutter),env(safe-area-inset-right,0px))}
 @media(min-width:761px){:root{--gutter:24px}}
 .nb{white-space:nowrap}
-.label{font:500 11.5px/1.4 var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.label{font:500 12px/1.4 var(--f-body);letter-spacing:.04em;color:var(--muted)}
+.kicker{font:500 11.5px/1.4 var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
 .mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
 section.block{padding-block:var(--s8) 0;scroll-margin-top:var(--nav-h)}
 .block-head{display:grid;gap:var(--s2);margin-bottom:var(--s5)}
@@ -78,6 +79,7 @@ section.block{padding-block:var(--s8) 0;scroll-margin-top:var(--nav-h)}
 .routemap .trip{fill:var(--night-ink)}
 .routemap .city{fill:var(--night-ink);font:600 13px var(--f-body)}
 .routemap .cdate{fill:var(--night-muted);font:400 10.5px var(--f-mono)}
+.routemap .city,.routemap .cdate{paint-order:stroke;stroke:var(--night);stroke-width:3px;stroke-linejoin:round}
 .maplegend{display:flex;gap:var(--s4);font:500 11px var(--f-mono);letter-spacing:.06em;color:var(--night-muted);margin-top:var(--s2);flex-wrap:wrap}
 .maplegend i{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--sun);margin-right:6px}
 .maplegend em{display:inline-block;width:18px;border-top:1.5px dashed var(--night-ink);margin-right:6px;vertical-align:3px}
@@ -142,7 +144,7 @@ details[open] .caret::before{transform:rotate(-135deg)}
  background:linear-gradient(90deg,var(--night-band) var(--sr),var(--day-band) var(--sr) var(--ss),var(--night-band) var(--ss))}
 .daylight i{position:absolute;top:-4px;width:1.5px;height:14px;background:var(--ink);transform:translateX(-50%)}
 .daylight i.now{background:var(--warn);width:2px;height:18px;top:-6px}
-.daylight .sr,.daylight .ss{position:absolute;top:10px;font:500 10px var(--f-mono);color:var(--muted);transform:translateX(-50%)}
+.daylight .sr,.daylight .ss{position:absolute;top:12px;background:var(--paper);padding:0 3px;font:500 10px var(--f-mono);color:var(--muted);transform:translateX(-50%)}
 .daylight .sr{left:var(--sr)}.daylight .ss{left:var(--ss)}
 .day-body{display:grid}
 .tl{list-style:none;margin:0;padding:var(--s2) 0 var(--s4)}
@@ -166,6 +168,8 @@ details[open] .caret::before{transform:rotate(-135deg)}
 .fact{margin:0 0 var(--s5) calc(48px + 20px + 2*var(--s3));padding:0 0 0 var(--s4);border-left:2px solid var(--delft);font:400 15px/1.75 var(--f-display);color:var(--ink-2);display:grid;gap:2px}
 .fact span{font:500 11px var(--f-mono);letter-spacing:.14em;color:var(--delft)}
 .day-act{padding:0 0 var(--s5)}
+@media(min-width:761px){.tl,.fact{max-width:720px}}
+.pl .pin::before,.stayc .pin::before{width:11px;height:11px}
 .pin{display:inline-flex;align-items:center;justify-content:center;gap:var(--s2);min-height:var(--tap);min-width:var(--tap);border-radius:var(--r);border:1px solid var(--rule);color:var(--ink);font:500 13.5px var(--f-body);text-decoration:none;padding:0 var(--s4)}
 .pin::before{content:"";width:9px;height:9px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:var(--delft)}
 .pin:hover{border-color:var(--ink)}
@@ -203,7 +207,7 @@ details[open] .caret::before{transform:rotate(-135deg)}
 .b-top{background:var(--ink);color:var(--paper)}
 .b-alt{color:var(--muted);border:1px solid var(--rule)}
 .star{font:500 12px var(--f-mono);color:var(--muted);margin-left:var(--s2)}
-.more>summary{min-height:var(--tap);display:flex;align-items:center;font:500 12px var(--f-mono);letter-spacing:.08em;color:var(--delft);cursor:pointer;list-style:none}
+.more>summary{min-height:var(--tap);display:flex;align-items:center;font:500 13px var(--f-body);letter-spacing:.02em;color:var(--delft);cursor:pointer;list-style:none}
 .more>summary::-webkit-details-marker{display:none}
 .more>summary::before{content:"+";margin-right:8px}.more[open]>summary::before{content:"−"}
 
@@ -255,6 +259,7 @@ details.tgroup[open]>summary::after{content:"−"}
 table{border-collapse:collapse;width:100%;font-size:14px}
 th,td{text-align:left;padding:var(--s2) var(--s3) var(--s2) 0;border-bottom:1px solid var(--rule);vertical-align:top}
 th{font:500 11px var(--f-mono);letter-spacing:.1em;color:var(--muted)}
+.trains td:nth-child(3){font-family:var(--f-body);font-variant-numeric:tabular-nums;white-space:nowrap;font-size:13px}
 footer{padding-block:var(--s7) var(--s8);color:var(--muted);font-size:13px;border-top:1px solid var(--rule);margin-top:var(--s8)}
 
 /* phone */
@@ -269,7 +274,7 @@ footer{padding-block:var(--s7) var(--s8);color:var(--muted);font-size:13px;borde
  .nav a[aria-current="true"]{box-shadow:inset 0 2px var(--ink)}
  .today{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(68px + env(safe-area-inset-bottom,0px));height:var(--tap);box-shadow:0 4px 14px rgb(0 0 0 / .25)}
  body{padding-bottom:calc(56px + env(safe-area-inset-bottom,0px))}
- .dchips{top:env(safe-area-inset-top,0px)}
+ .dchips{top:env(safe-area-inset-top,0px);border-bottom:0;box-shadow:0 1px 0 var(--rule)}
  .day{scroll-margin-top:calc(var(--chips-h) + 8px)}
  .legend{display:none}
  .day-head{grid-template-areas:"num city caret" "title title title" "mood mood mood" "stay stay stay" "light light light"}
@@ -307,7 +312,7 @@ footer{padding-block:var(--s7) var(--s8);color:var(--muted);font-size:13px;borde
       <div class="countdown" id="countdown">12 月 5 日出發</div>
     </div>
     <div>
-      <svg class="routemap" viewBox="-20 -14 587 432" role="img" aria-label="路線圖：阿姆斯特丹、海牙、鹿特丹、布魯日、布魯塞爾、科隆，經哈倫回阿姆斯特丹"><text class="country" x="341" y="10">NEDERLAND</text><text class="country" x="30" y="388">BELGIË</text><text class="country" x="371" y="161">DEUTSCHLAND</text><path class="leg" d="M237.9,45.6 L164.4,103.8 L186.0,132.4 L33.4,272.6 L170.6,342.9 L488.2,325.9 L206.5,41.7 L237.9,45.6"/><line class="spur" x1="237.9" y1="45.6" x2="264.4" y2="99.8"/><line class="spur" x1="164.4" y1="103.8" x2="188.3" y2="86.2"/><line class="spur" x1="488.2" y1="325.9" x2="465.5" y2="269.0"/><circle class="stay" cx="237.9" cy="45.6" r="5.5"/><text class="city" x="247.9" y="49.6" text-anchor="start">阿姆斯特丹</text><text class="cdate" x="247.9" y="63.6" text-anchor="start">12/5–8</text><circle class="stay" cx="206.5" cy="41.7" r="5.5"/><text class="city" x="196.5" y="45.7" text-anchor="end">哈倫</text><text class="cdate" x="196.5" y="59.7" text-anchor="end">12/18</text><circle class="trip" cx="264.4" cy="99.8" r="3.5"/><text class="city" x="274.4" y="103.8" text-anchor="start">烏特勒支</text><circle class="stay" cx="164.4" cy="103.8" r="5.5"/><text class="city" x="154.4" y="107.8" text-anchor="end">海牙</text><text class="cdate" x="154.4" y="121.8" text-anchor="end">12/9–10</text><circle class="trip" cx="188.3" cy="86.2" r="3.5"/><text class="city" x="188.3" y="76.2" text-anchor="middle">萊登</text><circle class="stay" cx="186.0" cy="132.4" r="5.5"/><text class="city" x="196.0" y="136.4" text-anchor="start">鹿特丹</text><text class="cdate" x="196.0" y="150.4" text-anchor="start">12/11–12</text><circle class="stay" cx="33.4" cy="272.6" r="5.5"/><text class="city" x="43.4" y="276.6" text-anchor="start">布魯日</text><text class="cdate" x="43.4" y="290.6" text-anchor="start">12/13–14</text><circle class="stay" cx="170.6" cy="342.9" r="5.5"/><text class="city" x="180.6" y="346.9" text-anchor="start">布魯塞爾</text><text class="cdate" x="180.6" y="360.9" text-anchor="start">12/15</text><circle class="stay" cx="488.2" cy="325.9" r="5.5"/><text class="city" x="478.2" y="329.9" text-anchor="end">科隆</text><text class="cdate" x="478.2" y="343.9" text-anchor="end">12/15–17</text><circle class="trip" cx="465.5" cy="269.0" r="3.5"/><text class="city" x="455.5" y="273.0" text-anchor="end">杜塞道夫</text></svg>
+      <svg class="routemap" viewBox="-20 -14 587 432" role="img" aria-label="路線圖：阿姆斯特丹、海牙、鹿特丹、布魯日、布魯塞爾、科隆，經哈倫回阿姆斯特丹"><text class="country" x="341" y="10">NEDERLAND</text><text class="country" x="30" y="388">BELGIË</text><text class="country" x="371" y="161">DEUTSCHLAND</text><path class="leg" d="M237.9,45.6 L164.4,103.8 L186.0,132.4 L33.4,272.6 L170.6,342.9 L488.2,325.9 L206.5,41.7 L237.9,45.6"/><line class="spur" x1="237.9" y1="45.6" x2="264.4" y2="99.8"/><line class="spur" x1="164.4" y1="103.8" x2="188.3" y2="86.2"/><line class="spur" x1="488.2" y1="325.9" x2="465.5" y2="269.0"/><circle class="stay" cx="237.9" cy="45.6" r="5.5"/><text class="city" x="247.9" y="49.6" text-anchor="start">阿姆斯特丹</text><text class="cdate" x="247.9" y="63.6" text-anchor="start">12/5–8</text><circle class="stay" cx="206.5" cy="41.7" r="5.5"/><text class="city" x="196.5" y="37.7" text-anchor="end">哈倫</text><text class="cdate" x="196.5" y="51.7" text-anchor="end">12/18</text><circle class="trip" cx="264.4" cy="99.8" r="3.5"/><text class="city" x="274.4" y="103.8" text-anchor="start">烏特勒支</text><circle class="stay" cx="164.4" cy="103.8" r="5.5"/><text class="city" x="154.4" y="107.8" text-anchor="end">海牙</text><text class="cdate" x="154.4" y="121.8" text-anchor="end">12/9–10</text><circle class="trip" cx="188.3" cy="86.2" r="3.5"/><text class="city" x="178.3" y="84.2" text-anchor="end">萊登</text><circle class="stay" cx="186.0" cy="132.4" r="5.5"/><text class="city" x="196.0" y="136.4" text-anchor="start">鹿特丹</text><text class="cdate" x="196.0" y="150.4" text-anchor="start">12/11–12</text><circle class="stay" cx="33.4" cy="272.6" r="5.5"/><text class="city" x="43.4" y="276.6" text-anchor="start">布魯日</text><text class="cdate" x="43.4" y="290.6" text-anchor="start">12/13–14</text><circle class="stay" cx="170.6" cy="342.9" r="5.5"/><text class="city" x="180.6" y="346.9" text-anchor="start">布魯塞爾</text><text class="cdate" x="180.6" y="360.9" text-anchor="start">12/15</text><circle class="stay" cx="488.2" cy="325.9" r="5.5"/><text class="city" x="478.2" y="329.9" text-anchor="end">科隆</text><text class="cdate" x="478.2" y="343.9" text-anchor="end">12/15–17</text><circle class="trip" cx="465.5" cy="269.0" r="3.5"/><text class="city" x="455.5" y="273.0" text-anchor="end">杜塞道夫</text></svg>
       <div class="maplegend"><span><i></i>過夜城市</span><span><em></em>一日遊</span></div>
       <div class="strips" aria-hidden="true"><i style="--sr:15.0%;--ss:58.1%"></i><i style="--sr:15.0%;--ss:58.1%"></i><i style="--sr:15.0%;--ss:58.1%"></i><i style="--sr:14.8%;--ss:58.1%"></i><i style="--sr:15.0%;--ss:58.3%"></i><i style="--sr:15.0%;--ss:58.2%"></i><i style="--sr:14.8%;--ss:58.4%"></i><i style="--sr:14.8%;--ss:58.4%"></i><i style="--sr:14.4%;--ss:59.1%"></i><i style="--sr:14.4%;--ss:59.1%"></i><i style="--sr:14.2%;--ss:59.2%"></i><i style="--sr:13.0%;--ss:58.1%"></i><i style="--sr:13.1%;--ss:58.0%"></i><i style="--sr:15.1%;--ss:58.1%"></i><i style="--sr:15.0%;--ss:58.1%"></i></div>
       <div class="strips-cap">十五天的日照：金色是白天，大約 08:30 到 16:30</div>
@@ -331,7 +336,7 @@ footer{padding-block:var(--s7) var(--s8);color:var(--muted);font-size:13px;borde
 
 <main class="wrap">
   <section class="block" id="overview">
-    <div class="block-head"><div class="label">Overview</div><h2>十五天，一眼看完</h2><p>點任何一天，就翻到那一天。</p></div>
+    <div class="block-head"><div class="kicker">Overview</div><h2>十五天，一眼看完</h2><p>點任何一天，就翻到那一天。</p></div>
     <div class="ovlist"><a class="ov" href="#d1205" data-day="1205" style="--c: var(--c-ams)">
   <span class="ov-date"><b>12/5</b><i>六</i></span>
   <span class="ov-main"><span class="ov-city">阿姆斯特丹</span><span class="ov-title">運河邊的禮物前夜</span></span>
@@ -410,7 +415,7 @@ footer{padding-block:var(--s7) var(--s8);color:var(--muted);font-size:13px;borde
   </section>
 
   <section class="block" id="days">
-    <div class="block-head"><div class="label">Day by day</div><h2>每日行程</h2><p>金色店名點了就開地圖；「今日路線」會把當天要去的地方一次放進 Google Maps。點日期可以收合。日期下那條細線是當天的日照：金色是白天，刻度是每一站的時間。</p></div>
+    <div class="block-head"><div class="kicker">Day by day</div><h2>每日行程</h2><p>金色店名點了就開地圖；「今日路線」會把當天要去的地方一次放進 Google Maps。點日期可以收合。日期下那條細線是當天的日照：金色是白天，刻度是每一站的時間。</p></div>
     <div class="dchips" aria-label="選擇日期"><a class="dchip" href="#d1205" data-day="1205" style="--c: var(--c-ams)"><b>5</b><i>六</i></a><a class="dchip" href="#d1206" data-day="1206" style="--c: var(--c-ams)"><b>6</b><i>日</i></a><a class="dchip" href="#d1207" data-day="1207" style="--c: var(--c-ams)"><b>7</b><i>一</i></a><a class="dchip" href="#d1208" data-day="1208" style="--c: var(--c-ams)"><b>8</b><i>二</i></a><a class="dchip" href="#d1209" data-day="1209" style="--c: var(--c-dh)"><b>9</b><i>三</i></a><a class="dchip" href="#d1210" data-day="1210" style="--c: var(--c-dh)"><b>10</b><i>四</i></a><a class="dchip" href="#d1211" data-day="1211" style="--c: var(--c-rtm)"><b>11</b><i>五</i></a><a class="dchip" href="#d1212" data-day="1212" style="--c: var(--c-rtm)"><b>12</b><i>六</i></a><a class="dchip" href="#d1213" data-day="1213" style="--c: var(--c-bru)"><b>13</b><i>日</i></a><a class="dchip" href="#d1214" data-day="1214" style="--c: var(--c-bru)"><b>14</b><i>一</i></a><a class="dchip" href="#d1215" data-day="1215" style="--c: var(--c-bxl)"><b>15</b><i>二</i></a><a class="dchip" href="#d1216" data-day="1216" style="--c: var(--c-kol)"><b>16</b><i>三</i></a><a class="dchip" href="#d1217" data-day="1217" style="--c: var(--c-dus)"><b>17</b><i>四</i></a><a class="dchip" href="#d1218" data-day="1218" style="--c: var(--c-ams)"><b>18</b><i>五</i></a><a class="dchip" href="#d1219" data-day="1219" style="--c: var(--c-ams)"><b>19</b><i>六</i></a></div>
     <div class="legend">
       <span class="k-go"><span class="mark"></span>交通</span>
@@ -596,7 +601,7 @@ footer{padding-block:var(--s7) var(--s8);color:var(--muted);font-size:13px;borde
     <span class="caret" aria-hidden="true"></span>
   </summary>
   <div class="day-body">
-    <ol class="tl"><li class="k-run"><span class="t">08:30</span><span class="mark" title="運動"></span><span class="x">Minnewater、Begijnhof 晨跑 6–8 公里（可選），途經 De Halve Maan 酒廠</span></li><li class="k-eat"><span class="t">09:30</span><span class="mark" title="吃喝"></span><span class="x"><a class="plink" href="https://www.google.com/maps/search/?api=1&amp;query=Dees+Koffiebranders+Brugge" target="_blank" rel="noopener"><b>DEES</b></a> 咖啡；週一可能沒開，就吃飯店早餐</span></li><li class="k-todo"><span class="t">10:00</span><span class="mark" title="待訂"></span><span class="x">鐘樓 Belfort：爬 366 階<span class="chip k-todo">待訂</span></span></li><li class="k-see"><span class="t">11:00</span><span class="mark" title="景點"></span><span class="x">Burg → 玫瑰碼頭 → 博尼法斯橋</span></li><li class="k-eat"><span class="t">12:30</span><span class="mark" title="吃喝"></span><span class="x"><a class="plink" href="https://www.google.com/maps/search/?api=1&amp;query=Breydel+De+Coninc+Brugge" target="_blank" rel="noopener"><b>Breydel De Coninc</b></a> 淡菜鍋：一鍋約 1.2 公斤，兩人一鍋加份薯條就夠</span></li><li class="k-see"><span class="t">14:00</span><span class="mark" title="景點"></span><span class="x">Langestraat → Sint-Anna → Langerei 街區，路上吃 <a class="plink" href="https://www.google.com/maps/search/?api=1&amp;query=Chez+Albert+Brugge" target="_blank" rel="noopener"><b>Chez Albert</b></a> 鬆餅</span></li><li class="k-see"><span class="t">16:15</span><span class="mark" title="景點"></span><span class="x">回玫瑰碼頭拍藍調時刻（日落約 16:40）</span></li><li class="k-see"><span class="t">17:00</span><span class="mark" title="景點"></span><span class="x">Markt 聖誕市集 → Simon Stevinplein，到 <a class="plink" href="https://www.google.com/maps/search/?api=1&amp;query=The+Chocolate+Line+Simon+Stevinplein+Brugge" target="_blank" rel="noopener"><b>The Chocolate Line</b></a> 買巧克力</span></li><li class="k-eat"><span class="t">19:00</span><span class="mark" title="吃喝"></span><span class="x">晚餐在市集隨意吃，再去 <a class="plink" href="https://www.google.com/maps/search/?api=1&amp;query=t+Brugs+Beertje+Kemelstraat+5+Brugge" target="_blank" rel="noopener"><b>&#x27;t Brugs Beertje</b></a> 或地窖酒吧 <a class="plink" href="https://www.google.com/maps/search/?api=1&amp;query=Le+Trappiste+Brugge" target="_blank" rel="noopener"><b>Le Trappiste</b></a></span></li></ol>
+    <ol class="tl"><li class="k-run"><span class="t">08:30</span><span class="mark" title="運動"></span><span class="x">Minnewater、Begijnhof 晨跑 6–8 公里（可選），途經 De Halve Maan 酒廠</span></li><li class="k-eat"><span class="t">09:30</span><span class="mark" title="吃喝"></span><span class="x"><a class="plink" href="https://www.google.com/maps/search/?api=1&amp;query=Dees+Koffiebranders+Brugge" target="_blank" rel="noopener"><b>DEES</b></a> 咖啡；週一可能沒開，就吃飯店早餐</span></li><li class="k-todo"><span class="t">10:00</span><span class="mark" title="待訂"></span><span class="x">鐘樓 Belfort：爬 366 階<span class="chip k-todo">待訂</span></span></li><li class="k-see"><span class="t">11:00</span><span class="mark" title="景點"></span><span class="x">Burg → 玫瑰碼頭 → 博尼法斯橋</span></li><li class="k-eat"><span class="t">12:30</span><span class="mark" title="吃喝"></span><span class="x"><a class="plink" href="https://www.google.com/maps/search/?api=1&amp;query=Breydel+De+Coninc+Brugge" target="_blank" rel="noopener"><b>Breydel De Coninc</b></a> 淡菜鍋：一鍋約 1.2 公斤，兩人一鍋加份薯條就夠</span></li><li class="k-see"><span class="t">14:00</span><span class="mark" title="景點"></span><span class="x">Langestraat → Sint-Anna → Langerei 街區，路上吃 <a class="plink" href="https://www.google.com/maps/search/?api=1&amp;query=Chez+Albert+Brugge" target="_blank" rel="noopener"><b>Chez Albert</b></a> 鬆餅</span></li><li class="k-see"><span class="t">16:15</span><span class="mark" title="景點"></span><span class="x">回玫瑰碼頭拍藍調時刻</span></li><li class="k-see"><span class="t">17:00</span><span class="mark" title="景點"></span><span class="x">Markt 聖誕市集 → Simon Stevinplein，到 <a class="plink" href="https://www.google.com/maps/search/?api=1&amp;query=The+Chocolate+Line+Simon+Stevinplein+Brugge" target="_blank" rel="noopener"><b>The Chocolate Line</b></a> 買巧克力</span></li><li class="k-eat"><span class="t">19:00</span><span class="mark" title="吃喝"></span><span class="x">晚餐在市集隨意吃，再去 <a class="plink" href="https://www.google.com/maps/search/?api=1&amp;query=t+Brugs+Beertje+Kemelstraat+5+Brugge" target="_blank" rel="noopener"><b>&#x27;t Brugs Beertje</b></a> 或地窖酒吧 <a class="plink" href="https://www.google.com/maps/search/?api=1&amp;query=Le+Trappiste+Brugge" target="_blank" rel="noopener"><b>Le Trappiste</b></a></span></li></ol>
     <p class="fact"><span>你知道嗎</span>De Halve Maan 酒廠埋了一條約 3 公里的地下啤酒管線，直接把酒送到郊外的裝瓶廠，因為卡車開不進中世紀的小巷。</p>
     <div class="day-act"><a class="pin pin-strong" href="https://www.google.com/maps/dir/?api=1&amp;origin=Dees+Koffiebranders+Brugge&amp;destination=t+Brugs+Beertje+Brugge&amp;waypoints=Belfort%20Brugge%7CRozenhoedkaai%20Brugge%7CBreydel%20De%20Coninc%20Brugge%7CSint-Annakerk%20Brugge%7CThe%20Chocolate%20Line%20Brugge&amp;travelmode=walking" target="_blank" rel="noopener">今日路線</a></div>
   </div>
@@ -632,7 +637,7 @@ footer{padding-block:var(--s7) var(--s8);color:var(--muted);font-size:13px;borde
     <span class="caret" aria-hidden="true"></span>
   </summary>
   <div class="day-body">
-    <ol class="tl"><li class="k-todo"><span class="t">09:00</span><span class="mark" title="待訂"></span><span class="x">科隆大教堂＋南塔：爬 533 階，2026 年 7 月起要買票<span class="chip k-todo">待訂</span></span></li><li class="k-see"><span class="t">11:00</span><span class="mark" title="景點"></span><span class="x">老城：市政廳、Alter Markt、Glockengasse 的 <a class="plink" href="https://www.google.com/maps/search/?api=1&amp;query=4711+House+Glockengasse+Koeln" target="_blank" rel="noopener"><b>4711</b></a> 古龍水本店</span></li><li class="k-eat"><span class="t">12:30</span><span class="mark" title="吃喝"></span><span class="x"><a class="plink" href="https://www.google.com/maps/search/?api=1&amp;query=Frueh+am+Dom+Koeln" target="_blank" rel="noopener"><b>Brauhaus FRÜH am Dom</b></a>：酸菜燉豬腳 Hämchen 配 Kölsch</span></li><li class="k-see"><span class="t">14:00</span><span class="mark" title="景點"></span><span class="x">沿萊茵河到 Rheinauhafen：巧克力博物館、港口聖誕市集</span></li><li class="k-see"><span class="t">16:00</span><span class="mark" title="景點"></span><span class="x">走愛情鎖鐵橋 Hohenzollernbrücke 到 Deutz，KölnTriangle 看日落，€5</span></li><li class="k-see"><span class="t">17:00</span><span class="mark" title="景點"></span><span class="x">大教堂前市集、Heinzels Wintermärchen</span></li><li class="k-eat"><span class="t">18:00</span><span class="mark" title="吃喝"></span><span class="x">市集晚餐：馬鈴薯煎餅、蘑菇、香腸、熱紅酒</span></li></ol>
+    <ol class="tl"><li class="k-todo"><span class="t">09:00</span><span class="mark" title="待訂"></span><span class="x">科隆大教堂和南塔：爬 533 階，2026 年 7 月起要買票<span class="chip k-todo">待訂</span></span></li><li class="k-see"><span class="t">11:00</span><span class="mark" title="景點"></span><span class="x">老城：市政廳、Alter Markt、Glockengasse 的 <a class="plink" href="https://www.google.com/maps/search/?api=1&amp;query=4711+House+Glockengasse+Koeln" target="_blank" rel="noopener"><b>4711</b></a> 古龍水本店</span></li><li class="k-eat"><span class="t">12:30</span><span class="mark" title="吃喝"></span><span class="x"><a class="plink" href="https://www.google.com/maps/search/?api=1&amp;query=Frueh+am+Dom+Koeln" target="_blank" rel="noopener"><b>Brauhaus FRÜH am Dom</b></a>：酸菜燉豬腳 Hämchen 配 Kölsch</span></li><li class="k-see"><span class="t">14:00</span><span class="mark" title="景點"></span><span class="x">沿萊茵河到 Rheinauhafen：巧克力博物館、港口聖誕市集</span></li><li class="k-see"><span class="t">16:00</span><span class="mark" title="景點"></span><span class="x">走愛情鎖鐵橋 Hohenzollernbrücke 到 Deutz，KölnTriangle 看日落，€5</span></li><li class="k-see"><span class="t">17:00</span><span class="mark" title="景點"></span><span class="x">大教堂前市集、Heinzels Wintermärchen</span></li><li class="k-eat"><span class="t">18:00</span><span class="mark" title="吃喝"></span><span class="x">市集晚餐：馬鈴薯煎餅、蘑菇、香腸、熱紅酒</span></li></ol>
     <p class="fact"><span>你知道嗎</span>每個聖誕市集的熱紅酒杯都不一樣。付了押金不拿回來，杯子就是最好的伴手禮。</p>
     <div class="day-act"><a class="pin pin-strong" href="https://www.google.com/maps/dir/?api=1&amp;origin=Koelner+Dom&amp;destination=Heumarkt+Koeln&amp;waypoints=4711%20House%20Glockengasse%20Koeln%7CFrueh%20am%20Dom%20Koeln%7CSchokoladenmuseum%20Koeln%7CHohenzollernbruecke%7CKoelnTriangle&amp;travelmode=walking" target="_blank" rel="noopener">今日路線</a></div>
   </div>
@@ -694,7 +699,7 @@ footer{padding-block:var(--s7) var(--s8);color:var(--muted);font-size:13px;borde
   </section>
 
   <section class="block" id="guides">
-    <div class="block-head"><div class="label">Eat &amp; drink</div><h2>每座城市，該吃什麼</h2><p>每家店都對照過 Google 評分、旅遊指南和 Threads 上的心得才放進來。標了日期的，已經排進行程。</p></div>
+    <div class="block-head"><div class="kicker">Eat &amp; drink</div><h2>每座城市，該吃什麼</h2><p>每家店都對照過 Google 評分、旅遊指南和 Threads 上的心得才放進來。標了日期的，已經排進行程。</p></div>
     <div class="guides"><section class="guide" id="g-ams" style="--c: var(--c-ams)">
   <header class="g-head"><h3><span class="nb">阿姆斯特丹・</span><span class="nb">烏特勒支・</span><span class="nb">哈倫</span></h3><span class="g-dates">12/5–12/8、12/18</span></header>
   <div class="g-body">
@@ -844,7 +849,7 @@ footer{padding-block:var(--s7) var(--s8);color:var(--muted);font-size:13px;borde
 <section class="guide" id="g-rtm" style="--c: var(--c-rtm)">
   <header class="g-head"><h3><span class="nb">鹿特丹</span></h3><span class="g-dates">12/11–12/12</span></header>
   <div class="g-body">
-    <div class="g-story"><p>1940 年的轟炸幾乎夷平市中心。戰後鹿特丹沒有照原樣重建，而是放膽蓋新的：方塊屋、Markthal、天鵝橋、鏡面倉庫，整座城像一座建築展。</p><dl class="g-facts"><dt>交通</dt><dd>海牙 → 鹿特丹約 25 分</dd><dt>拍照</dt><dd>Depot Boijmans 頂樓、天鵝橋</dd></dl></div>
+    <div class="g-story"><p>1940 年的轟炸幾乎夷平市中心。戰後鹿特丹沒有照原樣重建，而是放膽蓋新的：方塊屋、Markthal、天鵝橋、鏡面倉庫，整座城像一座建築展。</p><dl class="g-facts"><dt>交通</dt><dd>海牙 → 鹿特丹約 25 分鐘</dd><dt>拍照</dt><dd>Depot Boijmans 頂樓、天鵝橋</dd></dl></div>
     <div class="g-eat"><div class="label">必吃必喝</div><ul class="dishes"><li><b>蘋果派</b><i>Appeltaart</i><span>Dudok 公認全城最有名。</span></li><li><b>地瓜薯條</b><i>Zoete friet</i><span>住荷蘭的人推 Ter Marsch。</span></li></ul></div>
   </div>
   <div class="label">推薦的店 · ★ 為 Google 評分</div>
@@ -884,7 +889,7 @@ footer{padding-block:var(--s7) var(--s8);color:var(--muted);font-size:13px;borde
 <section class="guide" id="g-bru" style="--c: var(--c-bru)">
   <header class="g-head"><h3><span class="nb">布魯日</span></h3><span class="g-dates">12/13–12/14</span></header>
   <div class="g-body">
-    <div class="g-story"><p>中世紀北歐最重要的貿易港，後來水道淤積、城市沒落，反倒讓整座老城原封不動留下來，2000 年列入世界遺產。冬天遊船多半停駛，換成聖誕市集和夜裡的燈光。</p><dl class="g-facts"><dt>謝謝</dt><dd>Dank u wel</dd><dt>乾杯</dt><dd>Santé／Proost</dd><dt>走路</dt><dd>車站到 Markt 約 20 分</dd></dl></div>
+    <div class="g-story"><p>中世紀北歐最重要的貿易港，後來水道淤積、城市沒落，反倒讓整座老城原封不動留下來，2000 年列入世界遺產。冬天遊船多半停駛，換成聖誕市集和夜裡的燈光。</p><dl class="g-facts"><dt>謝謝</dt><dd>Dank u wel</dd><dt>乾杯</dt><dd>Santé／Proost</dd><dt>走路</dt><dd>車站到 Markt 約 20 分鐘</dd></dl></div>
     <div class="g-eat"><div class="label">必吃必喝</div><ul class="dishes"><li><b>淡菜鍋</b><i>Mosselen</i><span>一鍋約 1.2 公斤附薯條，兩人一鍋就夠。</span></li><li><b>啤酒燉牛肉</b><i>Stoofvlees</i><span>深色啤酒慢燉，醬汁沾薯條。</span></li><li><b>薯條</b><i>Frieten</i><span>鐘樓前的綠色薯條車是城市象徵。</span></li><li><b>巧克力</b><i>Pralines</i><span>比利時夾心巧克力，去哪買見下方 The Chocolate Line。</span></li></ul></div>
   </div>
   <div class="label">推薦的店 · ★ 為 Google 評分</div>
@@ -994,10 +999,10 @@ footer{padding-block:var(--s7) var(--s8);color:var(--muted);font-size:13px;borde
   <a class="pin" href="https://www.google.com/maps/search/?api=1&amp;query=Frueh+am+Dom+Koeln" target="_blank" rel="noopener" aria-label="Brauhaus FRÜH am Dom 地圖"></a>
 </li><li class="pl">
   <div class="pl-top"><span class="badge b-top">首選</span><span class="when">12/16</span></div>
-  <div class="pl-name">大教堂前＋Heinzels 市集</div>
+  <div class="pl-name">大教堂前市集、Heinzels</div>
   <div class="pl-dish">市集晚餐</div>
-  <div class="pl-why">熱紅酒杯可以帶走當紀念</div>
-  <a class="pin" href="https://www.google.com/maps/search/?api=1&amp;query=Heumarkt+Koeln" target="_blank" rel="noopener" aria-label="大教堂前＋Heinzels 市集 地圖"></a>
+  <div class="pl-why">邊走邊吃，一路吃到天黑</div>
+  <a class="pin" href="https://www.google.com/maps/search/?api=1&amp;query=Heumarkt+Koeln" target="_blank" rel="noopener" aria-label="大教堂前市集、Heinzels 地圖"></a>
 </li><li class="pl">
   <div class="pl-top"><span class="badge b-top">首選</span><span class="when">12/15</span></div>
   <div class="pl-name">Stadtgarten 市集</div>
@@ -1056,7 +1061,7 @@ footer{padding-block:var(--s7) var(--s8);color:var(--muted);font-size:13px;borde
   </section>
 
   <section class="block" id="stays">
-    <div class="block-head"><div class="label">Where you sleep</div><h2>今晚睡哪裡</h2><p>7 間旅館、14 晚。入住和退房時間以訂房確認信為準。</p></div>
+    <div class="block-head"><div class="kicker">Where you sleep</div><h2>今晚睡哪裡</h2><p>7 間旅館、14 晚。入住和退房時間以訂房確認信為準。</p></div>
     <ul class="stays"><li class="stayc">
   <div class="stay-top"><span class="mono">12/5–12/7</span><span class="nights">2 晚</span><span class="sbadge s-ok">已訂</span></div>
   <div class="stay-name">Dutch Design Hotel Vondelpark</div>
@@ -1068,7 +1073,7 @@ footer{padding-block:var(--s7) var(--s8);color:var(--muted);font-size:13px;borde
   <div class="stay-top"><span class="mono">12/7–12/9</span><span class="nights">2 晚</span><span class="sbadge s-ok">已訂</span></div>
   <div class="stay-name">citizenM Amsterdam South</div>
   <div class="stay-addr">Prinses Irenestraat 30, Amsterdam</div>
-  <div class="stay-note">Zuid 站走路 7 分</div>
+  <div class="stay-note">Zuid 站走路 7 分鐘</div>
   <a class="pin" href="https://www.google.com/maps/search/?api=1&amp;query=citizenM+Amsterdam+South" target="_blank" rel="noopener" aria-label="citizenM Amsterdam South 地圖"></a>
 </li>
 <li class="stayc">
@@ -1102,17 +1107,17 @@ footer{padding-block:var(--s7) var(--s8);color:var(--muted);font-size:13px;borde
 <li class="stayc">
   <div class="stay-top"><span class="mono">12/18–12/19</span><span class="nights">1 晚</span><span class="sbadge s-todo">待訂</span></div>
   <div class="stay-name">阿姆斯特丹最後一晚</div>
-  <div class="stay-addr">Centraal 附近，還沒訂</div>
-  <div class="stay-note">隔天搭火車 15 分到機場</div>
+  <div class="stay-addr">Centraal 附近</div>
+  <div class="stay-note">隔天搭火車約 15 分鐘到機場</div>
   <a class="pin" href="https://www.google.com/maps/search/?api=1&amp;query=Amsterdam+Centraal" target="_blank" rel="noopener" aria-label="阿姆斯特丹最後一晚 地圖"></a>
 </li></ul>
   </section>
 
   <section class="block" id="todo">
-    <div class="block-head"><div class="label">Before you go</div><h2>出發前要訂好的事</h2><p>打勾只會存在這支手機上。兩個人一起出發，就讓一個人負責勾，訂好了在群組說一聲。</p></div>
+    <div class="block-head"><div class="kicker">Before you go</div><h2>出發前要訂好的事</h2><p>打勾只會存在這支手機上。兩個人一起出發，就讓一個人負責勾，訂好了在群組說一聲。</p></div>
     <div class="progress">已完成 <b id="todoCount">0</b> / 15</div>
     <p class="alldone" id="allDone" hidden>都訂好了，可以專心期待出發。</p>
-    <div class="todo-wrap"><div class="tgroup"><div class="label">待訂</div><ul><li><label><input type="checkbox" id="todo-1" data-todo="1"><span class="box"></span><span class="tdate">12/5</span><span class="titem">Restaurant &#x27;t Zwaantje 晚餐訂位</span></label></li><li><label><input type="checkbox" id="todo-2" data-todo="2"><span class="box"></span><span class="tdate">12/6</span><span class="titem">Moeders 晚餐訂位</span></label></li><li><label><input type="checkbox" id="todo-3" data-todo="3"><span class="box"></span><span class="tdate">12/9</span><span class="titem">SnowWorld 17:00–20:00<small>滑雪時段＋裝備租借</small></span></label></li><li><label><input type="checkbox" id="todo-4" data-todo="4"><span class="box"></span><span class="tdate">12/10</span><span class="titem">Naturalis 自然史博物館<small>€18</small></span></label></li><li><label><input type="checkbox" id="todo-5" data-todo="5"><span class="box"></span><span class="tdate">12/13</span><span class="titem">Club Brugge vs KVC Westerlo 門票<small>clubbrugge.be 官方票；開球時間以官方為準</small></span></label></li><li><label><input type="checkbox" id="todo-6" data-todo="6"><span class="box"></span><span class="tdate">12/13</span><span class="titem">Cambrinus 晚餐訂位<small>看完球約 19:30 到</small></span></label></li><li><label><input type="checkbox" id="todo-7" data-todo="7"><span class="box"></span><span class="tdate">12/13</span><span class="titem">Rotterdam → Brugge 火車<small>施工日，出發前一週再確認</small></span></label></li><li><label><input type="checkbox" id="todo-8" data-todo="8"><span class="box"></span><span class="tdate">12/14</span><span class="titem">布魯日鐘樓 10:00 時段票</span></label></li><li><label><input type="checkbox" id="todo-9" data-todo="9"><span class="box"></span><span class="tdate">12/15</span><span class="titem">Brussels → Köln 16:22 車票<small>新時刻表的票通常已開賣，現在就查；選可改的票</small></span></label></li><li><label><input type="checkbox" id="todo-10" data-todo="10"><span class="box"></span><span class="tdate">12/15</span><span class="titem">Päffgen 晚餐電話訂位<small>只接受電話訂位</small></span></label></li><li><label><input type="checkbox" id="todo-11" data-todo="11"><span class="box"></span><span class="tdate">12/16</span><span class="titem">科隆大教堂＋南塔 09:00<small>koelner-dom.de；塔 €8、塔＋寶物館 €12</small></span></label></li><li><label><input type="checkbox" id="todo-12" data-todo="12"><span class="box"></span><span class="tdate">12/18</span><span class="titem">阿姆斯特丹最後一晚住宿<small>Centraal 附近</small></span></label></li><li><label><input type="checkbox" id="todo-13" data-todo="13"><span class="box"></span><span class="tdate">12/18</span><span class="titem">Köln → Amsterdam ICE</span></label></li></ul></div>
+    <div class="todo-wrap"><div class="tgroup"><div class="label">待訂</div><ul><li><label><input type="checkbox" id="todo-1" data-todo="1"><span class="box"></span><span class="tdate">12/5</span><span class="titem">Restaurant &#x27;t Zwaantje 晚餐訂位</span></label></li><li><label><input type="checkbox" id="todo-2" data-todo="2"><span class="box"></span><span class="tdate">12/6</span><span class="titem">Moeders 晚餐訂位</span></label></li><li><label><input type="checkbox" id="todo-3" data-todo="3"><span class="box"></span><span class="tdate">12/9</span><span class="titem">SnowWorld 17:00–20:00<small>滑雪時段和裝備租借</small></span></label></li><li><label><input type="checkbox" id="todo-4" data-todo="4"><span class="box"></span><span class="tdate">12/10</span><span class="titem">Naturalis 自然史博物館<small>€18</small></span></label></li><li><label><input type="checkbox" id="todo-5" data-todo="5"><span class="box"></span><span class="tdate">12/13</span><span class="titem">Club Brugge vs KVC Westerlo 門票<small>clubbrugge.be 官方票；開球時間以官方為準</small></span></label></li><li><label><input type="checkbox" id="todo-6" data-todo="6"><span class="box"></span><span class="tdate">12/13</span><span class="titem">Cambrinus 晚餐訂位<small>看完球約 19:30 到</small></span></label></li><li><label><input type="checkbox" id="todo-7" data-todo="7"><span class="box"></span><span class="tdate">12/13</span><span class="titem">Rotterdam → Brugge 火車<small>施工日，出發前一週再確認</small></span></label></li><li><label><input type="checkbox" id="todo-8" data-todo="8"><span class="box"></span><span class="tdate">12/14</span><span class="titem">布魯日鐘樓 10:00 時段票</span></label></li><li><label><input type="checkbox" id="todo-9" data-todo="9"><span class="box"></span><span class="tdate">12/15</span><span class="titem">Brussel-Zuid（Midi）→ Köln 16:22 車票<small>新時刻表的票通常已開賣，現在就查；選可改的票</small></span></label></li><li><label><input type="checkbox" id="todo-10" data-todo="10"><span class="box"></span><span class="tdate">12/15</span><span class="titem">Päffgen 晚餐訂位<small>只接受電話訂位</small></span></label></li><li><label><input type="checkbox" id="todo-11" data-todo="11"><span class="box"></span><span class="tdate">12/16</span><span class="titem">科隆大教堂＋南塔 09:00<small>koelner-dom.de；塔 €8、塔＋寶物館 €12</small></span></label></li><li><label><input type="checkbox" id="todo-12" data-todo="12"><span class="box"></span><span class="tdate">12/18</span><span class="titem">阿姆斯特丹最後一晚住宿<small>Centraal 附近</small></span></label></li><li><label><input type="checkbox" id="todo-13" data-todo="13"><span class="box"></span><span class="tdate">12/18</span><span class="titem">Köln → Amsterdam ICE</span></label></li></ul></div>
 <div class="tgroup"><div class="label">待確認</div><ul><li><label><input type="checkbox" id="todo-14" data-todo="14"><span class="box"></span><span class="tdate">12/12</span><span class="titem">parkrun 註冊拿條碼<small>免費</small></span></label></li><li><label><input type="checkbox" id="todo-15" data-todo="15"><span class="box"></span><span class="tdate">12/19</span><span class="titem">回程轉機服務申請<small>起飛前 24 小時</small></span></label></li></ul></div>
 <details class="tgroup fold"><summary class="label">已訂（2）</summary><ul><li class="static"><span class="sicon">已訂</span><span class="tdate">12/6</span><span class="titem">安妮之家 16:45–17:00，2 張<small>16:30 前到</small></span></li><li class="static"><span class="sicon">已訂</span><span class="tdate">12/7</span><span class="titem">國家博物館 15:00</span></li></ul></details>
 <details class="tgroup fold"><summary class="label">當天買（2）</summary><ul><li class="static"><span class="sicon">現場</span><span class="tdate">12/17</span><span class="titem">Köln ↔ Düsseldorf 區域火車<small>DB App</small></span></li><li class="static"><span class="sicon">現場</span><span class="tdate">—</span><span class="titem">荷蘭境內火車、電車<small>刷信用卡進出（OVpay）</small></span></li></ul></details></div>
@@ -1124,7 +1129,7 @@ footer{padding-block:var(--s7) var(--s8);color:var(--muted);font-size:13px;borde
   </section>
 
   <section class="block" id="info">
-    <div class="block-head"><div class="label">Good to know</div><h2>旅途須知</h2><p>天氣、交通、喝酒的規矩和緊急電話，都收在這裡。</p></div>
+    <div class="block-head"><div class="kicker">Good to know</div><h2>旅途須知</h2><p>天氣、交通、喝酒的規矩和緊急電話，都收在這裡。</p></div>
     <div class="prac">
       <div class="card">
         <div class="label">12 月天氣</div>
@@ -1204,11 +1209,13 @@ footer{padding-block:var(--s7) var(--s8);color:var(--muted);font-size:13px;borde
   count();
   // scrollspy
   if('IntersectionObserver' in window){
-    var navLinks={}; document.querySelectorAll('.nav a[href^="#"]').forEach(function(a){navLinks[a.getAttribute('href').slice(1)]=a;});
+    var navLinks={}; document.querySelectorAll('.nav li a[href^="#"]').forEach(function(a){navLinks[a.getAttribute('href').slice(1)]=a;});
     var so=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){
       Object.values(navLinks).forEach(function(a){a.removeAttribute('aria-current');});
       var a=navLinks[e.target.id]; if(a)a.setAttribute('aria-current','true');}});},{rootMargin:'-45% 0px -50% 0px'});
     document.querySelectorAll('section.block').forEach(function(s){so.observe(s);});
+    var ovw=document.getElementById('overview');
+    window.addEventListener('scroll',function(){ if(window.scrollY<ovw.offsetTop-60){Object.values(navLinks).forEach(function(a){a.removeAttribute('aria-current');});}},{passive:true});
     var chips={}; document.querySelectorAll('.dchip').forEach(function(c){chips[c.dataset.day]=c;});
     var dob=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){
       Object.values(chips).forEach(function(c){c.removeAttribute('aria-current');});
