@@ -2,6 +2,7 @@
 # Winter travel book: compile the itinerary and editorial assets into a static page.
 import sys, html, re, urllib.parse, math, os, json
 from pathlib import Path
+import dining
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from booklet_data import CITIES, DAYS, GUIDES, TRAINS, LINKS, STAYS, BOOKINGS, CLOSED, BACKUPS, SOUVENIRS, CHAPTERS, DAY_PHOTOS, DISH_PHOTOS, PHOTO_TEXT
 
@@ -139,7 +140,7 @@ def day_cards(ids):
     <div class="day-plan">
     <ol class="tl">{"".join(lis)}</ol>
     {fact}
-    <div class="day-act">{rlink}</div>
+    <div class="day-act">{rlink}<a class="nearby-food" href="food.html#city-{d["city"]}">附近吃喝 ↗</a></div>
     </div>
     {scene}
   </div>
@@ -578,7 +579,7 @@ JS = r"""
   count();
   // Track sections and dates from the same reading line just below the sticky bars.
   var navLinks={}, chips={}, queued=false, activeNav=null, activeDate=null;
-  document.querySelectorAll('.nav li a').forEach(function(a){navLinks[a.hash.slice(1)]=a;});
+  document.querySelectorAll('.nav li a').forEach(function(a){navLinks[a.hash.slice(1)||'guides']=a;});
   document.querySelectorAll('.dchip').forEach(function(a){chips[a.dataset.day]=a;});
   var sections=Array.from(document.querySelectorAll('.block, #guides, .chapter, .guide'));
   var dates=Array.from(document.querySelectorAll('.chapter, .day, .guide'));
@@ -644,7 +645,7 @@ def body():
     <ul>
       <li><a href="#overview">總覽</a></li>
       <li><a href="#days">每日</a></li>
-      <li><a href="#guides">吃喝</a></li>
+      <li><a href="food.html">吃喝</a></li>
       <li><a href="#stays">住宿</a></li>
       <li><a href="#todo">出發前</a></li>
       <li><a href="#info">須知</a></li>
@@ -678,6 +679,7 @@ def body():
     <details class="index-fold"><summary>十五天行程一覽</summary><div class="ovlist">{overview()}</div></details>
     <section class="food-index" id="guides">
       <div class="block-head"><div class="kicker">Eat &amp; drink</div><h2>每座城市，該吃什麼</h2><p>每家店都對照過 Google 評分、旅遊指南和 Threads 上的心得才放進來。標了日期的，已經排進行程。</p></div>
+      <p><a class="nearby-food" href="food.html">開啟吃喝清單：依城市、街區找店 ↗</a></p>
       <ul>{food_index()}</ul>
     </section>
   </section>
@@ -770,24 +772,41 @@ HEAD_LINKS = '<link rel="preload" href="assets/fonts/noto-serif-tc.woff2" as="fo
 FONTS_CSS = (ROOT / "src/fonts.css").read_text(encoding="utf-8")
 BOOK_CSS = (ROOT / "src/book.css").read_text(encoding="utf-8")
 
-def build(artifact_path, site_path):
+def build(artifact_path, site_path, food_path=None):
     b = "\n".join(line.rstrip() for line in body().splitlines())
     artifact = (f'<title>荷比德冬季旅行手冊</title>\n<meta name="claude:viewport-fit-sides" content="cover">\n{HEAD_LINKS}\n<style>{FONTS_CSS}{CSS}{BOOK_CSS}</style>\n{b}\n')
     site = ('<!doctype html>\n<html lang="zh-Hant">\n<head>\n<meta charset="utf-8">\n'
             '<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">\n'
             '<meta name="robots" content="noindex, nofollow">\n<meta name="theme-color" content="#0F1F45">\n<title>荷比德冬季旅行手冊</title>\n'
             f'{HEAD_LINKS}\n<style>[hidden]{{display:none!important}} img{{max-width:100%}} :root{{padding-top:env(safe-area-inset-top,0px)}}{FONTS_CSS}{CSS}{BOOK_CSS}</style>\n</head>\n<body>\n{b}\n</body>\n</html>\n')
+    food = None
+    if food_path is not None:
+        food_css = (ROOT / "src/food.css").read_text(encoding="utf-8")
+        food_body = "\n".join(line.rstrip() for line in dining.page(esc, q).splitlines())
+        food = ('<!doctype html>\n<html lang="zh-Hant"><head><meta charset="utf-8">\n'
+                '<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">\n'
+                '<meta name="robots" content="noindex, nofollow">\n'
+                '<meta name="theme-color" content="#111b2b">\n<title>這附近吃什麼？｜冬季旅行手冊</title>\n'
+                f'<style>{FONTS_CSS}{CSS}{BOOK_CSS}{food_css}</style>\n</head><body>\n'
+                f'{food_body}\n</body></html>\n')
+    check_privacy(site)
+    if food is not None:
+        check_privacy(food)
+    Path(site_path).write_text(site, encoding="utf-8")
+    Path(artifact_path).write_text(artifact, encoding="utf-8")
+    if food is not None:
+        Path(food_path).write_text(food, encoding="utf-8")
+    print("built", len(site), "food", len(food or ''))
+
+def check_privacy(page):
     # Public page: private terms are blocked by hash so this public source does not name them.
     import hashlib
     for n, h in [(2, '8f5039a6dfad4305'), (2, '9a155d48a53c7936'), (3, 'ae56c663b674b148'), (3, 'c81ed803e323ad7f')]:
-        hits = {site[i:i+n] for i in range(len(site)-n+1)
-                if hashlib.sha256(site[i:i+n].encode()).hexdigest()[:16] == h}
+        hits = {page[i:i+n] for i in range(len(page)-n+1)
+                if hashlib.sha256(page[i:i+n].encode()).hexdigest()[:16] == h}
         assert not hits, "Privacy check failed (blocked term)"
-    flights = re.findall(r"\b(?:CI|EK|BR|KL|LH|SN|TK|JL|NH|CX)\s?\d{2,4}\b", site)
+    flights = re.findall(r"\b(?:CI|EK|BR|KL|LH|SN|TK|JL|NH|CX)\s?\d{2,4}\b", page)
     assert not flights, "Privacy check failed (blocked code)"
-    Path(site_path).write_text(site, encoding="utf-8")
-    Path(artifact_path).write_text(artifact, encoding="utf-8")
-    print("built", len(site))
 
 if __name__ == "__main__":
     # Usage: python3 src/build.py            -> writes index.html (the GitHub Pages site)
@@ -795,4 +814,5 @@ if __name__ == "__main__":
     root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     site = sys.argv[1] if len(sys.argv) > 1 else os.path.join(root, "index.html")
     art = sys.argv[2] if len(sys.argv) > 2 else os.devnull
-    build(art, site)
+    food = os.path.join(root, "food.html") if len(sys.argv) == 1 else None
+    build(art, site, food)

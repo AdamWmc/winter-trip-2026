@@ -1,0 +1,979 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#111b2b">
+<title>這附近吃什麼？｜冬季旅行手冊</title>
+<style>@font-face {
+  font-family: 'Noto Serif TC';
+  font-style: normal;
+  font-weight: 500 900;
+  font-display: optional;
+  src: url(assets/fonts/noto-serif-tc.woff2) format('woff2');
+  unicode-range: U+3001-3002, U+4e00, U+4e0b, U+4e39, U+4e4b, U+4e86, U+4e8b, U+4e94, U+4ec0, U+4eca, U+4f4e, U+500b, U+502b, U+50cf, U+5169, U+51ac, U+51fa, U+5229, U+5230, U+524d, U+5340-5341, U+5348, U+534a, U+5403-5404, U+548c, U+54c8, U+54ea, U+5564, U+559d, U+56de, U+570b, U+5728, U+5730, U+57ce, U+5834, U+585e, U+5927, U+5929, U+592b, U+597d, U+59c6, U+5b78, U+5b8c, U+5cb8, U+5e02-5e03, U+5e15, U+5e38, U+5ea7, U+5ee3, U+5f9e, U+5fb7, U+60f3, U+65af-65b0, U+65c5, U+65e5, U+662f, U+6642, U+665a, U+675c, U+6a13, U+6a4b, U+6bcf, U+6bd4, U+6c34, U+6cb3, U+6cbf, U+6d77, U+6de1, U+706b, U+71b1, U+723e, U+7259, U+7279, U+73ed, U+7559, U+767b-767c, U+7684, U+770b, U+773c, U+7761, U+77e5, U+77f3, U+79d1, U+7a0b, U+7d66, U+8001, U+81ea, U+8335, U+8377, U+83dc, U+840a, U+8457, U+862d, U+884c, U+8857, U+88e1, U+8981, U+8a02, U+8a25, U+8a72, U+8d70, U+8eca, U+9014, U+9032, U+904b, U+904e, U+9053, U+908a, U+90fd, U+9152, U+91c0, U+91cd, U+934b, U+9418, U+9593, U+963f, U+9686, U+9808, U+9996, U+9b6f, U+9e7f, U+9ebc, U+ff0c;
+}
+@font-face {
+  font-family: 'Source Serif 4';
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+  src: url(assets/fonts/source-serif-roman.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Source Serif 4';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url(assets/fonts/source-serif-italic.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Source Code Pro';
+  font-style: normal;
+  font-weight: 400 500;
+  font-display: swap;
+  src: url(assets/fonts/source-code-pro.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* Layout: winter light × railway timetable. Night-blue cover with a to-scale route map and 15 daylight strips;
+   below it, editorial rules instead of boxes: overview timetable → day pages with a daylight bar → food → stays → before you go → notes. */
+:root{
+ --paper:#F1F3F4; --surface:#FFFFFF; --sunk:#E7EBED; --ink:#121C28; --ink-2:#34404D; --muted:#5D6975;
+ --rule:#D5DBE0; --rule-strong:#121C28;
+ --delft:#1E3F8C; --delft-wash:#E3E9F4; --lamp:#B47A00; --lamp-wash:#F6EBD3;
+ --ok:#2E6A4E; --ok-wash:#DEEEE5; --warn:#C23B22; --warn-wash:#F8E1DB;
+ --night:#0F1F45; --night-ink:#F3F5FA; --night-muted:#A8B6D6; --sun:#F2C14E;
+ --day-band:#F4D98B; --night-band:#D9DEE6;
+ --c-ams:#D0612A; --c-dh:#7A4E9A; --c-rtm:#2C7A8C; --c-bru:#3F7A5A; --c-bxl:#A8800F; --c-kol:#5A6475; --c-dus:#3367A6;
+ --f-display:"Noto Serif TC","Songti TC",serif; --f-num:"Source Serif 4","Noto Serif TC",serif;
+ --f-body:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif; --f-mono:"Source Code Pro","Noto Sans TC",ui-monospace,Menlo,monospace;
+ --s1:4px;--s2:8px;--s3:12px;--s4:16px;--s5:24px;--s6:32px;--s7:48px;--s8:72px;
+ --r:4px; --tap:44px; --gutter:16px; --nav-h:48px; --chips-h:56px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+ --paper:#0B0F15; --surface:#121820; --sunk:#19212B; --ink:#E9EDF2; --ink-2:#C4CCD6; --muted:#93A0AE;
+ --rule:#25303C; --rule-strong:#E9EDF2; --delft:#93B2F2; --delft-wash:#16233D; --lamp:#F2C14E; --lamp-wash:#2E2614;
+ --ok:#7CCBA2; --ok-wash:#132A20; --warn:#F28B74; --warn-wash:#33190F;
+ --night:#070C18; --night-ink:#EEF2F8; --night-muted:#8E9CC0; --sun:#F2C14E; --day-band:#8A7230; --night-band:#1E2834;
+ --c-ams:#F09A66; --c-dh:#C3A3DD; --c-rtm:#86C2DE; --c-bru:#8CC7A8; --c-bxl:#E0BC5E; --c-kol:#AEB6C4; --c-dus:#8DB6E6;
+ color-scheme:dark;}}
+:root[data-theme="dark"]{
+ --paper:#0B0F15; --surface:#121820; --sunk:#19212B; --ink:#E9EDF2; --ink-2:#C4CCD6; --muted:#93A0AE;
+ --rule:#25303C; --rule-strong:#E9EDF2; --delft:#93B2F2; --delft-wash:#16233D; --lamp:#F2C14E; --lamp-wash:#2E2614;
+ --ok:#7CCBA2; --ok-wash:#132A20; --warn:#F28B74; --warn-wash:#33190F;
+ --night:#070C18; --night-ink:#EEF2F8; --night-muted:#8E9CC0; --sun:#F2C14E; --day-band:#8A7230; --night-band:#1E2834;
+ --c-ams:#F09A66; --c-dh:#C3A3DD; --c-rtm:#86C2DE; --c-bru:#8CC7A8; --c-bxl:#E0BC5E; --c-kol:#AEB6C4; --c-dus:#8DB6E6;
+ color-scheme:dark;}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 16px/1.7 var(--f-body)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--paper)}
+a{color:inherit}
+a:focus-visible,summary:focus-visible,input:focus-visible+.box{outline:2px solid var(--delft);outline-offset:2px}
+h1,h2,h3{margin:0;text-wrap:balance} p{margin:0}
+.wrap{max-width:1040px;margin:0 auto;padding-left:max(var(--gutter),env(safe-area-inset-left,0px));padding-right:max(var(--gutter),env(safe-area-inset-right,0px))}
+@media(min-width:761px){:root{--gutter:24px}}
+.nb{white-space:nowrap}
+.label{font:500 12px/1.4 var(--f-body);letter-spacing:.04em;color:var(--muted)}
+.kicker{font:500 11.5px/1.4 var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+section.block{padding-block:var(--s8) 0;scroll-margin-top:var(--nav-h)}
+.block-head{display:grid;gap:var(--s2);margin-bottom:var(--s5)}
+.block-head h2{font:700 clamp(30px,7vw,44px)/1.2 var(--f-display)}
+.block-head p{color:var(--ink-2);font-size:15px;max-width:38em}
+
+/* cover */
+.cover{background:var(--night);color:var(--night-ink)}
+.cover .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:var(--s7);align-items:center;padding-block:var(--s8) var(--s7)}
+.eyebrow{font:500 11.5px/1 var(--f-mono);letter-spacing:.16em;color:var(--night-muted)}
+.cover h1{font:900 clamp(44px,9vw,76px)/1.04 var(--f-display);margin-top:var(--s5);letter-spacing:.01em}
+.cover .sub{font:500 17px/1.5 var(--f-display);color:var(--night-muted);margin-top:var(--s3)}
+.cover .stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));margin-top:var(--s6);border-top:1px solid color-mix(in srgb,var(--night-ink) 22%,transparent)}
+.stat{display:grid;padding:var(--s3) var(--s3) 0}.stat:first-child{padding-left:0}
+.stat+.stat{border-left:1px solid color-mix(in srgb,var(--night-ink) 22%,transparent)}
+.stat b{font:400 40px/1 var(--f-num)}.stat span{font-size:12px;color:var(--night-muted);margin-top:4px}
+.countdown{margin-top:var(--s5);color:var(--night-muted);font-size:14px}
+.countdown b{font:600 24px var(--f-num);color:var(--sun)}
+.routemap{width:100%;height:auto;max-width:100%;display:block}
+.routemap .country{fill:var(--night-muted);opacity:.45;font:500 10px var(--f-mono);letter-spacing:.2em}
+.routemap .leg{fill:none;stroke:var(--night-ink);stroke-width:1.8;stroke-linejoin:round;stroke-linecap:round}
+.routemap .spur{stroke:var(--night-ink);stroke-width:1.3;stroke-dasharray:2 5;opacity:.7}
+.routemap .stay{fill:var(--sun);stroke:var(--night);stroke-width:2}
+.routemap .trip{fill:var(--night-ink)}
+.routemap .city{fill:var(--night-ink);font:600 13px var(--f-body)}
+.routemap .cdate{fill:var(--night-muted);font:400 10.5px var(--f-mono)}
+.routemap .city,.routemap .cdate{paint-order:stroke;stroke:var(--night);stroke-width:3px;stroke-linejoin:round}
+.maplegend{display:flex;gap:var(--s4);font:500 11px var(--f-mono);letter-spacing:.06em;color:var(--night-muted);margin-top:var(--s2);flex-wrap:wrap}
+.maplegend i{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--sun);margin-right:6px}
+.maplegend em{display:inline-block;width:18px;border-top:1.5px dashed var(--night-ink);margin-right:6px;vertical-align:3px}
+.strips{display:grid;gap:3px;margin-top:var(--s5)}
+.strips i{display:block;height:4px;background:linear-gradient(90deg,color-mix(in srgb,var(--night-ink) 14%,transparent) var(--sr),var(--sun) var(--sr) var(--ss),color-mix(in srgb,var(--night-ink) 14%,transparent) var(--ss))}
+.strips-cap{font:500 10.5px var(--f-mono);letter-spacing:.08em;color:var(--night-muted);margin-top:var(--s2)}
+
+/* nav */
+.nav{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--paper) 88%,transparent);backdrop-filter:saturate(1.4) blur(12px);-webkit-backdrop-filter:saturate(1.4) blur(12px);border-bottom:1px solid var(--rule)}
+.nav .wrap{display:flex;align-items:center;gap:var(--s2)}
+.nav ul{list-style:none;margin:0;padding:0;display:flex;flex:1;min-width:0;overflow-x:auto;scrollbar-width:none}
+.nav a{height:var(--nav-h);display:flex;align-items:center;padding:0 var(--s3);font:500 14px var(--f-body);color:var(--muted);text-decoration:none;white-space:nowrap}
+.nav a:hover{color:var(--ink)}
+.nav a[aria-current="true"]{color:var(--ink);box-shadow:inset 0 -2px var(--ink)}
+.today{flex:none;border-radius:var(--r);background:var(--ink);color:var(--paper);font:600 14px var(--f-body);height:32px;display:flex;align-items:center;padding:0 var(--s4);text-decoration:none}
+
+/* overview */
+.ovlist{border-top:2px solid var(--rule-strong)}
+@media(min-width:761px){.ovlist{columns:2;column-gap:var(--s7)}}
+.ov{display:grid;grid-template-columns:64px minmax(0,1fr);gap:2px var(--s3);align-items:baseline;min-height:56px;padding:var(--s3) 0;border-bottom:1px solid var(--rule);text-decoration:none;break-inside:avoid}
+.ov-date{grid-row:span 2;display:flex;gap:6px;align-items:baseline}
+.ov-date b{font:400 20px/1 var(--f-num);color:var(--c)}.ov-date i{font:500 11px var(--f-mono);font-style:normal;color:var(--muted)}
+.ov-main{display:grid}.ov-city{font:600 12px var(--f-body);letter-spacing:.04em;color:var(--c)}
+.ov-title{font:500 15.5px/1.45 var(--f-body)}.ov:hover .ov-title{text-decoration:underline}
+.ov-hotel{font-size:12.5px;color:var(--muted)}
+.ov.is-today .ov-title{font-weight:700}
+@media(max-width:760px){.ov-hotel:not(.is-change){display:none}}
+
+/* date chips + legend */
+.dchips{position:sticky;top:var(--nav-h);z-index:15;display:flex;overflow-x:auto;scrollbar-width:none;padding:0 var(--gutter);margin:0 calc(-1*var(--gutter)) var(--s5);border-bottom:1px solid var(--rule);background:var(--paper);scroll-snap-type:x proximity}
+.dchip{position:relative;flex:none;display:grid;justify-items:center;align-content:center;min-width:48px;height:var(--chips-h);text-decoration:none;scroll-snap-align:start}
+.dchip::after{content:"";position:absolute;left:10px;right:10px;bottom:6px;height:3px;background:var(--c)}
+.dchip b{font:400 21px/1 var(--f-num)}.dchip i{font:500 10.5px var(--f-mono);font-style:normal;color:var(--muted)}
+.dchip[aria-current="true"]{background:var(--sunk)}
+.dchip.is-today{background:var(--ink);color:var(--paper)}.dchip.is-today i{color:inherit}
+.legend{display:flex;flex-wrap:wrap;gap:var(--s2) var(--s4);font:500 12px var(--f-body);color:var(--muted);margin-bottom:var(--s5)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend .mark{margin:0}
+
+/* day */
+.days{display:grid;gap:var(--s6)}
+.day{border-top:2px solid var(--rule-strong);scroll-margin-top:calc(var(--nav-h) + var(--chips-h) + 8px)}
+.day>summary{list-style:none;cursor:pointer}
+.day>summary::-webkit-details-marker{display:none}
+.day-head{display:grid;padding:var(--s4) 0;gap:0 var(--s4);grid-template-columns:auto minmax(0,1fr) var(--tap);
+ grid-template-areas:"num city caret" "num title caret" "num mood mood" "num stay stay" "num light light"}
+.day-meta{display:contents}
+.day-num{grid-area:num;display:flex;align-items:baseline;gap:2px;color:var(--c)}
+.day-num .m,.day-num .slash{font:400 18px var(--f-num);color:var(--muted)}
+.day-num .d{font:400 56px/.9 var(--f-num)}
+.day-num .wd{font:500 11px var(--f-mono);color:var(--muted);margin-left:6px}
+.day-city{grid-area:city;font:600 12px var(--f-body);letter-spacing:.04em;color:var(--c);align-self:center}
+.day-city .local{font:italic 400 15px var(--f-num);color:var(--muted);margin-left:4px}
+.day h3{grid-area:title;font:700 clamp(22px,5.6vw,28px)/1.3 var(--f-display);margin-top:var(--s1)}
+.mood{grid-area:mood;font-size:15px;color:var(--ink-2);margin-top:var(--s2)}
+.stay{grid-area:stay;font-size:13px;color:var(--muted);margin-top:var(--s3);display:flex;gap:var(--s2);align-items:center;flex-wrap:wrap}
+.stay span{border:1px solid var(--rule);border-radius:3px;font:500 11px var(--f-mono);padding:1px 5px}
+.caret{grid-area:caret;justify-self:end;width:var(--tap);height:var(--tap);display:grid;place-items:center}
+.caret::before{content:"";width:9px;height:9px;border-right:1.5px solid var(--muted);border-bottom:1.5px solid var(--muted);transform:rotate(45deg) translateY(-2px);transition:transform .2s}
+details[open] .caret::before{transform:rotate(-135deg)}
+.daylight{grid-area:light;position:relative;height:6px;margin:var(--s4) 0 var(--s5);border-radius:1px;
+ background:linear-gradient(90deg,var(--night-band) var(--sr),var(--day-band) var(--sr) var(--ss),var(--night-band) var(--ss))}
+.daylight i{position:absolute;top:-4px;width:1.5px;height:14px;background:var(--ink);transform:translateX(-50%)}
+.daylight i.now{background:var(--warn);width:2px;height:18px;top:-6px}
+.daylight .sr,.daylight .ss{position:absolute;top:12px;background:var(--paper);padding:0 3px;font:500 10px var(--f-mono);color:var(--muted);transform:translateX(-50%)}
+.daylight .sr{left:var(--sr)}.daylight .ss{left:var(--ss)}
+.day-body{display:grid}
+.tl{list-style:none;margin:0;padding:var(--s2) 0 var(--s4)}
+.tl li{display:grid;grid-template-columns:48px 20px minmax(0,1fr);gap:0 var(--s3);padding-block:10px;position:relative}
+.tl li::before{content:"";position:absolute;left:calc(48px + var(--s3) + 9.5px);top:0;bottom:0;width:1px;background:var(--rule)}
+.tl li:first-child::before{top:18px}.tl li:last-child::before{bottom:auto;height:18px}
+.tl .t{font:400 13px/1.6 var(--f-mono);color:var(--muted);font-variant-numeric:tabular-nums}
+.tl .x{font-size:15.5px;line-height:1.65;min-width:0}.tl .x b{color:var(--ink)}
+.mark{position:relative;z-index:1;justify-self:center;width:11px;height:11px;margin-top:7px;border-radius:50%;background:var(--paper);border:1.5px solid var(--muted)}
+.k-go .mark{border-radius:1px}
+.k-see .mark{background:var(--delft);border-color:var(--delft)}
+.k-eat .mark{background:var(--lamp);border-color:var(--lamp)}
+.k-book .mark{background:var(--ok);border-color:var(--ok)}
+.k-todo .mark{background:var(--warn-wash);border:2.5px solid var(--warn)}
+.k-rest .mark{width:10px;height:2px;border:0;border-radius:0;background:var(--muted);margin-top:12px}
+.k-run .mark{border-color:var(--delft)}
+.plink{color:var(--ink);text-decoration:underline 1.5px var(--delft);text-underline-offset:3px;padding-block:4px}
+.plink b{color:inherit}.plink::after{content:"↗";font:500 .78em var(--f-mono);color:var(--delft);margin-left:2px}
+.chip{display:inline-block;font:500 11px/1 var(--f-mono);letter-spacing:.06em;padding:3px 6px;border-radius:3px;border:1px solid currentColor;margin-left:6px;vertical-align:2px}
+.chip.k-book{color:var(--ok)}.chip.k-todo{color:var(--paper);background:var(--warn);border-color:var(--warn)}
+.fact{margin:0 0 var(--s5) calc(48px + 20px + 2*var(--s3));padding:0 0 0 var(--s4);border-left:2px solid var(--delft);font:400 15px/1.75 var(--f-display);color:var(--ink-2);display:grid;gap:2px}
+.fact span{font:500 11px var(--f-mono);letter-spacing:.14em;color:var(--delft)}
+.day-act{padding:0 0 var(--s5)}
+@media(min-width:761px){.tl,.fact{max-width:720px}}
+.pl .pin::before,.stayc .pin::before{width:11px;height:11px}
+.pin{display:inline-flex;align-items:center;justify-content:center;gap:var(--s2);min-height:var(--tap);min-width:var(--tap);border-radius:var(--r);border:1px solid var(--rule);color:var(--ink);font:500 13.5px var(--f-body);text-decoration:none;padding:0 var(--s4)}
+.pin::before{content:"";width:9px;height:9px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:var(--delft)}
+.pin:hover{border-color:var(--ink)}
+.pin-strong{width:100%;min-height:48px;background:var(--ink);color:var(--paper);border:0;font:600 15px var(--f-body)}
+.pin-strong::before{background:var(--sun)}
+@media(min-width:761px){.pin-strong{width:auto;padding-inline:var(--s5)}}
+
+/* guides */
+.guides{display:grid;gap:var(--s7)}
+.guide{border-top:2px solid var(--rule-strong);padding-top:var(--s5);display:grid;gap:var(--s5);scroll-margin-top:var(--nav-h)}
+.g-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:var(--s1) var(--s4)}
+.g-head h3{font:700 clamp(26px,6vw,36px)/1.25 var(--f-display)}
+.g-dates{font:500 12px var(--f-mono);color:var(--c)}
+.g-body{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:var(--s6)}
+.g-story{display:grid;gap:var(--s4);align-content:start}
+.g-story p{font:400 17px/1.8 var(--f-display)}
+.g-facts{margin:0;display:grid;grid-template-columns:auto minmax(0,1fr);border-top:1px solid var(--rule);padding-top:var(--s3);gap:6px var(--s4);font-size:14px}
+.g-facts dt{font:500 11.5px var(--f-mono);letter-spacing:.08em;color:var(--muted);padding-top:3px}.g-facts dd{margin:0}
+.dishes{list-style:none;margin:var(--s2) 0 0;padding:0;border-top:1px solid var(--rule)}
+.dishes li{display:flex;flex-wrap:wrap;align-items:baseline;column-gap:var(--s2);padding:var(--s3) 0;border-bottom:1px solid var(--rule)}
+.dishes b{order:0;font-weight:700}
+.dishes li::before{content:"";order:1;flex:1;min-width:24px;border-bottom:1px dotted var(--muted);transform:translateY(-4px)}
+.dishes i{order:2;font:italic 400 16px var(--f-num);color:var(--ink-2)}
+.dishes span{order:3;flex-basis:100%;font-size:13.5px;color:var(--muted)}
+.places{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr;gap:0 var(--s6);border-top:1px solid var(--rule)}
+@media(min-width:761px){.places{grid-template-columns:1fr 1fr}}
+.pl{display:grid;grid-template-columns:minmax(0,1fr) var(--tap);grid-template-areas:"top pin" "name pin" "dish pin" "why pin";gap:2px var(--s3);border-bottom:1px solid var(--rule);padding:var(--s3) 0;min-width:0}
+.pl-top{grid-area:top;display:flex;gap:var(--s2);align-items:center}
+.pl-name{grid-area:name;font-weight:700;font-size:16px;line-height:1.4}
+.pl-dish{grid-area:dish;color:var(--ink-2);font-size:14px}
+.pl-why{grid-area:why;font-size:13.5px;color:var(--muted)}
+.pl .pin{grid-area:pin;align-self:center;width:var(--tap);height:var(--tap);padding:0}
+.when{font:500 11.5px var(--f-mono);color:var(--muted)}
+.badge{font:500 11px var(--f-mono);letter-spacing:.06em;padding:2px 6px;border-radius:3px}
+.b-top{background:var(--ink);color:var(--paper)}
+.b-alt{color:var(--muted);border:1px solid var(--rule)}
+.star{font:500 12px var(--f-mono);color:var(--muted);margin-left:var(--s2)}
+.more>summary{min-height:var(--tap);display:flex;align-items:center;font:500 13px var(--f-body);letter-spacing:.02em;color:var(--delft);cursor:pointer;list-style:none}
+.more>summary::-webkit-details-marker{display:none}
+.more>summary::before{content:"+";margin-right:8px}.more[open]>summary::before{content:"−"}
+
+/* stays */
+.stays{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr;gap:0 var(--s6);border-top:2px solid var(--rule-strong)}
+@media(min-width:761px){.stays{grid-template-columns:1fr 1fr}}
+.stayc{display:grid;grid-template-columns:minmax(0,1fr) var(--tap);grid-template-areas:"top pin" "name pin" "addr pin" "note pin";gap:2px var(--s3);padding:var(--s3) 0;border-bottom:1px solid var(--rule)}
+.stay-top{grid-area:top;display:flex;gap:var(--s3);align-items:center;font:500 12px var(--f-mono);color:var(--muted)}
+.sbadge{font:500 11px var(--f-mono);padding:2px 6px;border-radius:3px}
+.s-ok{color:var(--ok);border:1px solid currentColor}.s-todo{color:var(--paper);background:var(--warn)}
+.stay-name{grid-area:name;font-weight:700;font-size:16.5px}
+.stay-addr{grid-area:addr;font-size:13.5px;color:var(--ink-2)}.stay-note{grid-area:note;font-size:13px;color:var(--muted)}
+.stayc .pin{grid-area:pin;align-self:center;width:var(--tap);height:var(--tap);padding:0}
+
+/* checklist */
+.progress{display:flex;align-items:center;gap:var(--s3);font:500 13px var(--f-mono);color:var(--muted);margin-bottom:var(--s5)}
+.progress b{color:var(--ink)}
+.progress::after{content:"";flex:1;height:2px;background:linear-gradient(90deg,var(--ok) var(--p,0%),var(--rule) 0)}
+.alldone{font:400 15px var(--f-display);color:var(--ok);margin:-12px 0 var(--s5)}
+.todo-wrap{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:var(--s6)}
+.tgroup>.label{display:block;padding-bottom:var(--s2);border-bottom:2px solid var(--rule-strong);color:var(--ink)}
+details.tgroup>summary{list-style:none;cursor:pointer;min-height:var(--tap);display:flex;align-items:flex-end}
+details.tgroup>summary::-webkit-details-marker{display:none}
+details.tgroup>summary::after{content:"+";margin-left:auto;font-size:14px}
+details.tgroup[open]>summary::after{content:"−"}
+.tgroup ul{list-style:none;margin:0;padding:0}
+.tgroup label,.tgroup li.static{display:grid;grid-template-columns:24px 52px minmax(0,1fr);gap:var(--s3);min-height:52px;padding:var(--s3) 0;border-bottom:1px solid var(--rule);cursor:pointer;align-items:start}
+.tgroup li.static{cursor:default;grid-template-columns:40px 52px minmax(0,1fr);color:var(--muted)}
+.tgroup label:active{background:var(--sunk)}
+.tgroup input{position:absolute;opacity:0;width:1px;height:1px}
+.box{width:22px;height:22px;border:1.5px solid var(--ink-2);border-radius:3px;margin-top:1px;display:grid;place-items:center}
+.tgroup input:checked+.box{background:var(--ok);border-color:var(--ok)}
+.tgroup input:checked+.box::after{content:"";width:5px;height:10px;border:solid var(--paper);border-width:0 2px 2px 0;transform:rotate(45deg) translate(-1px,-1px)}
+.tgroup input:checked~.titem{text-decoration:line-through;color:var(--muted)}
+.tdate{font:500 12.5px var(--f-mono);color:var(--muted);padding-top:2px}
+.titem{display:grid;font-size:15px}.titem small{font-size:12.5px;color:var(--muted)}
+.sicon{font:500 11px var(--f-mono);padding-top:3px}
+.subhead{margin-top:var(--s7)}
+
+/* info */
+.prac{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr));gap:0 var(--s6)}
+.card{border-top:2px solid var(--rule-strong);padding:var(--s4) 0 var(--s6);display:grid;gap:var(--s3);align-content:start;min-width:0}
+.card.wide{grid-column:1/-1}
+.card h3{font:700 20px/1.3 var(--f-display)}
+.card ul{list-style:none;margin:0;padding:0;display:grid;gap:6px;font-size:15px}
+.card li{position:relative;padding-left:var(--s4)}
+.card li::before{content:"";position:absolute;left:0;top:.85em;width:7px;height:1px;background:var(--muted)}
+.big{font:400 56px/1 var(--f-num);color:var(--delft)}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{text-align:left;padding:var(--s2) var(--s3) var(--s2) 0;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font:500 11px var(--f-mono);letter-spacing:.1em;color:var(--muted)}
+.trains td:nth-child(3){font-family:var(--f-body);font-variant-numeric:tabular-nums;white-space:nowrap;font-size:13px}
+footer{padding-block:var(--s7) var(--s8);color:var(--muted);font-size:13px;border-top:1px solid var(--rule);margin-top:var(--s8)}
+
+/* phone */
+@media(max-width:760px){
+ :root{--nav-h:0px}
+ .cover .wrap{grid-template-columns:minmax(0,1fr);gap:var(--s6);padding-block:var(--s7) var(--s6)}
+ .nav{position:fixed;top:auto;bottom:0;left:0;right:0;border-bottom:0;border-top:1px solid var(--rule);padding-bottom:env(safe-area-inset-bottom,0px)}
+ .nav .wrap{padding:0}
+ .nav ul{overflow:visible}
+ .nav li{flex:1}
+ .nav a{height:56px;justify-content:center;padding:0;font-size:13px}
+ .nav a[aria-current="true"]{box-shadow:inset 0 2px var(--ink)}
+ .today{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(68px + env(safe-area-inset-bottom,0px));height:var(--tap);box-shadow:0 4px 14px rgb(0 0 0 / .25)}
+ body{padding-bottom:calc(56px + env(safe-area-inset-bottom,0px))}
+ .dchips{top:env(safe-area-inset-top,0px);border-bottom:0;box-shadow:0 1px 0 var(--rule)}
+ .day{scroll-margin-top:calc(var(--chips-h) + 8px)}
+ .legend{display:none}
+ .day-head{grid-template-areas:"num city caret" "title title title" "mood mood mood" "stay stay stay" "light light light"}
+ .day-num .d{font-size:40px}
+ .day:not([open]) .mood,.day:not([open]) .stay{display:none}
+ .day:not([open]) .daylight{margin-bottom:0}
+ .fact{margin-left:0}
+ .g-body{grid-template-columns:minmax(0,1fr)}
+ .trains,.trains tbody,.closed,.closed tbody{display:block}
+ .trains thead,.closed thead{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+ .trains tr{display:grid;grid-template-columns:48px minmax(0,1fr) auto;gap:2px var(--s3);padding:var(--s3) 0;border-bottom:1px solid var(--rule)}
+ .trains td,.closed td{padding:0;border:0}
+ .trains td:nth-child(4){grid-column:2/-1;font-size:13px;color:var(--muted)}
+ .closed tr{display:grid;padding:var(--s3) 0;border-bottom:1px solid var(--rule)}
+ .closed td:first-child{font-weight:700}
+ .closed td:nth-child(3){font:500 12.5px var(--f-mono);color:var(--muted)}
+}
+@media print{.nav,.today,.dchips{display:none}}
+/* v4 photo book: paper, gilt details and the original timetable below each opener. */
+:root{--paper:#f7f4ed;--surface:#fffdf7;--sunk:#eae5da;--rule:#d9d3c7;--night:#111b2b;--night-muted:#b8c6dd;--gold:#f4d58b;--safe-top:env(safe-area-inset-top,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--paper:#101721;--surface:#161e2a;--sunk:#202a38;--rule:#303b4a}}
+:root[data-theme="dark"]{--paper:#101721;--surface:#161e2a;--sunk:#202a38;--rule:#303b4a}
+body{overflow-wrap:anywhere}
+.wrap{max-width:1136px}
+[hidden]{display:none!important}
+.nav{background:var(--paper);backdrop-filter:none;-webkit-backdrop-filter:none}
+.nav a:hover,.dchip:hover{background:var(--sunk)}
+.nav .today{color:var(--paper);min-height:44px}
+.nav .today:hover{background:var(--ink-2);color:var(--paper)}
+.nb{display:inline;white-space:normal}
+.kicker{letter-spacing:.13em}
+.photo{margin:0;min-width:0}
+.photo img{display:block;width:100%;height:auto;object-fit:cover;object-position:var(--focus,50% 50%);background:#26374a}
+.photo figcaption{font-size:12px;line-height:1.6;color:var(--muted);padding-top:8px}
+.cover,.opener{position:relative;isolation:isolate;display:grid;color:#fff9e9;background:#111b2b}
+.cover{min-height:min(780px,90svh)}
+.cover-photo,.opener-photo{position:absolute;inset:0;pointer-events:none}
+.cover-photo img,.opener-photo img{position:absolute;inset:0;z-index:-2;height:100%;max-width:none}
+.cover::after,.opener::after{position:absolute;z-index:-1;inset:0;content:"";pointer-events:none;
+ background:linear-gradient(0deg,rgb(9 15 26 / .94) 0%,rgb(9 15 26 / .76) 27%,transparent 74%),linear-gradient(180deg,rgb(9 15 26 / .76),transparent 23%)}
+.cover .cover-copy{display:grid;grid-template-columns:1fr;grid-template-rows:auto 1fr auto;align-items:end;gap:20px;width:100%;padding-block:28px 44px}
+.cover-mast,.opener-index{display:flex;justify-content:space-between;gap:12px;border-top:1px solid rgb(255 249 233 / .55);padding-top:12px;
+ font:500 12px/1.4 var(--f-mono);letter-spacing:.15em;color:#fff4d9}
+.cover h1{font-size:clamp(58px,8vw,112px);margin:16px 0 0;letter-spacing:.04em;text-wrap:initial}
+.cover .eyebrow{color:var(--gold);line-height:1.45}
+.cover .sub,.cover .countdown{color:#fff4d9}
+.cover .sub{display:flex;flex-wrap:wrap;gap:3px 16px;font-size:clamp(15px,2vw,21px);margin-top:17px}
+.cover .countdown{margin-top:12px}
+.cover-index{display:flex;min-height:44px;align-items:center;justify-content:space-between;gap:24px;width:max-content;padding:0 0 1px;border-bottom:1px solid #fff4d9;color:#fff4d9;text-decoration:none;font-size:14px}
+.cover-index:hover{color:var(--gold)}
+.cover-photo figcaption,.opener-photo figcaption{position:absolute;right:max(var(--gutter),3%);bottom:10px;color:#fff4d9;padding:0;text-align:right;max-width:calc(100% - 2 * var(--gutter));text-shadow:0 1px 3px #0b121c;z-index:1}
+.cover-photo figcaption{bottom:16px}
+.cover a:focus-visible{outline-color:var(--gold)}
+
+.contents-spread{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.92fr);gap:clamp(22px,5vw,66px);align-items:start}
+.contents,.food-index ul{list-style:none;margin:12px 0 0;padding:0;border-top:1px solid var(--rule-strong)}
+.contents a{display:grid;align-items:center;grid-template-columns:3em minmax(0,1fr) max-content;gap:8px;min-height:64px;border-bottom:1px solid var(--rule);padding:9px 0;text-decoration:none}
+.contents a:hover,.food-index a:hover{color:var(--delft);background:var(--sunk)}
+.folio{font:400 27px/1 var(--f-num);color:var(--muted)}
+.contents-name{font:700 clamp(18px,2.2vw,27px)/1.25 var(--f-display)}
+.contents-name i{display:block;font:italic 400 15px/1.3 var(--f-num);color:var(--muted);margin-top:4px}
+.contents-date,.food-index a span{font:500 11px/1.4 var(--f-mono);color:var(--muted)}
+.route-panel{background:var(--night);color:var(--night-ink);padding:clamp(16px,3vw,32px)}
+.route-panel .kicker{color:var(--night-muted);margin-bottom:8px}
+.route-panel .strips{gap:2px;margin-top:16px}
+.route-panel .strips i{height:3px}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));margin-top:18px;border-top:1px solid rgb(255 255 255 / .24)}
+.route-panel .stat{padding-inline:8px}
+.route-panel .stat:first-child{padding-left:0}
+.route-panel .stat b{font-size:clamp(26px,5vw,38px)}
+.index-fold{margin:24px 0 0;border-block:1px solid var(--rule)}
+.index-fold>summary,.photo-credits>summary{min-height:44px;cursor:pointer;padding:11px 0;font-weight:600}
+.index-fold .ovlist{margin-bottom:12px}
+.food-index{padding-top:clamp(28px,5vw,52px);scroll-margin-top:calc(var(--nav-h) + var(--safe-top) + 10px)}
+.food-index .block-head h2{font-size:clamp(24px,5vw,32px)}
+.food-index ul{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:24px}
+.food-index a{display:flex;min-height:48px;justify-content:space-between;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--rule);text-decoration:none;font-size:14px}
+.food-index a span{text-align:right}
+section#days{padding-top:44px}
+.days-heading{margin-top:28px}
+.dchips{top:calc(var(--nav-h) + var(--safe-top));margin-bottom:0;border-top:1px solid var(--rule)}
+.chapter,.guide,.day{scroll-margin-top:calc(var(--nav-h) + var(--safe-top) + var(--chips-h) + 10px)}
+.chapter{margin-bottom:clamp(60px,9vw,120px)}
+.chapter:last-child{margin-bottom:0}
+.bleed{width:min(100vw,1440px);margin-inline:calc((100% - min(100vw,1440px)) / 2)}
+.opener{height:clamp(440px,65vw,680px)}
+.opener-copy{display:grid;grid-template-rows:auto 1fr;align-items:end;gap:20px;width:min(100%,1136px);margin:auto;height:100%;padding:26px var(--gutter) 48px}
+.opener-title>p{font:italic 400 clamp(26px,4.5vw,62px)/1 var(--f-num);color:var(--gold)}
+.opener h2{font:900 clamp(40px,7vw,90px)/1.13 var(--f-display);text-wrap:balance;letter-spacing:.02em;margin:9px 0 15px}
+.opener-intro{font:500 clamp(15px,2vw,20px)/1.65 var(--f-display);max-width:32em}
+.chapter-links{display:flex;align-items:center;gap:6px 16px;flex-wrap:wrap;border-bottom:1px solid var(--rule);padding-block:4px;margin-bottom:24px}
+.chapter-links a{display:inline-flex;align-items:center;min-height:44px;gap:4px;color:var(--delft);font:500 13px var(--f-mono);text-underline-offset:3px}
+.chapter-links a small{color:var(--muted)}
+.chapter-notes{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,360px),1fr));gap:24px;margin:0 0 30px}
+.chapter-notes .g-story p{max-width:36em}
+.days{gap:34px}
+.day-city,.day-num,.ov-city,.ov-date b,.g-dates{color:var(--ink-2)}
+.day-city{border-left:3px solid var(--c);padding-left:8px}
+.day-num .d{color:var(--ink)}
+.day-plan{min-width:0}
+.day-photo{margin-block:12px 0}
+.day-photo img{aspect-ratio:4/3}
+.day-body.has-scene{grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:32px;align-items:start}
+.guide{margin-top:clamp(42px,6vw,72px);gap:17px}
+.g-head h3{margin-top:6px}
+.dishes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;padding-top:14px}
+.dishes li{display:grid;gap:3px;align-content:start;padding-top:0;overflow-wrap:anywhere}
+.dishes li::before{display:none}
+.dishes .dish-photo{margin-bottom:7px}
+.dish-photo img{aspect-ratio:4/3}
+.dishes b{font:700 17px/1.35 var(--f-display)}
+.dishes i,.dishes span{order:initial}
+.dishes i{font-size:15px}
+.dishes span{line-height:1.55}
+.photo-credits{margin-top:20px;border-block:1px solid var(--rule)}
+.photo-credits ul{padding-left:20px}
+.photo-credits a{display:inline-block;min-height:24px;text-underline-offset:3px}
+.skip-link{position:fixed;z-index:35;top:8px;left:8px;transform:translateY(-150%);background:var(--ink);color:var(--paper);padding:10px 16px}
+.skip-link:focus{transform:none}
+@media(min-width:761px){
+ .nav{top:var(--safe-top)}
+ .cover::after{background:linear-gradient(0deg,rgb(9 15 26 / .93) 0%,rgb(9 15 26 / .69) 20%,transparent 70%),linear-gradient(90deg,rgb(9 15 26 / .8),rgb(9 15 26 / .3) 45%,transparent 72%),linear-gradient(180deg,rgb(9 15 26 / .75),transparent 24%)}
+}
+@media(max-width:760px){
+ .cover{min-height:72svh}
+ .cover .cover-copy{padding-block:22px 48px;gap:15px}
+ .cover h1{font-size:clamp(52px,15.5vw,74px)}
+ .cover .sub{flex-direction:column}
+ .cover-mast,.opener-index{font-size:10px}
+ .cover-photo figcaption{bottom:10px}
+ .contents-spread,.food-index ul{grid-template-columns:minmax(0,1fr)}
+ .opener{height:72svh;min-height:390px;max-height:720px}
+ .opener-copy{padding-block:20px 52px}
+ .chapter-links{gap:4px 10px}
+ .chapter-links a{min-width:44px}
+ .chapter-notes{margin-bottom:24px}
+ .day-head{gap:0 8px;grid-template-columns:auto minmax(0,1fr) var(--tap);padding:12px 0 8px}
+ .day-body.has-scene{grid-template-columns:minmax(0,1fr);gap:12px}
+ .day-photo{margin-block:8px 0}
+ .dishes{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+ .day-num .wd{margin-left:3px}
+ .nav .today{padding-inline:16px}
+}
+@media print{
+ .cover,.opener{min-height:0;height:auto;break-inside:avoid}
+ .cover-photo,.opener-photo{position:static;grid-row:2}
+ .cover-photo img,.opener-photo img{position:static;height:250px}
+ .cover-photo figcaption,.opener-photo figcaption{position:static;text-align:left}
+ .bleed{width:100%;margin-inline:0}
+}
+.tl .plink,.tl .plink::after{color:#79530a;text-decoration-color:#9b721b}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .tl .plink,:root:not([data-theme="light"]) .tl .plink::after{color:var(--gold);text-decoration-color:var(--gold)}}
+:root[data-theme="dark"] .tl .plink,:root[data-theme="dark"] .tl .plink::after{color:var(--gold);text-decoration-color:var(--gold)}
+.dish-photo.photo-portrait img{object-fit:contain;background:var(--sunk)}
+@media(min-width:1100px){
+ .dishes[data-count="4"]{grid-template-columns:repeat(4,minmax(0,1fr))}
+ .dishes[data-count="5"]{grid-template-columns:repeat(5,minmax(0,1fr))}
+}
+html{overflow-x:clip}
+.day-act{display:flex;align-items:center;gap:8px 16px;flex-wrap:wrap}
+.nearby-food{display:inline-flex;align-items:center;min-height:44px;color:var(--delft);font-size:14px;text-underline-offset:3px}
+/* Pocket directory: fast to scan, with the same paper and type as the book. */
+.food-mast{background:var(--night);color:var(--night-ink)}
+.food-mast .wrap{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.food-mast a{display:flex;align-items:center;min-height:48px;text-decoration:none;font-size:14px}
+.food-mast a:hover{text-decoration:underline}
+.food-mast span{font:500 10px var(--f-mono);letter-spacing:.1em;color:var(--night-muted)}
+.food-main{padding-bottom:20px}
+.food-intro{padding-block:clamp(24px,5vw,56px) 20px}
+.food-intro h1{font:900 clamp(35px,7vw,63px)/1.15 var(--f-display);margin:8px 0 10px;text-wrap:initial}
+.food-intro>p:last-child{color:var(--ink-2);max-width:38em;font-size:15px}
+.food-cities{position:sticky;top:env(safe-area-inset-top,0px);z-index:3;display:flex;overflow-x:auto;
+ gap:8px;padding:6px 0;border-block:1px solid var(--rule);background:var(--paper);scrollbar-width:thin}
+.food-cities a{display:flex;align-items:center;min-height:44px;padding:0 12px;flex:none;
+ text-decoration:none;font-size:14px;font-weight:600}
+.food-cities a:hover{background:var(--sunk)}
+.food-cities a[aria-current=true]{color:var(--paper);background:var(--ink)}
+.food-filters{scroll-margin-top:calc(58px + env(safe-area-inset-top,0px));
+ display:grid;grid-template-columns:minmax(0,2fr) repeat(2,minmax(0,1fr));gap:8px 12px;padding:14px 0 0}
+.food-filters label{display:grid;gap:4px;color:var(--muted);font-size:12px;min-width:0}
+.food-filters input,.food-filters select{min-height:44px;width:100%;min-width:0;padding:6px 10px;border:1px solid var(--rule);
+ border-radius:4px;background:var(--surface);color:var(--ink);font:400 16px var(--f-body)}
+.food-filters :focus-visible{outline:2px solid var(--delft);outline-offset:2px}
+#food-count{grid-column:1/-1;color:var(--muted);font-size:12px}
+.food-empty{border-left:3px solid var(--delft);padding-left:10px;margin-top:12px}
+.food-city{scroll-margin-top:64px;margin-top:20px;padding-bottom:24px}
+.food-city>header{padding:14px 0;border-top:2px solid var(--rule-strong)}
+.food-city>header p:first-child{font:italic 400 21px var(--f-num);color:var(--muted)}
+.food-city h2{font:700 clamp(27px,5vw,40px)/1.2 var(--f-display);margin:4px 0}
+.food-city>header p:last-child{font-size:14px;color:var(--ink-2)}
+.food-special{border-bottom:1px solid var(--rule);padding-bottom:4px;font-size:14px}
+.food-special summary,.food-special a{min-height:44px;padding-block:9px;cursor:pointer;color:var(--delft)}
+.food-special a{display:inline-flex;align-items:center}
+.food-special li i{color:var(--muted)}
+.food-area{margin-top:20px}
+.food-area>h3{font:700 17px var(--f-display);padding-bottom:7px;border-bottom:1px solid var(--rule-strong)}
+.food-area>ul{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0 22px;list-style:none;margin:0;padding:0}
+.food-place{display:grid;align-content:start;gap:4px;padding:12px 0;border-bottom:1px solid var(--rule);min-width:0}
+.food-place h4{font:700 17px/1.35 var(--f-body);margin:0}
+.food-place p{font-size:14px;line-height:1.55;color:var(--ink-2)}
+.food-meta{display:flex;align-items:center;gap:6px;font-size:11px;letter-spacing:.05em;color:var(--muted)}
+.food-pick{background:var(--ink);color:var(--paper);padding:0 5px}
+.food-place .food-order{font-weight:700;color:var(--ink)}
+.food-order span{font-size:11px;font-weight:600;color:var(--muted);margin-right:4px}
+.food-place .food-tip{font-size:12px;color:var(--muted)}
+.food-maps{display:flex;gap:8px 16px;flex-wrap:wrap}
+.food-maps a{display:inline-flex;align-items:center;gap:6px;min-height:44px;min-width:44px;
+ color:var(--delft);font-size:14px;text-underline-offset:3px}
+.food-footer{margin-top:0;padding-block:22px 35px}
+@media(max-width:760px){
+ body{padding-bottom:env(safe-area-inset-bottom,0px)}
+ .food-area>ul{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .food-cities{margin-inline:calc(-1 * var(--gutter));padding-inline:var(--gutter)}
+ .food-filters{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .food-filters label:first-child{grid-column:1/-1}
+}
+@media(max-width:480px){
+ .food-area>ul{grid-template-columns:minmax(0,1fr)}
+ .food-intro{padding-block:20px 14px}
+ .food-city{margin-top:13px}
+}
+</style>
+</head><body>
+
+<a class="skip-link" href="#food-main">跳到吃喝清單</a>
+<header class="food-mast"><div class="wrap">
+  <a href="index.html#overview">← 回旅行手冊</a><span>WINTER RAIL JOURNAL</span>
+</div></header>
+<main class="wrap food-main" id="food-main" tabindex="-1">
+  <header class="food-intro"><p class="kicker">Pocket guide · 01 / 吃喝</p><h1>這附近吃什麼？</h1>
+  <p>先選你在哪座城，再找街區、餐別或想吃的菜。每家都列出該點什麼、特色和地圖。</p></header>
+  <nav class="food-cities" aria-label="選擇城市"><a href="#city-ams" data-city="ams">阿姆斯特丹</a><a href="#city-utr" data-city="utr">烏特勒支</a><a href="#city-dh" data-city="dh">海牙</a><a href="#city-lei" data-city="lei">萊登</a><a href="#city-rtm" data-city="rtm">鹿特丹</a><a href="#city-bru" data-city="bru">布魯日</a><a href="#city-bxl" data-city="bxl">布魯塞爾</a><a href="#city-kol" data-city="kol">科隆</a><a href="#city-dus" data-city="dus">杜塞道夫</a><a href="#city-haa" data-city="haa">哈倫</a></nav>
+  <div class="food-filters" hidden>
+    <label>找店或菜名<input type="search" placeholder="例如：淡菜、蘋果派" id="food-search" autocomplete="off"></label>
+    <label>街區<select id="food-area"><option value="">所有街區</option></select></label>
+    <label>餐別<select id="food-kind"><option value="">所有餐別</option><option>正餐</option><option>點心</option><option>咖啡</option><option>喝一杯</option><option>市集</option></select></label>
+    <p id="food-count" role="status"></p>
+  </div>
+  <p class="food-empty" hidden>這個條件沒有結果。可以換街區、餐別或關鍵字。</p>
+  <section class="food-city" id="city-ams" data-panel="ams">
+  <header><p>Amsterdam</p><h2>阿姆斯特丹</h2><p>早午餐、薯條、現烤焦糖煎餅，還有荷蘭家常菜和蘇利南料理。</p></header>
+  <details class="food-special"><summary>先認識當地吃什麼</summary><ul><li><b>生鯡魚</b> <i>Haring</i> — 抓尾巴整條吃，或切塊配洋蔥酸黃瓜，完全不腥。</li><li><b>炸肉丸</b> <i>Bitterballen</i> — 酥皮包燉肉泥，沾芥末，酒吧必點。</li><li><b>焦糖煎餅</b> <i>Stroopwafel</i> — 要吃現做的，放涼就差很多。</li><li><b>炸麵球</b> <i>Oliebollen</i> — 12 月限定，滿街小攤，撒糖粉吃。</li><li><b>蘋果派</b> <i>Appeltaart</i> — 配一大匙鮮奶油才對味。</li></ul>
+<a href="index.html#g-ams">回旅行書看菜色照片 ↗</a></details>
+  <section class="food-area" data-area="老城・九條街"><h3>老城・九條街</h3><ul><li class="food-place" data-kind="正餐">
+  <div class="food-meta">正餐 <span class="food-pick">首選</span></div><h4>Greenwoods Singel</h4>
+  <p class="food-order"><span>該點</span> 英式早午餐</p>
+  <p>Singel 運河旁的早午餐，適合逛老城前先坐下來吃一頓。</p><p class="food-tip">熱門時段可能等位</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Greenwoods+Singel+103+Amsterdam" target="_blank" rel="noopener" aria-label="Greenwoods Singel：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li><li class="food-place" data-kind="點心">
+  <div class="food-meta">點心 <span class="food-pick">首選</span></div><h4>Heertje Friet</h4>
+  <p class="food-order"><span>該點</span> 荷蘭薯條</p>
+  <p>Herengracht 運河旁，逛九條街時可以買一份帶著走。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Heertje+Friet+Herengracht+169+Amsterdam" target="_blank" rel="noopener" aria-label="Heertje Friet：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li><li class="food-place" data-kind="正餐">
+  <div class="food-meta">正餐 <span class="food-pick">首選</span></div><h4>The Seafood Bar（Spui）</h4>
+  <p class="food-order"><span>該點</span> 生蠔 Happy Hour</p>
+  <p>Spui 分店，想吃生蠔就到這家。</p><p class="food-tip">優惠依分店與時段，入座前先問</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=The+Seafood+Bar+Spui+Amsterdam" target="_blank" rel="noopener" aria-label="The Seafood Bar（Spui）：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li><li class="food-place" data-kind="正餐">
+  <div class="food-meta">正餐 <span class="food-pick">首選</span></div><h4>Restaurant &#x27;t Zwaantje</h4>
+  <p class="food-order"><span>該點</span> 荷蘭家常菜</p>
+  <p>Berenstraat 上的荷蘭家常菜，適合散步後坐下吃。</p><p class="food-tip">建議訂位</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Restaurant+t+Zwaantje+Berenstraat+Amsterdam" target="_blank" rel="noopener" aria-label="Restaurant &#x27;t Zwaantje：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li><li class="food-place" data-kind="正餐">
+  <div class="food-meta">正餐 </div><h4>Chun Café Berenstraat</h4>
+  <p class="food-order"><span>該點</span> 三明治</p>
+  <p>九條街上的三明治店，想簡單吃個午餐時用得上。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Chun+Cafe+Berenstraat+8+Amsterdam" target="_blank" rel="noopener" aria-label="Chun Café Berenstraat：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li></ul></section><section class="food-area" data-area="老城・Dam 廣場"><h3>老城・Dam 廣場</h3><ul><li class="food-place" data-kind="點心">
+  <div class="food-meta">點心 <span class="food-pick">首選</span></div><h4>Van Stapele Koekmakerij</h4>
+  <p class="food-order"><span>該點</span> 巧克力夾心餅乾</p>
+  <p>只賣一種巧克力夾心餅乾。</p><p class="food-tip">常要排隊</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Van+Stapele+Koekmakerij+Amsterdam" target="_blank" rel="noopener" aria-label="Van Stapele Koekmakerij：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li><li class="food-place" data-kind="點心">
+  <div class="food-meta">點心 </div><h4>Fabel Friet</h4>
+  <p class="food-order"><span>該點</span> 荷蘭薯條</p>
+  <p>老城的薯條備選，和 Heertje Friet 擇一就好。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Fabel+Friet+Oude+Hoogstraat+Amsterdam" target="_blank" rel="noopener" aria-label="Fabel Friet：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li><li class="food-place" data-kind="點心">
+  <div class="food-meta">點心 </div><h4>FEBO（Nieuwendijk）</h4>
+  <p class="food-order"><span>該點</span> 投幣小窗口的炸物</p>
+  <p>荷蘭特色自助炸物，從牆上的投幣小窗口拿可樂餅。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=FEBO+Nieuwendijk+50+Amsterdam" target="_blank" rel="noopener" aria-label="FEBO（Nieuwendijk）：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li><li class="food-place" data-kind="正餐">
+  <div class="food-meta">正餐 </div><h4>Pancakehouse Upstairs</h4>
+  <p class="food-order"><span>該點</span> 荷蘭煎餅</p>
+  <p>Grimburgwal 樓上的小煎餅店。</p><p class="food-tip">座位少</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Pancakehouse+Upstairs+Grimburgwal+Amsterdam" target="_blank" rel="noopener" aria-label="Pancakehouse Upstairs：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li><li class="food-place" data-kind="喝一杯">
+  <div class="food-meta">喝一杯 </div><h4>Wynand Fockink</h4>
+  <p class="food-order"><span>該點</span> 荷蘭琴酒</p>
+  <p>老品酒室，站著喝</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Wynand+Fockink+Amsterdam" target="_blank" rel="noopener" aria-label="Wynand Fockink：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li><li class="food-place" data-kind="喝一杯">
+  <div class="food-meta">喝一杯 </div><h4>In de Wildeman</h4>
+  <p class="food-order"><span>該點</span> 啤酒</p>
+  <p>老派啤酒吧</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=In+de+Wildeman+Amsterdam" target="_blank" rel="noopener" aria-label="In de Wildeman：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li></ul></section><section class="food-area" data-area="Jordaan・Noordermarkt"><h3>Jordaan・Noordermarkt</h3><ul><li class="food-place" data-kind="點心">
+  <div class="food-meta">點心 <span class="food-pick">首選</span></div><h4>Winkel 43</h4>
+  <p class="food-order"><span>該點</span> 蘋果派加鮮奶油</p>
+  <p>北市場旁的經典厚切蘋果派，記得加鮮奶油。</p><p class="food-tip">人多時要等</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Winkel+43+Noordermarkt+Amsterdam" target="_blank" rel="noopener" aria-label="Winkel 43：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li><li class="food-place" data-kind="點心">
+  <div class="food-meta">點心 </div><h4>SAINT-JEAN Bakery</h4>
+  <p class="food-order"><span>該點</span> 麵包、可頌</p>
+  <p>Lindengracht 上的烘焙店，適合買麵包和可頌。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=SAINT-JEAN+Bakery+Lindengracht+Amsterdam" target="_blank" rel="noopener" aria-label="SAINT-JEAN Bakery：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li><li class="food-place" data-kind="咖啡">
+  <div class="food-meta">咖啡 </div><h4>Toki</h4>
+  <p class="food-order"><span>該點</span> 咖啡</p>
+  <p>在北市場再往北一點，適合散步時停下喝杯咖啡。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Toki+Binnen+Dommersstraat+Amsterdam" target="_blank" rel="noopener" aria-label="Toki：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li><li class="food-place" data-kind="點心">
+  <div class="food-meta">點心 </div><h4>Café Papeneiland</h4>
+  <p class="food-order"><span>該點</span> 蘋果派</p>
+  <p>Jordaan 的棕色老酒館，Winkel 43 排太長就來這</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Cafe+Papeneiland+Amsterdam" target="_blank" rel="noopener" aria-label="Café Papeneiland：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li></ul></section><section class="food-area" data-area="Oud-West・De Hallen"><h3>Oud-West・De Hallen</h3><ul><li class="food-place" data-kind="正餐">
+  <div class="food-meta">正餐 <span class="food-pick">首選</span></div><h4>nNea Pizza</h4>
+  <p class="food-order"><span>該點</span> 拿坡里披薩</p>
+  <p>De Hallen 附近，想吃拿坡里披薩時的選擇。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=nNea+Pizza+Bilderdijkstraat+Amsterdam" target="_blank" rel="noopener" aria-label="nNea Pizza：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li><li class="food-place" data-kind="正餐">
+  <div class="food-meta">正餐 </div><h4>Gitane</h4>
+  <p class="food-order"><span>該點</span> 季節料理、蔬食選項</p>
+  <p>Jan Pieter Heijestraat 上的街區餐廳，菜單有蔬食選擇。</p><p class="food-tip">菜色依現場菜單</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Gitane+Jan+Pieter+Heijestraat+Amsterdam" target="_blank" rel="noopener" aria-label="Gitane：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li><li class="food-place" data-kind="點心">
+  <div class="food-meta">點心 </div><h4>Massimo Gelato</h4>
+  <p class="food-order"><span>該點</span> 義式冰淇淋</p>
+  <p>De Hallen 附近可以順路買義式冰淇淋。</p><p class="food-tip">冬天先看營業時間</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Massimo+Gelato+Jan+Hanzenstraat+Amsterdam" target="_blank" rel="noopener" aria-label="Massimo Gelato：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li></ul></section><section class="food-area" data-area="Bos en Lommer・西區"><h3>Bos en Lommer・西區</h3><ul><li class="food-place" data-kind="咖啡">
+  <div class="food-meta">咖啡 </div><h4>Friedhats FUKU Cafe</h4>
+  <p class="food-order"><span>該點</span> 精品咖啡</p>
+  <p>想特地喝精品咖啡再去，從 Westerpark 往西要繞一段。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Friedhats+FUKU+Cafe+Amsterdam" target="_blank" rel="noopener" aria-label="Friedhats FUKU Cafe：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li></ul></section><section class="food-area" data-area="Jordaan・安妮之家"><h3>Jordaan・安妮之家</h3><ul><li class="food-place" data-kind="正餐">
+  <div class="food-meta">正餐 <span class="food-pick">首選</span></div><h4>Moeders</h4>
+  <p class="food-order"><span>該點</span> 荷蘭家常菜</p>
+  <p>從安妮之家走過去約十分鐘，適合看完展後吃荷蘭家常菜。</p><p class="food-tip">建議訂位</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Moeders+Rozengracht+Amsterdam" target="_blank" rel="noopener" aria-label="Moeders：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li><li class="food-place" data-kind="正餐">
+  <div class="food-meta">正餐 </div><h4>The Pancake Bakery</h4>
+  <p class="food-order"><span>該點</span> 荷蘭煎餅</p>
+  <p>Prinsengracht 運河上的荷蘭煎餅店，靠近安妮之家。</p><p class="food-tip">觀光客較多</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=The+Pancake+Bakery+Prinsengracht+Amsterdam" target="_blank" rel="noopener" aria-label="The Pancake Bakery：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li><li class="food-place" data-kind="正餐">
+  <div class="food-meta">正餐 </div><h4>Akitsu</h4>
+  <p class="food-order"><span>該點</span> 日本料理</p>
+  <p>在 Moeders 附近，逛完安妮之家想換日本料理時用得上。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Akitsu+Rozengracht+Amsterdam" target="_blank" rel="noopener" aria-label="Akitsu：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li><li class="food-place" data-kind="喝一杯">
+  <div class="food-meta">喝一杯 </div><h4>Arendsnest</h4>
+  <p class="food-order"><span>該點</span> 荷蘭精釀</p>
+  <p>運河邊，只賣荷蘭啤酒</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Arendsnest+Herengracht+90+Amsterdam" target="_blank" rel="noopener" aria-label="Arendsnest：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li></ul></section><section class="food-area" data-area="Leidseplein"><h3>Leidseplein</h3><ul><li class="food-place" data-kind="正餐">
+  <div class="food-meta">正餐 </div><h4>The Pantry</h4>
+  <p class="food-order"><span>該點</span> 荷蘭家常菜</p>
+  <p>Leidseplein 旁的荷蘭家常菜選擇。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=The+Pantry+Leidsekruisstraat+Amsterdam" target="_blank" rel="noopener" aria-label="The Pantry：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li><li class="food-place" data-kind="正餐">
+  <div class="food-meta">正餐 </div><h4>Stoop &amp; Stoop eetcafé</h4>
+  <p class="food-order"><span>該點</span> 荷蘭菜</p>
+  <p>同在 Leidseplein 一帶，想吃荷蘭菜可跟 The Pantry 比較。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Stoop+%26+Stoop+eetcafe+Amsterdam" target="_blank" rel="noopener" aria-label="Stoop &amp; Stoop eetcafé：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li></ul></section><section class="food-area" data-area="De Pijp・Albert Cuyp"><h3>De Pijp・Albert Cuyp</h3><ul><li class="food-place" data-kind="點心">
+  <div class="food-meta">點心 <span class="food-pick">首選</span></div><h4>Rudi&#x27;s Original Stroopwafels</h4>
+  <p class="food-order"><span>該點</span> 現做焦糖煎餅</p>
+  <p>Albert Cuyp 市場攤位，焦糖煎餅現做現吃。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Rudi%27s+Original+Stroopwafels+Albert+Cuyp+Amsterdam" target="_blank" rel="noopener" aria-label="Rudi&#x27;s Original Stroopwafels：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li><li class="food-place" data-kind="正餐">
+  <div class="food-meta">正餐 <span class="food-pick">首選</span></div><h4>Warung Spang Makandra</h4>
+  <p class="food-order"><span>該點</span> 蘇利南／印尼菜</p>
+  <p>Gerard Doustraat 上的蘇利南料理，逛完市場可以順路吃。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Warung+Spang+Makandra+Amsterdam" target="_blank" rel="noopener" aria-label="Warung Spang Makandra：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li><li class="food-place" data-kind="正餐">
+  <div class="food-meta">正餐 </div><h4>Kaasbar Amsterdam</h4>
+  <p class="food-order"><span>該點</span> 起司迴轉吧</p>
+  <p>起司會從面前轉過去；烏特勒支也有一家，可以擇一。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Kaasbar+Amsterdam+Ferdinand+Bolstraat" target="_blank" rel="noopener" aria-label="Kaasbar Amsterdam：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li><li class="food-place" data-kind="正餐">
+  <div class="food-meta">正餐 </div><h4>Blue Dragon</h4>
+  <p class="food-order"><span>該點</span> 日本料理</p>
+  <p>Marie Heinekenplein 旁的日本料理備選。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Blue+Dragon+Marie+Heinekenplein+Amsterdam" target="_blank" rel="noopener" aria-label="Blue Dragon：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li></ul></section><section class="food-area" data-area="Amsterdam Zuid"><h3>Amsterdam Zuid</h3><ul><li class="food-place" data-kind="正餐">
+  <div class="food-meta">正餐 <span class="food-pick">首選</span></div><h4>Hakata Senpachi</h4>
+  <p class="food-order"><span>該點</span> 博多拉麵</p>
+  <p>Wielingenstraat 的博多拉麵，住南區時過去方便。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Hakata+Senpachi+Wielingenstraat+Amsterdam" target="_blank" rel="noopener" aria-label="Hakata Senpachi：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li><li class="food-place" data-kind="咖啡">
+  <div class="food-meta">咖啡 </div><h4>Coffee &amp; Coconuts</h4>
+  <p class="food-order"><span>該點</span> 咖啡、可頌</p>
+  <p>在 Zuid 車站旁，搭車前可以買咖啡和可頌。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Coffee+%26+Coconuts+Gustav+Mahlerplein+Amsterdam" target="_blank" rel="noopener" aria-label="Coffee &amp; Coconuts：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li></ul></section><section class="food-area" data-area="Waterlooplein"><h3>Waterlooplein</h3><ul><li class="food-place" data-kind="點心">
+  <div class="food-meta">點心 </div><h4>De Hapjeshoek</h4>
+  <p class="food-order"><span>該點</span> 蘇利南三明治</p>
+  <p>在 Waterlooplein 地鐵站裡，想吃蘇利南三明治可來這裡。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=De+Hapjeshoek+Waterlooplein+Amsterdam" target="_blank" rel="noopener" aria-label="De Hapjeshoek：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li></ul></section><section class="food-area" data-area="Oost・Middenweg"><h3>Oost・Middenweg</h3><ul><li class="food-place" data-kind="點心">
+  <div class="food-meta">點心 </div><h4>Volendammer Vishandel</h4>
+  <p class="food-order"><span>該點</span> 生鯡魚、炸魚塊</p>
+  <p>想吃生鯡魚或炸魚塊可去東區這家。</p><p class="food-tip">離老城路線較遠</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Volendammer+Vishandel+Middenweg+Amsterdam" target="_blank" rel="noopener" aria-label="Volendammer Vishandel：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li></ul></section><section class="food-area" data-area="中央車站"><h3>中央車站</h3><ul><li class="food-place" data-kind="點心">
+  <div class="food-meta">點心 </div><h4>Stubbe&#x27;s Haring</h4>
+  <p class="food-order"><span>該點</span> 生鯡魚</p>
+  <p>Centraal 旁的小攤</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Stubbes+Haring+Amsterdam" target="_blank" rel="noopener" aria-label="Stubbe&#x27;s Haring：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li></ul></section><section class="food-area" data-area="Oost・Funenkade"><h3>Oost・Funenkade</h3><ul><li class="food-place" data-kind="喝一杯">
+  <div class="food-meta">喝一杯 </div><h4>Brouwerij &#x27;t IJ</h4>
+  <p class="food-order"><span>該點</span> 精釀</p>
+  <p>風車旁的酒廠</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Brouwerij+t+IJ+Amsterdam" target="_blank" rel="noopener" aria-label="Brouwerij &#x27;t IJ：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li></ul></section>
+</section><section class="food-city" id="city-utr" data-panel="utr">
+  <header><p>Utrecht</p><h2>烏特勒支</h2><p>在運河地窖吃烤蘋果，或來份薯條配荷蘭式 oorlog 醬。</p></header>
+
+  <section class="food-area" data-area="老城・運河"><h3>老城・運河</h3><ul><li class="food-place" data-kind="正餐">
+  <div class="food-meta">正餐 <span class="food-pick">首選</span></div><h4>Restaurant Kartoffel</h4>
+  <p class="food-order"><span>該點</span> 德國菜：豬腳、炸肉排</p>
+  <p>想吃德式豬腳或炸肉排，可以在這裡安排一頓。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Restaurant+Kartoffel+Utrecht" target="_blank" rel="noopener" aria-label="Restaurant Kartoffel：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li><li class="food-place" data-kind="點心">
+  <div class="food-meta">點心 <span class="food-pick">首選</span></div><h4>Graaf Floris</h4>
+  <p class="food-order"><span>該點</span> 運河地窖烤蘋果</p>
+  <p>運河地窖裡吃烤蘋果，重點是坐在河畔街道的下一層。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Graaf+Floris+Utrecht" target="_blank" rel="noopener" aria-label="Graaf Floris：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li><li class="food-place" data-kind="正餐">
+  <div class="food-meta">正餐 <span class="food-pick">首選</span></div><h4>Kaasbar Utrecht</h4>
+  <p class="food-order"><span>該點</span> 起司迴轉吧</p>
+  <p>Lijnmarkt 運河邊的起司迴轉吧，跟阿姆斯特丹分店擇一。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Kaasbar+Utrecht+Lijnmarkt" target="_blank" rel="noopener" aria-label="Kaasbar Utrecht：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li><li class="food-place" data-kind="咖啡">
+  <div class="food-meta">咖啡 </div><h4>Darras Coffee Roasters</h4>
+  <p class="food-order"><span>該點</span> 精品咖啡</p>
+  <p>老城中心的精品咖啡，適合逛到一半歇腳。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Darras+Coffee+Roasters+Utrecht" target="_blank" rel="noopener" aria-label="Darras Coffee Roasters：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li><li class="food-place" data-kind="正餐">
+  <div class="food-meta">正餐 </div><h4>Dimitri Petit</h4>
+  <p class="food-order"><span>該點</span> 希臘小食</p>
+  <p>份量足的希臘小食，是簡單午餐的備案。</p><p class="food-tip">表上評價相對低</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Dimitri+Petit+Utrecht" target="_blank" rel="noopener" aria-label="Dimitri Petit：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li><li class="food-place" data-kind="正餐">
+  <div class="food-meta">正餐 </div><h4>Soep-er</h4>
+  <p class="food-order"><span>該點</span> 湯</p>
+  <p>Vismarkt 運河邊，天冷想喝碗熱湯時很合適。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Soep-er+Vismarkt+Utrecht" target="_blank" rel="noopener" aria-label="Soep-er：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li><li class="food-place" data-kind="點心">
+  <div class="food-meta">點心 </div><h4>Dapp Frietwinkel</h4>
+  <p class="food-order"><span>該點</span> 有機帶皮薯條</p>
+  <p>有機帶皮薯條；想試荷蘭口味可點 oorlog 醬：花生醬、美乃滋和洋蔥。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Dapp+Frietwinkel+Vinkenburgstraat+Utrecht" target="_blank" rel="noopener" aria-label="Dapp Frietwinkel：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li><li class="food-place" data-kind="咖啡">
+  <div class="food-meta">咖啡 </div><h4>Casa Ferreira</h4>
+  <p class="food-order"><span>該點</span> 咖啡、甜點</p>
+  <p>Ridderschapstraat 上的咖啡甜點備選。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Casa+Ferreira+Utrecht" target="_blank" rel="noopener" aria-label="Casa Ferreira：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li><li class="food-place" data-kind="點心">
+  <div class="food-meta">點心 </div><h4>9ijs</h4>
+  <p class="food-order"><span>該點</span> 珍珠奶茶</p>
+  <p>Potterstraat 的珍珠奶茶，想喝熟悉的口味時有一站。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=9ijs+Potterstraat+Utrecht" target="_blank" rel="noopener" aria-label="9ijs：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li><li class="food-place" data-kind="正餐">
+  <div class="food-meta">正餐 </div><h4>O&#x27;Panuozzo</h4>
+  <p class="food-order"><span>該點</span> 拿坡里窯烤三明治</p>
+  <p>不想坐下吃整套正餐時，換一份拿坡里窯烤三明治。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=O%27Panuozzo+Utrecht" target="_blank" rel="noopener" aria-label="O&#x27;Panuozzo：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li><li class="food-place" data-kind="喝一杯">
+  <div class="food-meta">喝一杯 </div><h4>Olivier</h4>
+  <p class="food-order"><span>該點</span> 比利時啤酒</p>
+  <p>開在老教堂裡</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Olivier+Belgisch+Biercafe+Utrecht" target="_blank" rel="noopener" aria-label="Olivier：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li></ul></section>
+</section><section class="food-city" id="city-dh" data-panel="dh">
+  <header><p>Den Haag</p><h2>海牙</h2><p>逛市場找炸魚塊，坐下來吃一頓印尼巴東菜。</p></header>
+  <details class="food-special"><summary>先認識當地吃什麼</summary><ul><li><b>印尼菜</b> <i>Rijsttafel</i> — 一桌十幾小碟，海牙最道地。</li><li><b>市場小吃</b> <i>Haagse Markt</i> — 炸魚塊 kibbeling 和各國小吃。</li></ul>
+<a href="index.html#g-dh">回旅行書看菜色照片 ↗</a></details>
+  <section class="food-area" data-area="市中心・Torenstraat"><h3>市中心・Torenstraat</h3><ul><li class="food-place" data-kind="正餐">
+  <div class="food-meta">正餐 </div><h4>Oblique fusion dining</h4>
+  <p class="food-order"><span>該點</span> 亞洲 fusion</p>
+  <p>海牙 Torenstraat 的亞洲融合料理，想換口味的晚餐選項。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Oblique+fusion+dining+Den+Haag" target="_blank" rel="noopener" aria-label="Oblique fusion dining：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li></ul></section><section class="food-area" data-area="Haagse Markt"><h3>Haagse Markt</h3><ul><li class="food-place" data-kind="市集">
+  <div class="food-meta">市集 <span class="food-pick">首選</span></div><h4>Haagse Markt</h4>
+  <p class="food-order"><span>該點</span> 市場小吃</p>
+  <p>週一、三、五、六開，入口就在飯店那條街</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Haagse+Markt+Den+Haag" target="_blank" rel="noopener" aria-label="Haagse Markt：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li><li class="food-place" data-kind="正餐">
+  <div class="food-meta">正餐 <span class="food-pick">首選</span></div><h4>Waroeng Padang Lapek</h4>
+  <p class="food-order"><span>該點</span> 印尼巴東菜</p>
+  <p>滑完雪回海牙的晚餐選項</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Waroeng+Padang+Lapek+Den+Haag" target="_blank" rel="noopener" aria-label="Waroeng Padang Lapek：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li></ul></section>
+</section><section class="food-city" id="city-lei" data-panel="lei">
+  <header><p>Leiden</p><h2>萊登</h2><p>逛到 Pieterskerk 時，順手買點麵包或甜點。</p></header>
+
+  <section class="food-area" data-area="老城・Pieterskerk"><h3>老城・Pieterskerk</h3><ul><li class="food-place" data-kind="點心">
+  <div class="food-meta">點心 <span class="food-pick">首選</span></div><h4>Stadsbakkerij Water &amp; Bloem</h4>
+  <p class="food-order"><span>該點</span> 麵包、點心</p>
+  <p>Pieterskerk 教堂旁，適合老城散步時買麵包。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Stadsbakkerij+Water+%26+Bloem+Leiden" target="_blank" rel="noopener" aria-label="Stadsbakkerij Water &amp; Bloem：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li></ul></section>
+</section><section class="food-city" id="city-rtm" data-panel="rtm">
+  <header><p>Rotterdam</p><h2>鹿特丹</h2><p>在 Markthal 吃小食，再到 Meent 吃一塊厚切蘋果派。</p></header>
+  <details class="food-special"><summary>先認識當地吃什麼</summary><ul><li><b>蘋果派</b> <i>Appeltaart</i> — Dudok 公認全城最有名。</li><li><b>地瓜薯條</b> <i>Zoete friet</i> — 住荷蘭的人推 Ter Marsch。</li></ul>
+<a href="index.html#g-rtm">回旅行書看菜色照片 ↗</a></details>
+  <section class="food-area" data-area="Markthal・Blaak"><h3>Markthal・Blaak</h3><ul><li class="food-place" data-kind="正餐">
+  <div class="food-meta">正餐 <span class="food-pick">首選</span></div><h4>The Duck Truck（Markthal）</h4>
+  <p class="food-order"><span>該點</span> 鴨肉漢堡</p>
+  <p>在 Markthal 裡，想在室內市場吃一份熱的就選鴨肉漢堡。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=The+Duck+Truck+Markthal+Rotterdam" target="_blank" rel="noopener" aria-label="The Duck Truck（Markthal）：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li><li class="food-place" data-kind="點心">
+  <div class="food-meta">點心 <span class="food-pick">首選</span></div><h4>Dudok</h4>
+  <p class="food-order"><span>該點</span> 蘋果派</p>
+  <p>從 Markthal 走幾分鐘到 Meent 88，想吃鹿特丹代表性的蘋果派就來這裡。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Dudok+Meent+Rotterdam" target="_blank" rel="noopener" aria-label="Dudok：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li><li class="food-place" data-kind="點心">
+  <div class="food-meta">點心 </div><h4>Goudstroop（Markthal）</h4>
+  <p class="food-order"><span>該點</span> 焦糖煎餅</p>
+  <p>Markthal 裡的焦糖煎餅攤，逛市場順手買。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Goudstroop+Markthal+Rotterdam" target="_blank" rel="noopener" aria-label="Goudstroop（Markthal）：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li></ul></section><section class="food-area" data-area="Witte de Withstraat"><h3>Witte de Withstraat</h3><ul><li class="food-place" data-kind="正餐">
+  <div class="food-meta">正餐 <span class="food-pick">首選</span></div><h4>Ter Marsch &amp; Co</h4>
+  <p class="food-order"><span>該點</span> 地瓜薯條、漢堡</p>
+  <p>跟漢堡一起點地瓜薯條；店在 Witte de Withstraat，逛 Markthal 時別找錯地方。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Ter+Marsch+%26+Co+Rotterdam" target="_blank" rel="noopener" aria-label="Ter Marsch &amp; Co：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li></ul></section><section class="food-area" data-area="Delfshaven 方向"><h3>Delfshaven 方向</h3><ul><li class="food-place" data-kind="正餐">
+  <div class="food-meta">正餐 </div><h4>Balkan Deli</h4>
+  <p class="food-order"><span>該點</span> 巴爾幹料理</p>
+  <p>往 Delfshaven 路上，想換巴爾幹口味的備選。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Balkan+Deli+Rotterdam" target="_blank" rel="noopener" aria-label="Balkan Deli：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li></ul></section><section class="food-area" data-area="市中心・Rodezand"><h3>市中心・Rodezand</h3><ul><li class="food-place" data-kind="正餐">
+  <div class="food-meta">正餐 <span class="food-pick">首選</span></div><h4>SHIN - True Japanese Flavours</h4>
+  <p class="food-order"><span>該點</span> 日本料理</p>
+  <p>Rodezand 的日式料理，想在市中心好好坐下吃一頓時用得上。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=SHIN+True+Japanese+Flavours+Rotterdam" target="_blank" rel="noopener" aria-label="SHIN - True Japanese Flavours：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li><li class="food-place" data-kind="正餐">
+  <div class="food-meta">正餐 </div><h4>Bao Haus by T&amp;C Haus</h4>
+  <p class="food-order"><span>該點</span> 台灣刈包</p>
+  <p>市中心想吃台灣口味時，可以找這家刈包。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Bao+Haus+by+T%26C+Haus+Rotterdam" target="_blank" rel="noopener" aria-label="Bao Haus by T&amp;C Haus：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li></ul></section><section class="food-area" data-area="北區・Hofbogen"><h3>北區・Hofbogen</h3><ul><li class="food-place" data-kind="咖啡">
+  <div class="food-meta">咖啡 </div><h4>Man Met Bril</h4>
+  <p class="food-order"><span>該點</span> 咖啡</p>
+  <p>舊鐵道橋下的烘豆店</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Man+Met+Bril+Koffie+Rotterdam" target="_blank" rel="noopener" aria-label="Man Met Bril：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li></ul></section>
+</section><section class="food-city" id="city-bru" data-panel="bru">
+  <header><p>Brugge</p><h2>布魯日</h2><p>想吃淡菜配薯條、啤酒燉牛肉，或找間小酒館喝一杯。</p></header>
+  <details class="food-special"><summary>先認識當地吃什麼</summary><ul><li><b>淡菜鍋</b> <i>Mosselen</i> — 一鍋約 1.2 公斤附薯條，兩人一鍋就夠。</li><li><b>啤酒燉牛肉</b> <i>Stoofvlees</i> — 深色啤酒慢燉，醬汁沾薯條。</li><li><b>薯條</b> <i>Frieten</i> — 鐘樓前的綠色薯條車是城市象徵。</li><li><b>巧克力</b> <i>Pralines</i> — 比利時夾心巧克力，去哪買見下方 The Chocolate Line。</li></ul>
+<a href="index.html#g-bru">回旅行書看菜色照片 ↗</a></details>
+  <section class="food-area" data-area="老城・Markt／Burg"><h3>老城・Markt／Burg</h3><ul><li class="food-place" data-kind="正餐">
+  <div class="food-meta">正餐 <span class="food-pick">首選</span></div><h4>Cambrinus</h4>
+  <p class="food-order"><span>該點</span> 啤酒燉牛肉</p>
+  <p>佛蘭德啤酒屋，想吃經典燉牛肉配薯條，也能順便挑一杯啤酒。</p><p class="food-tip">建議訂位</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Bierbrasserie+Cambrinus+Brugge" target="_blank" rel="noopener" aria-label="Cambrinus：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li><li class="food-place" data-kind="正餐">
+  <div class="food-meta">正餐 <span class="food-pick">首選</span></div><h4>Breydel De Coninc</h4>
+  <p class="food-order"><span>該點</span> 淡菜配薯條</p>
+  <p>就在 Burg 散步路線上，想選不同煮法的淡菜可以看這家。</p><p class="food-tip">價位偏高</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Breydel+De+Coninc+Brugge" target="_blank" rel="noopener" aria-label="Breydel De Coninc：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li><li class="food-place" data-kind="正餐">
+  <div class="food-meta">正餐 </div><h4>La Dentellière</h4>
+  <p class="food-order"><span>該點</span> 啤酒燉牛肉</p>
+  <p>想吃燉牛肉的備案，評論數較少。</p><p class="food-tip">出發前確認營業</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=La+Dentelliere+Brugge" target="_blank" rel="noopener" aria-label="La Dentellière：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li><li class="food-place" data-kind="正餐">
+  <div class="food-meta">正餐 </div><h4>De Gastro</h4>
+  <p class="food-order"><span>該點</span> 淡菜配薯條</p>
+  <p>老城的家庭餐廳，想換一家吃淡菜配薯條時用得上。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=De+Gastro+Brugge" target="_blank" rel="noopener" aria-label="De Gastro：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li><li class="food-place" data-kind="正餐">
+  <div class="food-meta">正餐 </div><h4>Bistro De Pompe</h4>
+  <p class="food-order"><span>該點</span> 淡菜、燉牛肉</p>
+  <p>想在同一家分吃淡菜和燉牛肉，可以考慮；自製美乃滋也是特色。</p><p class="food-tip">付款方式以現場為準</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Bistro+De+Pompe+Brugge" target="_blank" rel="noopener" aria-label="Bistro De Pompe：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li><li class="food-place" data-kind="點心">
+  <div class="food-meta">點心 </div><h4>Chez Albert</h4>
+  <p class="food-order"><span>該點</span> 鬆餅</p>
+  <p>剛烤好的原味最好吃</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Chez+Albert+Brugge" target="_blank" rel="noopener" aria-label="Chez Albert：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li><li class="food-place" data-kind="喝一杯">
+  <div class="food-meta">喝一杯 </div><h4>Le Trappiste</h4>
+  <p class="food-order"><span>該點</span> 修道院啤酒</p>
+  <p>中世紀地窖改的酒吧</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Le+Trappiste+Brugge" target="_blank" rel="noopener" aria-label="Le Trappiste：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li></ul></section><section class="food-area" data-area="老城・Simon Stevinplein"><h3>老城・Simon Stevinplein</h3><ul><li class="food-place" data-kind="喝一杯">
+  <div class="food-meta">喝一杯 <span class="food-pick">首選</span></div><h4>&#x27;t Brugs Beertje</h4>
+  <p class="food-order"><span>該點</span> 比利時啤酒（約 300 款）</p>
+  <p>Kemelstraat 小巷裡的比利時啤酒館，適合想多看幾種酒再點。</p><p class="food-tip">入口容易錯過</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=t+Brugs+Beertje+Kemelstraat+5+Brugge" target="_blank" rel="noopener" aria-label="&#x27;t Brugs Beertje：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li><li class="food-place" data-kind="點心">
+  <div class="food-meta">點心 <span class="food-pick">首選</span></div><h4>The Chocolate Line</h4>
+  <p class="food-order"><span>該點</span> 巧克力</p>
+  <p>2023 年全比利時最佳巧克力店</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=The+Chocolate+Line+Simon+Stevinplein+Brugge" target="_blank" rel="noopener" aria-label="The Chocolate Line：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li><li class="food-place" data-kind="正餐">
+  <div class="food-meta">正餐 </div><h4>Poules Moules</h4>
+  <p class="food-order"><span>該點</span> 淡菜</p>
+  <p>想在 Simon Stevinplein 一帶吃淡菜，可以先看這家。</p><p class="food-tip">熱門時可能排隊</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Poules+Moules+Brugge" target="_blank" rel="noopener" aria-label="Poules Moules：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li></ul></section><section class="food-area" data-area="老城・Hoogstraat"><h3>老城・Hoogstraat</h3><ul><li class="food-place" data-kind="咖啡">
+  <div class="food-meta">咖啡 </div><h4>DEES Specialty Coffee</h4>
+  <p class="food-order"><span>該點</span> 手沖、義式咖啡</p>
+  <p>Hoogstraat 上的自家烘豆咖啡，想喝手沖可以問店員怎麼選豆。</p><p class="food-tip">營業時間以店家公告為準</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Dees+Koffiebranders+Hoogstraat+33+Brugge" target="_blank" rel="noopener" aria-label="DEES Specialty Coffee：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li></ul></section><section class="food-area" data-area="老城・Begijnhof"><h3>老城・Begijnhof</h3><ul><li class="food-place" data-kind="喝一杯">
+  <div class="food-meta">喝一杯 </div><h4>De Halve Maan</h4>
+  <p class="food-order"><span>該點</span> Brugse Zot</p>
+  <p>老城裡的家族酒廠，導覽 €16 含一杯</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=De+Halve+Maan+Brugge" target="_blank" rel="noopener" aria-label="De Halve Maan：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li></ul></section>
+</section><section class="food-city" id="city-bxl" data-panel="bxl">
+  <header><p>Bruxelles</p><h2>布魯塞爾</h2><p>先在海鮮攤站著吃，再找薯條、鬆餅或咖啡。</p></header>
+  <details class="food-special"><summary>先認識當地吃什麼</summary><ul><li><b>薯條</b> <i>Frites</i> — 炸兩次，醬料試試 andalouse。</li><li><b>Kriek</b> <i>櫻桃啤酒</i> — 酸甜的布魯塞爾特產。</li><li><b>鬆餅</b> <i>Gaufre</i> — 長方形是布魯塞爾式，圓形有珍珠糖的是列日式。</li></ul>
+<a href="index.html#g-bxl">回旅行書看菜色照片 ↗</a></details>
+  <section class="food-area" data-area="Sainte-Catherine"><h3>Sainte-Catherine</h3><ul><li class="food-place" data-kind="正餐">
+  <div class="food-meta">正餐 <span class="food-pick">首選</span></div><h4>Noordzee／Mer du Nord</h4>
+  <p class="food-order"><span>該點</span> 蝦可樂餅、生蠔、竹蟶</p>
+  <p>站著吃的海鮮攤，可以點幾樣一起分著吃。</p><p class="food-tip">午餐尖峰人多</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Noordzee+Mer+du+Nord+Brussels" target="_blank" rel="noopener" aria-label="Noordzee／Mer du Nord：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li></ul></section><section class="food-area" data-area="老城・大廣場"><h3>老城・大廣場</h3><ul><li class="food-place" data-kind="點心">
+  <div class="food-meta">點心 </div><h4>Fritland</h4>
+  <p class="food-order"><span>該點</span> 薯條</p>
+  <p>離大廣場近，想吃一份比利時薯條不用特地繞路。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Fritland+Brussels" target="_blank" rel="noopener" aria-label="Fritland：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li><li class="food-place" data-kind="點心">
+  <div class="food-meta">點心 </div><h4>Maison Dandoy</h4>
+  <p class="food-order"><span>該點</span> 焦糖餅乾 speculoos</p>
+  <p>老字號，重點是 speculoos 焦糖香料餅乾，也適合買來帶走。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Maison+Dandoy+Grand+Place+Brussels" target="_blank" rel="noopener" aria-label="Maison Dandoy：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li><li class="food-place" data-kind="咖啡">
+  <div class="food-meta">咖啡 </div><h4>Corica</h4>
+  <p class="food-order"><span>該點</span> 咖啡豆、義式咖啡</p>
+  <p>大廣場旁的老烘豆店，適合站著快速喝一杯或買豆。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Corica+Rue+du+Marche+aux+Poulets+Brussels" target="_blank" rel="noopener" aria-label="Corica：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li><li class="food-place" data-kind="喝一杯">
+  <div class="food-meta">喝一杯 </div><h4>À La Mort Subite</h4>
+  <p class="food-order"><span>該點</span> kriek</p>
+  <p>1928 年的老酒館</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=A+La+Mort+Subite+Brussels" target="_blank" rel="noopener" aria-label="À La Mort Subite：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li></ul></section><section class="food-area" data-area="中央車站"><h3>中央車站</h3><ul><li class="food-place" data-kind="咖啡">
+  <div class="food-meta">咖啡 <span class="food-pick">首選</span></div><h4>BARKBOY（Cantersteen 分店）</h4>
+  <p class="food-order"><span>該點</span> 咖啡、抹茶拿鐵、肉桂捲</p>
+  <p>Cantersteen 分店就在中央車站旁，想搭車前喝杯咖啡或抹茶拿鐵很方便。</p><p class="food-tip">趕車時留意等候</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Barkboy+Cantersteen+55+Brussels" target="_blank" rel="noopener" aria-label="BARKBOY（Cantersteen 分店）：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li></ul></section><section class="food-area" data-area="Bourse・交易所"><h3>Bourse・交易所</h3><ul><li class="food-place" data-kind="正餐">
+  <div class="food-meta">正餐 </div><h4>Fin de Siècle</h4>
+  <p class="food-order"><span>該點</span> 燉牛肉、stoemp</p>
+  <p>想吃傳統比利時家常菜的晚餐選項。</p><p class="food-tip">原行程只停半天；有留到晚餐再考慮</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Fin+de+Siecle+Brussels" target="_blank" rel="noopener" aria-label="Fin de Siècle：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li></ul></section>
+</section><section class="food-city" id="city-kol" data-panel="kol">
+  <header><p>Köln</p><h2>科隆</h2><p>啤酒屋吃豬腳配 Kölsch，夜裡到市集找馬鈴薯煎餅。</p></header>
+  <details class="food-special"><summary>先認識當地吃什麼</summary><ul><li><b>Kölsch</b> <i>0.2 L 小杯</i> — 科隆本地啤酒，喝法見「啤酒規矩」。</li><li><b>酸菜燉豬腳</b> <i>Hämchen</i> — 科隆是水煮的，軟嫩。</li><li><b>Halve Hahn</b> <i>「半隻雞」</i> — 其實是黑麥麵包配起司，沒有雞。</li><li><b>馬鈴薯煎餅</b> <i>Reibekuchen</i> — 市集必吃，配蘋果泥。</li></ul>
+<a href="index.html#g-kol">回旅行書看菜色照片 ↗</a></details>
+  <section class="food-area" data-area="比利時區・Friesenstraße"><h3>比利時區・Friesenstraße</h3><ul><li class="food-place" data-kind="正餐">
+  <div class="food-meta">正餐 <span class="food-pick">首選</span></div><h4>Päffgen</h4>
+  <p class="food-order"><span>該點</span> 烤啤酒豬腳 Bierhaxe、Halven Hahn</p>
+  <p>傳統 Kölsch 啤酒屋，想吃烤豬腳或點一份 Halve Hahn 配酒就來這裡。</p><p class="food-tip">只接受電話訂位</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Brauhaus+Paeffgen+Friesenstrasse+Koeln" target="_blank" rel="noopener" aria-label="Päffgen：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li></ul></section><section class="food-area" data-area="Rudolfplatz"><h3>Rudolfplatz</h3><ul><li class="food-place" data-kind="市集">
+  <div class="food-meta">市集 </div><h4>Rudolfplatz 聖誕市集</h4>
+  <p class="food-order"><span>該點</span> 馬鈴薯煎餅</p>
+  <p>在 Rudolfplatz 想找熱食，先看看市集的馬鈴薯煎餅。</p><p class="food-tip">市集日期以官方公告為準</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Rudolfplatz+Weihnachtsmarkt+Koeln" target="_blank" rel="noopener" aria-label="Rudolfplatz 聖誕市集：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li></ul></section><section class="food-area" data-area="大教堂・老城"><h3>大教堂・老城</h3><ul><li class="food-place" data-kind="正餐">
+  <div class="food-meta">正餐 <span class="food-pick">首選</span></div><h4>Brauhaus FRÜH am Dom</h4>
+  <p class="food-order"><span>該點</span> 酸菜燉豬腳 Hämchen、天與地</p>
+  <p>大教堂旁的經典啤酒屋，第一次想試水煮版豬腳可以從這家開始。</p><p class="food-tip">觀光客較多</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Frueh+am+Dom+Koeln" target="_blank" rel="noopener" aria-label="Brauhaus FRÜH am Dom：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li><li class="food-place" data-kind="市集">
+  <div class="food-meta">市集 <span class="food-pick">首選</span></div><h4>大教堂前＋Heinzels 聖誕市集</h4>
+  <p class="food-order"><span>該點</span> 馬鈴薯煎餅、蘑菇、香腸、熱紅酒</p>
+  <p>不想再坐啤酒屋，可以在兩個市集分著買熱食和熱紅酒。</p><p class="food-tip">熱紅酒杯通常有押金</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Weihnachtsmarkt+am+K%C3%B6lner+Dom" target="_blank" rel="noopener" aria-label="大教堂前＋Heinzels 聖誕市集：大教堂前地圖">大教堂前地圖 <span aria-hidden="true">↗</span></a><a href="https://www.google.com/maps/search/?api=1&amp;query=Heumarkt+Koeln" target="_blank" rel="noopener" aria-label="大教堂前＋Heinzels 聖誕市集：Heinzels 地圖">Heinzels 地圖 <span aria-hidden="true">↗</span></a></div>
+</li><li class="food-place" data-kind="喝一杯">
+  <div class="food-meta">喝一杯 </div><h4>Gaffel am Dom</h4>
+  <p class="food-order"><span>該點</span> Kölsch、天與地</p>
+  <p>大教堂旁的大型啤酒屋，適合想找熱鬧氣氛的人。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Gaffel+am+Dom+Koeln" target="_blank" rel="noopener" aria-label="Gaffel am Dom：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li><li class="food-place" data-kind="喝一杯">
+  <div class="food-meta">喝一杯 </div><h4>Peters Brauhaus</h4>
+  <p class="food-order"><span>該點</span> Kölsch</p>
+  <p>想坐進老派啤酒屋看看內裝，可以點一杯 Kölsch。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Peters+Brauhaus+Koeln" target="_blank" rel="noopener" aria-label="Peters Brauhaus：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li></ul></section><section class="food-area" data-area="Heumarkt"><h3>Heumarkt</h3><ul><li class="food-place" data-kind="正餐">
+  <div class="food-meta">正餐 </div><h4>Brauerei zur Malzmühle</h4>
+  <p class="food-order"><span>該點</span> 醋燜牛肉、Hämchen</p>
+  <p>比大教堂旁的啤酒屋低調，想試醋燜牛肉或水煮豬腳時用得上。</p><p class="food-tip">付款方式以現場為準</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Brauerei+zur+Malzmuehle+Koeln" target="_blank" rel="noopener" aria-label="Brauerei zur Malzmühle：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li></ul></section><section class="food-area" data-area="比利時區・Stadtgarten"><h3>比利時區・Stadtgarten</h3><ul><li class="food-place" data-kind="市集">
+  <div class="food-meta">市集 <span class="food-pick">首選</span></div><h4>Stadtgarten 市集</h4>
+  <p class="food-order"><span>該點</span> 獨立風聖誕市集</p>
+  <p>比利時區旁，比較少觀光客</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Weihnachtsmarkt+Stadtgarten+Koeln" target="_blank" rel="noopener" aria-label="Stadtgarten 市集：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li></ul></section><section class="food-area" data-area="Zülpicher Platz"><h3>Zülpicher Platz</h3><ul><li class="food-place" data-kind="咖啡">
+  <div class="food-meta">咖啡 </div><h4>The Coffee Gang</h4>
+  <p class="food-order"><span>該點</span> 精品咖啡</p>
+  <p>比利時區 Maastrichter Straße</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=The+Coffee+Gang+Koeln" target="_blank" rel="noopener" aria-label="The Coffee Gang：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li></ul></section>
+</section><section class="food-city" id="city-dus" data-panel="dus">
+  <header><p>Düsseldorf</p><h2>杜塞道夫</h2><p>白天去日本街吃拉麵，晚一點在老城喝 Altbier。</p></header>
+  <details class="food-special"><summary>先認識當地吃什麼</summary><ul><li><b>Altbier</b> <i>0.25 L</i> — 深琥珀色、麥香重。</li><li><b>Killepitsch</b> <i>草本利口酒</i> — 老城的小杯烈酒，站著一口乾。</li><li><b>烤豬腳</b> <i>Schweinshaxe</i> — 外皮酥脆，跟科隆的水煮版對照。</li></ul>
+<a href="index.html#g-dus">回旅行書看菜色照片 ↗</a></details>
+  <section class="food-area" data-area="Little Tokyo・日本街"><h3>Little Tokyo・日本街</h3><ul><li class="food-place" data-kind="正餐">
+  <div class="food-meta">正餐 <span class="food-pick">首選</span></div><h4>Takumi</h4>
+  <p class="food-order"><span>該點</span> 拉麵</p>
+  <p>日本街的拉麵選手，店小，想少等可以避開午餐尖峰。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Takumi+Immermannstrasse+28+Duesseldorf" target="_blank" rel="noopener" aria-label="Takumi：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li><li class="food-place" data-kind="正餐">
+  <div class="food-meta">正餐 </div><h4>Naniwa Noodles &amp; Soups</h4>
+  <p class="food-order"><span>該點</span> 擔擔麵、蒜味味噌</p>
+  <p>日本街的老牌拉麵店，想換擔擔麵或蒜味味噌時用得上。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Naniwa+Noodles+%26+Soups+Oststra%C3%9Fe+55+D%C3%BCsseldorf" target="_blank" rel="noopener" aria-label="Naniwa Noodles &amp; Soups：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li><li class="food-place" data-kind="正餐">
+  <div class="food-meta">正餐 </div><h4>Tokyo Ramen Takeichi</h4>
+  <p class="food-order"><span>該點</span> 濃厚雞白湯拉麵</p>
+  <p>想喝濃一點的雞白湯，可以在日本街找這家。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Tokyo+Ramen+Takeichi+Duesseldorf" target="_blank" rel="noopener" aria-label="Tokyo Ramen Takeichi：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li><li class="food-place" data-kind="點心">
+  <div class="food-meta">點心 </div><h4>Bing Go</h4>
+  <p class="food-order"><span>該點</span> 鯛魚燒</p>
+  <p>吃完拉麵再找個鯛魚燒當甜點。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Bing+Go+Immermannstrasse+Duesseldorf" target="_blank" rel="noopener" aria-label="Bing Go：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li><li class="food-place" data-kind="喝一杯">
+  <div class="food-meta">喝一杯 </div><h4>Brauerei Schumacher</h4>
+  <p class="food-order"><span>該點</span> Altbier</p>
+  <p>Oststraße 上的老牌 Altbier 酒廠，逛日本街時可順路。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Brauerei+Schumacher+Oststrasse+Duesseldorf" target="_blank" rel="noopener" aria-label="Brauerei Schumacher：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li></ul></section><section class="food-area" data-area="Altstadt・老城"><h3>Altstadt・老城</h3><ul><li class="food-place" data-kind="正餐">
+  <div class="food-meta">正餐 <span class="food-pick">首選</span></div><h4>Brauerei im Füchschen</h4>
+  <p class="food-order"><span>該點</span> 烤豬腳、醋燜牛肉</p>
+  <p>想在 Altbier 酒館坐下吃飯，可以點烤豬腳或醋燜牛肉。</p><p class="food-tip">不接受訂位</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Brauerei+im+Fuechschen+Duesseldorf" target="_blank" rel="noopener" aria-label="Brauerei im Füchschen：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li><li class="food-place" data-kind="喝一杯">
+  <div class="food-meta">喝一杯 </div><h4>Zum Uerige</h4>
+  <p class="food-order"><span>該點</span> Altbier</p>
+  <p>老城的代表性 Altbier 酒館，適合喝一杯。</p><p class="food-tip">正餐可另找店家</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Zum+Uerige+Duesseldorf" target="_blank" rel="noopener" aria-label="Zum Uerige：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li><li class="food-place" data-kind="喝一杯">
+  <div class="food-meta">喝一杯 </div><h4>Et Kabüffke</h4>
+  <p class="food-order"><span>該點</span> Killepitsch</p>
+  <p>小到只能站著</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Et+Kabueffke+Duesseldorf" target="_blank" rel="noopener" aria-label="Et Kabüffke：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li><li class="food-place" data-kind="咖啡">
+  <div class="food-meta">咖啡 </div><h4>Rösterei VIER</h4>
+  <p class="food-order"><span>該點</span> 咖啡</p>
+  <p>老城 Marktplatz</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Roesterei+VIER+Marktplatz+Duesseldorf" target="_blank" rel="noopener" aria-label="Rösterei VIER：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li></ul></section>
+</section><section class="food-city" id="city-haa" data-panel="haa">
+  <header><p>Haarlem</p><h2>哈倫</h2><p>在老城的教堂酒廠吃午餐，順便喝一杯哈倫釀的啤酒。</p></header>
+
+  <section class="food-area" data-area="老城・Raaks"><h3>老城・Raaks</h3><ul><li class="food-place" data-kind="正餐">
+  <div class="food-meta">正餐 </div><h4>Jopenkerk</h4>
+  <p class="food-order"><span>該點</span> 精釀</p>
+  <p>哈倫，教堂改成的酒廠</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Jopenkerk+Haarlem" target="_blank" rel="noopener" aria-label="Jopenkerk：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+</li></ul></section>
+</section>
+</main>
+<footer class="wrap food-footer">整理自旅伴的美食清單與手冊選店。菜單、營業時間和訂位方式以店家公告為準。</footer>
+<script src="src/food.js" defer></script>
+</body></html>

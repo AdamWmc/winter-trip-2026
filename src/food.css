@@ -1,0 +1,60 @@
+/* Pocket directory: fast to scan, with the same paper and type as the book. */
+.food-mast{background:var(--night);color:var(--night-ink)}
+.food-mast .wrap{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.food-mast a{display:flex;align-items:center;min-height:48px;text-decoration:none;font-size:14px}
+.food-mast a:hover{text-decoration:underline}
+.food-mast span{font:500 10px var(--f-mono);letter-spacing:.1em;color:var(--night-muted)}
+.food-main{padding-bottom:20px}
+.food-intro{padding-block:clamp(24px,5vw,56px) 20px}
+.food-intro h1{font:900 clamp(35px,7vw,63px)/1.15 var(--f-display);margin:8px 0 10px;text-wrap:initial}
+.food-intro>p:last-child{color:var(--ink-2);max-width:38em;font-size:15px}
+.food-cities{position:sticky;top:env(safe-area-inset-top,0px);z-index:3;display:flex;overflow-x:auto;
+ gap:8px;padding:6px 0;border-block:1px solid var(--rule);background:var(--paper);scrollbar-width:thin}
+.food-cities a{display:flex;align-items:center;min-height:44px;padding:0 12px;flex:none;
+ text-decoration:none;font-size:14px;font-weight:600}
+.food-cities a:hover{background:var(--sunk)}
+.food-cities a[aria-current=true]{color:var(--paper);background:var(--ink)}
+.food-filters{scroll-margin-top:calc(58px + env(safe-area-inset-top,0px));
+ display:grid;grid-template-columns:minmax(0,2fr) repeat(2,minmax(0,1fr));gap:8px 12px;padding:14px 0 0}
+.food-filters label{display:grid;gap:4px;color:var(--muted);font-size:12px;min-width:0}
+.food-filters input,.food-filters select{min-height:44px;width:100%;min-width:0;padding:6px 10px;border:1px solid var(--rule);
+ border-radius:4px;background:var(--surface);color:var(--ink);font:400 16px var(--f-body)}
+.food-filters :focus-visible{outline:2px solid var(--delft);outline-offset:2px}
+#food-count{grid-column:1/-1;color:var(--muted);font-size:12px}
+.food-empty{border-left:3px solid var(--delft);padding-left:10px;margin-top:12px}
+.food-city{scroll-margin-top:64px;margin-top:20px;padding-bottom:24px}
+.food-city>header{padding:14px 0;border-top:2px solid var(--rule-strong)}
+.food-city>header p:first-child{font:italic 400 21px var(--f-num);color:var(--muted)}
+.food-city h2{font:700 clamp(27px,5vw,40px)/1.2 var(--f-display);margin:4px 0}
+.food-city>header p:last-child{font-size:14px;color:var(--ink-2)}
+.food-special{border-bottom:1px solid var(--rule);padding-bottom:4px;font-size:14px}
+.food-special summary,.food-special a{min-height:44px;padding-block:9px;cursor:pointer;color:var(--delft)}
+.food-special a{display:inline-flex;align-items:center}
+.food-special li i{color:var(--muted)}
+.food-area{margin-top:20px}
+.food-area>h3{font:700 17px var(--f-display);padding-bottom:7px;border-bottom:1px solid var(--rule-strong)}
+.food-area>ul{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0 22px;list-style:none;margin:0;padding:0}
+.food-place{display:grid;align-content:start;gap:4px;padding:12px 0;border-bottom:1px solid var(--rule);min-width:0}
+.food-place h4{font:700 17px/1.35 var(--f-body);margin:0}
+.food-place p{font-size:14px;line-height:1.55;color:var(--ink-2)}
+.food-meta{display:flex;align-items:center;gap:6px;font-size:11px;letter-spacing:.05em;color:var(--muted)}
+.food-pick{background:var(--ink);color:var(--paper);padding:0 5px}
+.food-place .food-order{font-weight:700;color:var(--ink)}
+.food-order span{font-size:11px;font-weight:600;color:var(--muted);margin-right:4px}
+.food-place .food-tip{font-size:12px;color:var(--muted)}
+.food-maps{display:flex;gap:8px 16px;flex-wrap:wrap}
+.food-maps a{display:inline-flex;align-items:center;gap:6px;min-height:44px;min-width:44px;
+ color:var(--delft);font-size:14px;text-underline-offset:3px}
+.food-footer{margin-top:0;padding-block:22px 35px}
+@media(max-width:760px){
+ body{padding-bottom:env(safe-area-inset-bottom,0px)}
+ .food-area>ul{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .food-cities{margin-inline:calc(-1 * var(--gutter));padding-inline:var(--gutter)}
+ .food-filters{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .food-filters label:first-child{grid-column:1/-1}
+}
+@media(max-width:480px){
+ .food-area>ul{grid-template-columns:minmax(0,1fr)}
+ .food-intro{padding-block:20px 14px}
+ .food-city{margin-top:13px}
+}
