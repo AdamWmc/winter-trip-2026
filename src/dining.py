@@ -1,5 +1,6 @@
 """Render the standalone pocket dining directory from the public booklet data."""
 from collections import defaultdict
+from food_map_data import AREA_POINTS
 from booklet_data import CITIES, FOOD_DIRECTORY, FOOD_CHAPTER_EXTRAS, FOOD_CITY_NOTES, GUIDES
 
 KINDS = ('正餐', '點心', '咖啡', '喝一杯', '市集')
@@ -43,7 +44,9 @@ def page(esc, maps):
   <p class="food-order"><span>該點</span> {esc(order)}</p>
   <p>{esc(feature)}</p>{tip}<div class="food-maps">{links}</div>
 </li>''')
-            groups.append(f'''<section class="food-area" data-area="{esc(area)}"><h3>{esc(area)}</h3><ul>{''.join(cards)}</ul></section>''')
+            lat, lon = AREA_POINTS[(key, area)]
+            coords = f' data-point="{lat},{lon}"'
+            groups.append(f'''<section class="food-area" data-area="{esc(area)}"{coords}><h3 tabindex="-1">{esc(area)}</h3><ul>{''.join(cards)}</ul></section>''')
         dishes = guides.get(DISH_GUIDES.get(key), {}).get('dishes', [])
         chapter = GUIDE_ANCHORS.get(key)
         dish_list = ''.join(f'<li><b>{esc(name)}</b> <i>{esc(original)}</i> — {esc(note)}</li>' for name,original,note in dishes)
@@ -62,7 +65,7 @@ def page(esc, maps):
 </div></header>
 <main class="wrap food-main" id="food-main" tabindex="-1">
   <header class="food-intro"><p class="kicker">Pocket guide · 01 / 吃喝</p><h1>這附近吃什麼？</h1>
-  <p>先選你在哪座城，再找街區、餐別或想吃的菜。每家都列出該點什麼、特色和地圖。</p></header>
+  <p>先選你在哪座城，點地圖看街區，或搜尋想吃的菜。每家都列出該點什麼、特色和地圖。</p></header>
   <nav class="food-cities" aria-label="選擇城市">{''.join(tabs)}</nav>
   <div class="food-filters" hidden>
     <label>找店或菜名<input type="search" placeholder="例如：淡菜、蘋果派" id="food-search" autocomplete="off"></label>
@@ -70,8 +73,22 @@ def page(esc, maps):
     <label>餐別<select id="food-kind"><option value="">所有餐別</option>{kinds}</select></label>
     <p id="food-count" role="status"></p>
   </div>
+  <details class="food-map" data-tiles="https://tile.openstreetmap.org/{{z}}/{{x}}/{{y}}.png" hidden open>
+    <summary><span class="food-map-title">街區地圖 <small data-map-city></small></span><span class="food-map-toggle" aria-hidden="true"></span></summary>
+    <div class="food-map-canvas" role="region" aria-label="吃喝街區地圖"></div>
+    <p class="food-map-status" role="status"></p>
+    <div class="food-map-foot">
+      <p>數字是這區符合菜名與餐別的選擇。點一下篩選；店家地址以各店的 Google Maps 連結為準。</p>
+      <div class="food-map-tools" hidden>
+        <button type="button" data-map-reset>回到全城</button>
+        <button type="button" data-map-drag aria-pressed="false">移動地圖</button>
+        <button type="button" data-clear-area hidden>清除街區篩選</button>
+      </div>
+    </div>
+  </details>
   <p class="food-empty" hidden>這個條件沒有結果。可以換街區、餐別或關鍵字。</p>
   {''.join(sections)}
 </main>
 <footer class="wrap food-footer">整理自旅伴的美食清單與手冊選店。菜單、營業時間和訂位方式以店家公告為準。</footer>
+<script src="src/food-map.js" defer></script>
 <script src="src/food.js" defer></script>'''

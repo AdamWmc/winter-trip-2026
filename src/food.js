@@ -8,16 +8,28 @@
   const count = document.getElementById('food-count');
   const empty = document.querySelector('.food-empty');
   let active, groups;
+  const drawMap = window.createFoodMap?.(document.querySelector('.food-map'), name => {
+    area.value = name;
+    update();
+  }, () => {
+    const first = groups.find(group => !group.el.hidden)?.el.querySelector('h3');
+    if (first) {
+      first.focus({preventScroll:true});
+      first.scrollIntoView({block:'start'});
+    }
+  });
   const normalize = s => s.normalize('NFD').replace(/\p{M}/gu, '').toLowerCase().replace(/[’']/g, '');
   function update() {
     const terms = normalize(search.value.trim()).split(/\s+/).filter(Boolean);
     let n = 0;
     groups.forEach(group => {
       let visible = 0;
+      group.count = 0;
       group.cards.forEach(card => {
-        const match = (!area.value || group.name === area.value) &&
-          (!kind.value || card.el.dataset.kind === kind.value) &&
+        const matchesFood = (!kind.value || card.el.dataset.kind === kind.value) &&
           terms.every(term => card.text.includes(term));
+        if (matchesFood) group.count++;
+        const match = matchesFood && (!area.value || group.name === area.value);
         card.el.hidden = !match;
         if (match) visible++;
       });
@@ -26,6 +38,8 @@
     });
     count.textContent = `顯示 ${n} 個選擇`;
     empty.hidden = n !== 0;
+    drawMap?.({city:active.dataset.panel, label:active.querySelector('h2').textContent,
+      groups, selected:area.value});
   }
   function select(scroll = false) {
     const panel = panels.find(el => '#' + el.id === location.hash) || panels[0];
@@ -43,6 +57,7 @@
     });
     groups = [...panel.querySelectorAll('[data-area]')].map(el => ({
       el, name: el.dataset.area,
+      point: el.dataset.point?.split(',').map(Number),
       cards: [...el.querySelectorAll('.food-place')].map(card => ({
         el: card, text: normalize(el.dataset.area + ' ' + card.textContent)
       }))
