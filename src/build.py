@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
-# v3 builder: "winter light, timetable precision" (art director spec) + editor copy.
-import sys, html, re, urllib.parse, math, os
+# Winter travel book: compile the itinerary and editorial assets into a static page.
+import sys, html, re, urllib.parse, math, os, json
+from pathlib import Path
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from booklet_data import CITIES, DAYS, GUIDES, TRAINS, LINKS, STAYS, BOOKINGS, CLOSED, BACKUPS, SOUVENIRS
+from booklet_data import CITIES, DAYS, GUIDES, TRAINS, LINKS, STAYS, BOOKINGS, CLOSED, BACKUPS, SOUVENIRS, CHAPTERS, DAY_PHOTOS, DISH_PHOTOS, PHOTO_TEXT
 
 def esc(t): return html.escape(t, quote=True)
 def q(t): return "https://www.google.com/maps/search/?api=1&query=" + urllib.parse.quote_plus(t)
@@ -91,9 +92,27 @@ def daylight(d):
     return (f'<div class="daylight" style="--sr:{pos(sr):.1f}%;--ss:{pos(ss):.1f}%" role="img" aria-label="日出約 {sr}，日落約 {ss}">'
             f'{ticks}<span class="sr">{sr}</span><span class="ss">{ss}</span></div>')
 
-def day_cards():
+ROOT = Path(__file__).resolve().parents[1]
+PHOTOS = json.loads((ROOT / 'assets/img/photos.json').read_text(encoding='utf-8'))
+
+def photo(key, cls='', sizes='(min-width: 1100px) 450px, (min-width: 761px) 40vw, 95vw', priority=False):
+    p = PHOTOS[key]
+    alt, caption = PHOTO_TEXT[key]
+    if p.get('format') == 'food-portrait':
+        cls += ' photo-portrait'
+    base = f'assets/img/{p["folder"]}/{p["slug"]}'
+    variants = ', '.join(f'{base}-{w}.webp {w}w' for w in (640, 1280, 1920))
+    loading = 'fetchpriority="high"' if priority else 'loading="lazy" decoding="async"'
+    return (f'<figure class="photo {cls}" style="--focus:{esc(p["focus"])}">'
+            f'<img src="{base}-640.webp" srcset="{variants}" sizes="{sizes}" '
+            f'width="{p["width"]}" height="{p["height"]}" alt="{esc(alt)}" {loading}>'
+            f'<figcaption>{esc(caption)}</figcaption></figure>')
+
+def day_cards(ids):
     out = []
     for d in DAYS:
+        if d['id'] not in ids:
+            continue
         c = CITIES[d["city"]]
         lis = []
         for t, txt, k in d["items"]:
@@ -102,6 +121,8 @@ def day_cards():
         rlink = (f'<a class="pin pin-strong" href="{esc(route_url(*d["route"]))}" target="_blank" rel="noopener">今日路線</a>') if d["route"] else ""
         fact = f'<p class="fact"><span>你知道嗎</span>{esc(d["fact"])}</p>' if d.get("fact") else ""
         mm, dd = d["date"].split("/")
+        key = DAY_PHOTOS.get(d['id'])
+        scene = photo(key, 'day-photo') if key else ''
         out.append(f'''<details class="day" id="d{d["id"]}" open style="--c: var(--c-{c["color"]})">
   <summary class="day-head">
     <div class="day-num"><span class="m">{mm}</span><span class="slash">/</span><span class="d">{dd}</span><span class="wd">週{d["wd"]}</span></div>
@@ -114,10 +135,13 @@ def day_cards():
     </div>
     <span class="caret" aria-hidden="true"></span>
   </summary>
-  <div class="day-body">
+  <div class="day-body{' has-scene' if scene else ''}">
+    <div class="day-plan">
     <ol class="tl">{"".join(lis)}</ol>
     {fact}
     <div class="day-act">{rlink}</div>
+    </div>
+    {scene}
   </div>
 </details>''')
     return "\n".join(out)
@@ -134,25 +158,66 @@ def place_li(p):
   <div class="pl-why">{esc(why)}</div>
   <a class="pin" href="{esc(q(query))}" target="_blank" rel="noopener" aria-label="{esc(name)} 地圖"></a>
 </li>'''
-def guides():
-    out = []
-    for g in GUIDES:
-        c = CITIES[g["key"]]
-        facts = "".join(f"<dt>{esc(a)}</dt><dd>{esc(b)}</dd>" for a,b in g["facts"])
-        dishes = "".join(f'<li><b>{esc(n)}</b><i>{esc(o)}</i><span>{esc(p)}</span></li>' for n,o,p in g["dishes"])
-        top = [p for p in g["places"] if p[0] in TOP]; rest = [p for p in g["places"] if p[0] not in TOP]
-        more = (f'<details class="more"><summary>再 {len(rest)} 間：備選、點心、酒吧、咖啡</summary><ul class="places">{"".join(place_li(p) for p in rest)}</ul></details>') if rest else ""
-        out.append(f'''<section class="guide" id="g-{g["key"]}" style="--c: var(--c-{c["color"]})">
-  <header class="g-head"><h3>{nb(g["cities"], "・")}</h3><span class="g-dates">{g["dates"]}</span></header>
-  <div class="g-body">
-    <div class="g-story"><p>{esc(g["story"])}</p>{f'<dl class="g-facts">{facts}</dl>' if facts else ""}</div>
-    <div class="g-eat"><div class="label">必吃必喝</div><ul class="dishes">{dishes}</ul></div>
-  </div>
+def chapter_index():
+    rows = []
+    for i, (key, name, local, date, *_rest) in enumerate(CHAPTERS, 1):
+        rows.append(f"""<li><a href="#c-{key}">
+          <span class="folio">{i:02}</span><span class="contents-name">{esc(name)}
+          <i>{esc(local)}</i></span><span class="contents-date">{date}</span></a></li>""")
+    return ''.join(rows)
+
+def food_index():
+    return ''.join(f'<li><a href="#g-{g["key"]}">{esc(g["cities"])}<span>{esc(g["dates"])}</span></a></li>' for g in GUIDES)
+
+def guide_story(g):
+    facts = "".join(f"<dt>{esc(a)}</dt><dd>{esc(b)}</dd>" for a,b in g["facts"])
+    return f'<div class="g-story"><p>{esc(g["story"])}</p>{f"<dl class=g-facts>{facts}</dl>" if facts else ""}</div>'
+
+def guide(g):
+    dishes = []
+    for name, original, note in g['dishes']:
+        key = DISH_PHOTOS.get(name) or DISH_PHOTOS.get(original)
+        pic = photo(key, 'dish-photo', '(min-width: 1100px) 345px, (min-width: 761px) 31vw, 46vw') if key in PHOTOS else ''
+        dishes.append(f'<li{" class=has-dish" if pic else ""}>{pic}<b>{esc(name)}</b><i>{esc(original)}</i><span>{esc(note)}</span></li>')
+    top = [p for p in g["places"] if p[0] in TOP]
+    rest = [p for p in g["places"] if p[0] not in TOP]
+    more = (f'<details class="more"><summary>再 {len(rest)} 間：備選、點心、酒吧、咖啡</summary><ul class="places">{"".join(place_li(p) for p in rest)}</ul></details>') if rest else ""
+    return f'''<section class="guide" id="g-{g["key"]}">
+  <header class="g-head"><div><div class="kicker">At the table · 吃喝</div><h3>{nb(g["cities"], "・")}</h3></div><span class="g-dates">{g["dates"]}</span></header>
+  <div class="g-eat"><div class="label">必吃必喝</div><ul class="dishes" data-count="{len(dishes)}">{"".join(dishes)}</ul></div>
   <div class="label">推薦的店 · ★ 為 Google 評分</div>
   <ul class="places">{"".join(place_li(p) for p in top)}</ul>
   {more}
-</section>''')
-    return "\n".join(out)
+</section>'''
+
+def chapters():
+    guides = {g['key']: g for g in GUIDES}
+    out = []
+    for i, (key, name, local, date, intro, image, ids, food) in enumerate(CHAPTERS, 1):
+        stories = ''.join(guide_story(guides[k]) for k in food)
+        menus = ''.join(guide(guides[k]) for k in food)
+        links = ''.join(f'<a href="#d{d["id"]}">{d["date"]} <small>週{d["wd"]}</small></a>' for d in DAYS if d['id'] in ids)
+        out.append(f'''<article class="chapter" id="c-{key}" data-first="{ids[0]}" style="--c:var(--c-{CITIES[key]["color"]})">
+  <header class="opener bleed">
+    {photo(image, 'opener-photo', '(min-width: 1440px) 1440px, 100vw')}
+    <div class="opener-copy">
+      <div class="opener-index"><span>CHAPTER {i:02} / 07</span><span>{date}</span></div>
+      <div class="opener-title"><p>{esc(local)}</p><h2>{nb(name, "・")}</h2><div class="opener-intro">{esc(intro)}</div></div>
+    </div>
+  </header>
+  <div class="chapter-links"><span class="kicker">翻到當天</span>{links}</div>
+  {f'<div class="chapter-notes">{stories}</div>' if stories else ''}
+  <div class="days">{day_cards(ids)}</div>
+  {menus}
+</article>''')
+    return ''.join(out)
+
+def credits():
+    lines = []
+    for k, p in PHOTOS.items():
+        _, caption = PHOTO_TEXT[k]
+        lines.append(f'<li><span>{esc(caption)}</span> — <a href="{esc(p["source"])}">{esc(p["author"])}</a> · <a href="{esc(p["license_url"])}">{esc(p["license"])}</a></li>')
+    return ''.join(lines)
 
 def stays():
     out = []
@@ -479,7 +544,9 @@ JS = r"""
 <script>
 (function(){
   var start=new Date(2026,11,5), end=new Date(2026,11,19);
-  var now=new Date(), today=new Date(now.getFullYear(),now.getMonth(),now.getDate());
+  var europe=new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/Amsterdam',year:'numeric',month:'numeric',day:'numeric',hour:'numeric',minute:'numeric',hourCycle:'h23'}).formatToParts(new Date());
+  var now={}; europe.forEach(function(part){now[part.type]=Number(part.value);});
+  var today=new Date(now.year,now.month-1,now.day);
   var cd=document.getElementById('countdown'), btn=document.getElementById('todayBtn'), todayId=null;
   if(today<start){cd.innerHTML='還有 <b>'+Math.round((start-today)/864e5)+'</b> 天出發';}
   else if(today<=end){
@@ -488,7 +555,7 @@ JS = r"""
     var el=document.getElementById(todayId);
     if(el){btn.href='#'+todayId;btn.hidden=false;
       document.querySelectorAll('[data-day="'+todayId.slice(1)+'"]').forEach(function(e){e.classList.add('is-today');});
-      var bar=el.querySelector('.daylight'); if(bar){var p=(now.getHours()+now.getMinutes()/60-6)/18*100;
+      var bar=el.querySelector('.daylight'); if(bar){var p=(now.hour+now.minute/60-6)/18*100;
         if(p>=0&&p<=100){var i=document.createElement('i');i.className='now';i.style.left=p+'%';bar.appendChild(i);}}}
   } else {cd.textContent='旅程結束，歡迎回家。';}
   var mobile=window.matchMedia('(max-width: 760px)').matches;
@@ -497,7 +564,10 @@ JS = r"""
   else{document.querySelectorAll('details.tgroup.fold').forEach(function(d){d.open=true;});}
   function openHash(){var h=location.hash.slice(1),el=h&&document.getElementById(h); if(el&&el.tagName==='DETAILS')el.open=true;}
   window.addEventListener('hashchange',openHash); openHash();
-  if(location.hash){var t=document.getElementById(location.hash.slice(1)); if(t)setTimeout(function(){t.scrollIntoView();},60);}
+  if(location.hash){
+    var target=document.getElementById(location.hash.slice(1));
+    if(target)requestAnimationFrame(function(){target.scrollIntoView({behavior:'instant'});});
+  }
   document.querySelectorAll('a[href^="#d1"]').forEach(function(a){a.addEventListener('click',function(){var el=document.getElementById(a.getAttribute('href').slice(1)); if(el)el.open=true;});});
   // checklist
   var boxes=document.querySelectorAll('input[data-todo]'), out=document.getElementById('todoCount'), prog=document.querySelector('.progress'), done=document.getElementById('allDone');
@@ -506,23 +576,47 @@ JS = r"""
   boxes.forEach(function(b){ if(saved[b.dataset.todo])b.checked=true;
     b.addEventListener('change',function(){saved[b.dataset.todo]=b.checked;try{localStorage.setItem('trip-todos-v3',JSON.stringify(saved));}catch(e){}count();});});
   count();
-  // scrollspy
-  if('IntersectionObserver' in window){
-    var navLinks={}; document.querySelectorAll('.nav li a[href^="#"]').forEach(function(a){navLinks[a.getAttribute('href').slice(1)]=a;});
-    var so=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){
-      Object.values(navLinks).forEach(function(a){a.removeAttribute('aria-current');});
-      var a=navLinks[e.target.id]; if(a)a.setAttribute('aria-current','true');}});},{rootMargin:'-45% 0px -50% 0px'});
-    document.querySelectorAll('section.block').forEach(function(s){so.observe(s);});
-    var ovw=document.getElementById('overview');
-    window.addEventListener('scroll',function(){ if(window.scrollY<ovw.offsetTop-60){Object.values(navLinks).forEach(function(a){a.removeAttribute('aria-current');});}},{passive:true});
-    var chips={}; document.querySelectorAll('.dchip').forEach(function(c){chips[c.dataset.day]=c;});
-    var dob=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){
-      Object.values(chips).forEach(function(c){c.removeAttribute('aria-current');});
-      var c=chips[e.target.id.slice(1)]; if(c){c.setAttribute('aria-current','true');
-        var row=c.parentNode, l=c.offsetLeft-row.offsetLeft, r=l+c.offsetWidth;
-        if(l<row.scrollLeft||r>row.scrollLeft+row.clientWidth){row.scrollTo({left:l-16,behavior:'smooth'});}}}});},{rootMargin:'-30% 0px -60% 0px'});
-    days.forEach(function(d){dob.observe(d);});
+  // Track sections and dates from the same reading line just below the sticky bars.
+  var navLinks={}, chips={}, queued=false, activeNav=null, activeDate=null;
+  document.querySelectorAll('.nav li a').forEach(function(a){navLinks[a.hash.slice(1)]=a;});
+  document.querySelectorAll('.dchip').forEach(function(a){chips[a.dataset.day]=a;});
+  var sections=Array.from(document.querySelectorAll('.block, #guides, .chapter, .guide'));
+  var dates=Array.from(document.querySelectorAll('.chapter, .day, .guide'));
+  var row=document.querySelector('.dchips');
+  function current(previous,next){
+    if(previous!==next){
+      if(previous)previous.removeAttribute('aria-current');
+      if(next)next.setAttribute('aria-current','true');
+    }
+    return next;
   }
+  function watch(){
+    queued=false;
+    var line=(mobile?0:48)+row.offsetHeight+28, nav=null, date=null;
+    sections.forEach(function(s){
+      if(s.getBoundingClientRect().top<=line){
+        nav=navLinks[s.id]||navLinks[s.classList.contains('guide')?'guides':'days'];
+      }
+    });
+    if(document.getElementById('days').getBoundingClientRect().bottom>line){
+      dates.forEach(function(s){
+        if(s.getBoundingClientRect().top<=line)date=chips[s.dataset.first||s.id.slice(1)]||null;
+      });
+    }
+    activeNav=current(activeNav,nav);
+    if(activeDate!==date && date){
+      var l=date.offsetLeft, r=l+date.offsetWidth;
+      if(l<row.scrollLeft||r>row.scrollLeft+row.clientWidth){
+        row.scrollTo({left:l-16,behavior:'instant'});
+      }
+    }
+    activeDate=current(activeDate,date);
+  }
+  function queue(){if(!queued){queued=true;requestAnimationFrame(watch);}}
+  window.addEventListener('scroll',queue,{passive:true});
+  window.addEventListener('resize',queue);
+  document.addEventListener('toggle',queue,true);
+  queue();
 })();
 </script>
 """
@@ -530,26 +624,18 @@ JS = r"""
 def body():
     todo_html, ntodo = bookings()
     return f'''
+<a class="skip-link" href="#main">跳到內容</a>
 <header class="cover">
-  <div class="wrap">
-    <div>
+  {photo('cover', 'cover-photo', '100vw', priority=True)}
+  <div class="wrap cover-copy">
+    <div class="cover-mast"><span>WINTER RAIL JOURNAL</span><span>EUROPE / 2026</span></div>
+    <div class="cover-title">
       <div class="eyebrow">PRIVATE ITINERARY · WINTER 2026</div>
       <h1>從低地<br>到萊茵河</h1>
-      <p class="sub"><span class="nb">荷蘭・比利時・德國</span>　<span class="nb">冬日十五天 · 12.5–12.19</span></p>
-      <div class="stats">
-        <div class="stat"><b>15</b><span>天</span></div>
-        <div class="stat"><b>3</b><span>個國家</span></div>
-        <div class="stat"><b>10</b><span>座城市</span></div>
-        <div class="stat"><b>9</b><span>個聖誕市集</span></div>
-      </div>
+      <p class="sub"><span class="nb">荷蘭・比利時・德國</span><span class="nb">冬日十五天 · 12.5–12.19</span></p>
       <div class="countdown" id="countdown">12 月 5 日出發</div>
     </div>
-    <div>
-      {route_svg()}
-      <div class="maplegend"><span><i></i>過夜城市</span><span><em></em>一日遊</span></div>
-      {cover_strips()}
-      <div class="strips-cap">十五天的日照：金色是白天，大約 08:30 到 16:30</div>
-    </div>
+    <a class="cover-index" href="#overview">翻開目錄 <span aria-hidden="true">↓</span></a>
   </div>
 </header>
 
@@ -567,15 +653,38 @@ def body():
   </div>
 </nav>
 
-<main class="wrap">
+<main class="wrap" id="main" tabindex="-1">
   <section class="block" id="overview">
     <div class="block-head"><div class="kicker">Overview</div><h2>十五天，一眼看完</h2><p>點任何一天，就翻到那一天。</p></div>
-    <div class="ovlist">{overview()}</div>
+    <div class="contents-spread">
+      <div>
+        <div class="kicker">Contents · 目錄</div>
+        <ol class="contents">{chapter_index()}</ol>
+      </div>
+      <aside class="route-panel" aria-label="旅行路線與日照">
+        <div class="kicker">The route · 路線</div>
+        {route_svg()}
+        <div class="maplegend"><span><i></i>過夜城市</span><span><em></em>一日遊</span></div>
+        {cover_strips()}
+        <div class="strips-cap">十五天的日照：金色是白天，大約 08:30 到 16:30</div>
+        <div class="stats">
+          <div class="stat"><b>15</b><span>天</span></div>
+          <div class="stat"><b>3</b><span>個國家</span></div>
+          <div class="stat"><b>10</b><span>座城市</span></div>
+          <div class="stat"><b>9</b><span>個聖誕市集</span></div>
+        </div>
+      </aside>
+    </div>
+    <details class="index-fold"><summary>十五天行程一覽</summary><div class="ovlist">{overview()}</div></details>
+    <section class="food-index" id="guides">
+      <div class="block-head"><div class="kicker">Eat &amp; drink</div><h2>每座城市，該吃什麼</h2><p>每家店都對照過 Google 評分、旅遊指南和 Threads 上的心得才放進來。標了日期的，已經排進行程。</p></div>
+      <ul>{food_index()}</ul>
+    </section>
   </section>
 
   <section class="block" id="days">
-    <div class="block-head"><div class="kicker">Day by day</div><h2>每日行程</h2><p>金色店名點了就開地圖；「今日路線」會把當天要去的地方一次放進 Google Maps。點日期可以收合。日期下那條細線是當天的日照：金色是白天，刻度是每一站的時間。</p></div>
-    <div class="dchips" aria-label="選擇日期">{daychips()}</div>
+    <div class="dchips" role="navigation" aria-label="選擇日期">{daychips()}</div>
+    <div class="block-head days-heading"><div class="kicker">Day by day</div><h2>每日行程</h2><p>金色店名點了就開地圖；「今日路線」會把當天要去的地方一次放進 Google Maps。點日期可以收合。日期下那條細線是當天的日照：金色是白天，刻度是每一站的時間。</p></div>
     <div class="legend">
       <span class="k-go"><span class="mark"></span>交通</span>
       <span class="k-see"><span class="mark"></span>景點</span>
@@ -585,12 +694,7 @@ def body():
       <span class="k-rest"><span class="mark"></span>休息</span>
       <span class="k-run"><span class="mark"></span>運動</span>
     </div>
-    <div class="days">{day_cards()}</div>
-  </section>
-
-  <section class="block" id="guides">
-    <div class="block-head"><div class="kicker">Eat &amp; drink</div><h2>每座城市，該吃什麼</h2><p>每家店都對照過 Google 評分、旅遊指南和 Threads 上的心得才放進來。標了日期的，已經排進行程。</p></div>
-    <div class="guides">{guides()}</div>
+    {chapters()}
   </section>
 
   <section class="block" id="stays">
@@ -657,29 +761,32 @@ def body():
   </section>
 </main>
 
-<footer class="wrap">營業時間、票價和車次查於 2026 年 11 月，出發前一週請再用 Google Maps 或官網確認一次。★ 評分來自 Google 地圖，推薦參考旅遊指南、評論網站和 Threads。</footer>
+<footer class="wrap"><p>營業時間、票價和車次查於 2026 年 11 月，出發前一週請再用 Google Maps 或官網確認一次。★ 評分來自 Google 地圖，推薦參考旅遊指南、評論網站和 Threads。</p>
+<details class="photo-credits"><summary>照片來源與授權</summary><p>照片用於介紹地點與料理。料理圖片不一定拍自推薦店家；照片已轉檔及縮放，顯示時可能裁切。改作沿用各照片的原授權。</p><ul>{credits()}</ul></details>
+</footer>
 {JS}'''
 
-HEAD_LINKS = '''<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700;900&family=Noto+Sans+TC:wght@400;500;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=Source+Code+Pro:wght@400;500&display=swap">'''
+HEAD_LINKS = '<link rel="preload" href="assets/fonts/noto-serif-tc.woff2" as="font" type="font/woff2" crossorigin>'
+FONTS_CSS = (ROOT / "src/fonts.css").read_text(encoding="utf-8")
+BOOK_CSS = (ROOT / "src/book.css").read_text(encoding="utf-8")
 
 def build(artifact_path, site_path):
-    b = body()
-    open(artifact_path, "w", encoding="utf-8").write(f'<title>荷比德冬季旅行手冊</title>\n<meta name="claude:viewport-fit-sides" content="cover">\n{HEAD_LINKS}\n<style>{CSS}</style>\n{b}\n')
+    b = "\n".join(line.rstrip() for line in body().splitlines())
+    artifact = (f'<title>荷比德冬季旅行手冊</title>\n<meta name="claude:viewport-fit-sides" content="cover">\n{HEAD_LINKS}\n<style>{FONTS_CSS}{CSS}{BOOK_CSS}</style>\n{b}\n')
     site = ('<!doctype html>\n<html lang="zh-Hant">\n<head>\n<meta charset="utf-8">\n'
             '<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">\n'
             '<meta name="robots" content="noindex, nofollow">\n<meta name="theme-color" content="#0F1F45">\n<title>荷比德冬季旅行手冊</title>\n'
-            f'{HEAD_LINKS}\n<style>[hidden]{{display:none!important}} img{{max-width:100%}} :root{{padding-top:env(safe-area-inset-top,0px)}}{CSS}</style>\n</head>\n<body>\n{b}\n</body>\n</html>\n')
-    open(site_path, "w", encoding="utf-8").write(site)
+            f'{HEAD_LINKS}\n<style>[hidden]{{display:none!important}} img{{max-width:100%}} :root{{padding-top:env(safe-area-inset-top,0px)}}{FONTS_CSS}{CSS}{BOOK_CSS}</style>\n</head>\n<body>\n{b}\n</body>\n</html>\n')
     # Public page: private terms are blocked by hash so this public source does not name them.
     import hashlib
     for n, h in [(2, '8f5039a6dfad4305'), (2, '9a155d48a53c7936'), (3, 'ae56c663b674b148'), (3, 'c81ed803e323ad7f')]:
         hits = {site[i:i+n] for i in range(len(site)-n+1)
                 if hashlib.sha256(site[i:i+n].encode()).hexdigest()[:16] == h}
-        assert not hits, hits
+        assert not hits, "Privacy check failed (blocked term)"
     flights = re.findall(r"\b(?:CI|EK|BR|KL|LH|SN|TK|JL|NH|CX)\s?\d{2,4}\b", site)
-    assert not flights, flights
+    assert not flights, "Privacy check failed (blocked code)"
+    Path(site_path).write_text(site, encoding="utf-8")
+    Path(artifact_path).write_text(artifact, encoding="utf-8")
     print("built", len(site))
 
 if __name__ == "__main__":

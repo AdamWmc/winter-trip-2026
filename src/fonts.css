@@ -1,0 +1,32 @@
+@font-face {
+  font-family: 'Noto Serif TC';
+  font-style: normal;
+  font-weight: 500 900;
+  font-display: optional;
+  src: url(assets/fonts/noto-serif-tc.woff2) format('woff2');
+  unicode-range: U+3001-3002, U+4e00, U+4e0b, U+4e39, U+4e4b, U+4e86, U+4e8b, U+4e94, U+4ec0, U+4eca, U+4f4e, U+500b, U+502b, U+50cf, U+5169, U+51ac, U+51fa, U+5229, U+5230, U+524d, U+5340-5341, U+5348, U+534a, U+5403-5404, U+548c, U+54c8, U+54ea, U+5564, U+559d, U+56de, U+570b, U+5728, U+5730, U+57ce, U+5834, U+585e, U+5927, U+5929, U+592b, U+597d, U+59c6, U+5b78, U+5b8c, U+5cb8, U+5e02-5e03, U+5e15, U+5e38, U+5ea7, U+5ee3, U+5f9e, U+5fb7, U+60f3, U+65af-65b0, U+65c5, U+65e5, U+662f, U+6642, U+665a, U+675c, U+6a13, U+6a4b, U+6bcf, U+6bd4, U+6c34, U+6cb3, U+6cbf, U+6d77, U+6de1, U+706b, U+71b1, U+723e, U+7259, U+7279, U+73ed, U+7559, U+767b-767c, U+7684, U+770b, U+773c, U+7761, U+77e5, U+77f3, U+79d1, U+7a0b, U+7d66, U+8001, U+81ea, U+8335, U+8377, U+83dc, U+840a, U+8457, U+862d, U+884c, U+8857, U+88e1, U+8981, U+8a02, U+8a25, U+8a72, U+8d70, U+8eca, U+9014, U+9032, U+904b, U+904e, U+9053, U+908a, U+90fd, U+9152, U+91c0, U+91cd, U+934b, U+9418, U+9593, U+963f, U+9686, U+9808, U+9996, U+9b6f, U+9e7f, U+9ebc, U+ff0c;
+}
+@font-face {
+  font-family: 'Source Serif 4';
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+  src: url(assets/fonts/source-serif-roman.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Source Serif 4';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url(assets/fonts/source-serif-italic.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Source Code Pro';
+  font-style: normal;
+  font-weight: 400 500;
+  font-display: swap;
+  src: url(assets/fonts/source-code-pro.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
