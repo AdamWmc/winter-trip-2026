@@ -1,94 +1,133 @@
-/* Pocket directory: fast to scan, with the same paper and type as the book. */
+/* Dining field guide: map and the numbered pages of a city spread. */
+.food-main{padding-bottom:20px}
 .food-mast{background:var(--night);color:var(--night-ink)}
 .food-mast .wrap{display:flex;align-items:center;justify-content:space-between;gap:10px}
-.food-mast a{display:flex;align-items:center;min-height:48px;text-decoration:none;font-size:14px}
+.food-mast a{display:flex;align-items:center;min-height:46px;text-decoration:none;font-size:14px}
 .food-mast a:hover{text-decoration:underline}
-.food-mast span{font:500 10px var(--f-mono);letter-spacing:.1em;color:var(--night-muted)}
-.food-main{padding-bottom:20px}
-.food-intro{padding-block:clamp(24px,5vw,56px) 20px}
-.food-intro h1{font:900 clamp(35px,7vw,63px)/1.15 var(--f-display);margin:8px 0 10px;text-wrap:initial}
-.food-intro>p:last-child{color:var(--ink-2);max-width:38em;font-size:15px}
+.food-mast span{font:500 10px var(--f-mono);letter-spacing:.14em;color:var(--night-muted)}
+.food-intro{padding-block:clamp(20px,4vw,46px) 18px}
+.food-intro h1{font:900 clamp(29px,5.5vw,60px)/1.14 var(--f-display);margin:5px 0;text-wrap:initial}
+.food-intro>p:last-child{color:var(--muted);font-size:14px}
 .food-cities{position:sticky;top:env(safe-area-inset-top,0px);z-index:3;display:flex;overflow-x:auto;
- gap:8px;padding:6px 0;border-block:1px solid var(--rule);background:var(--paper);scrollbar-width:thin}
+ gap:6px;padding:5px 0;border-block:1px solid var(--rule);background:var(--paper);scrollbar-width:thin}
 .food-cities a{display:flex;align-items:center;min-height:44px;padding:0 12px;flex:none;
  text-decoration:none;font-size:14px;font-weight:600}
 .food-cities a:hover{background:var(--sunk)}
 .food-cities a[aria-current=true]{color:var(--paper);background:var(--ink)}
-.food-filters{scroll-margin-top:calc(58px + env(safe-area-inset-top,0px));
- display:grid;grid-template-columns:minmax(0,2fr) repeat(2,minmax(0,1fr));gap:8px 12px;padding:14px 0 0}
-.food-filters label{display:grid;gap:4px;color:var(--muted);font-size:12px;min-width:0}
+.food-city{scroll-margin-top:calc(62px + env(safe-area-inset-top,0px));margin-top:18px;padding-bottom:24px}
+.food-city-lead{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(0,1fr);gap:12px 26px;
+  background:var(--surface);border-block:1px solid var(--rule);padding:16px}
+.food-city-copy{align-self:center}
+.food-local{font:italic 400 21px var(--f-num);color:var(--muted)}
+.food-city h2{font:900 clamp(29px,4.2vw,49px)/1.18 var(--f-display);margin:2px 0 8px}
+.food-lead-line{font:700 clamp(16px,2vw,23px)/1.42 var(--f-display);color:var(--ink)}
+.food-lead-intro{font-size:14px;color:var(--ink-2);margin-top:5px;max-width:42em}
+.food-city-photo{align-self:center}
+.food-city-photo img{aspect-ratio:2.45;object-fit:cover}
+.food-city-photo figcaption{font-size:11px;line-height:1.45;padding-top:5px}
+.food-ideas{display:flex;align-items:center;gap:0 9px;flex-wrap:wrap;margin-top:5px}
+.food-ideas>span{font:600 11px var(--f-body);color:var(--muted)}
+.food-ideas button,.food-filter-foot button,.food-map button{
+ min-height:44px;background:transparent;border:0;padding:0;color:var(--delft);
+ font:600 13px var(--f-body);cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.food-ideas button{padding-inline:2px}
+.food-main button:focus-visible,.food-filters :focus-visible{outline:2px solid var(--delft);outline-offset:2px}
+.food-filters{scroll-margin-top:calc(60px + env(safe-area-inset-top,0px));
+ display:grid;grid-template-columns:minmax(0,2fr) repeat(2,minmax(0,1fr));gap:5px 12px;padding-top:14px}
+.food-filters label{display:grid;gap:3px;color:var(--muted);font-size:12px;min-width:0}
 .food-filters input,.food-filters select{min-height:44px;width:100%;min-width:0;padding:6px 10px;border:1px solid var(--rule);
  border-radius:4px;background:var(--surface);color:var(--ink);font:400 16px var(--f-body)}
-.food-filters :focus-visible{outline:2px solid var(--delft);outline-offset:2px}
-#food-count{grid-column:1/-1;color:var(--muted);font-size:12px}
-.food-empty{border-left:3px solid var(--delft);padding-left:10px;margin-top:12px}
-.food-city{scroll-margin-top:64px;margin-top:20px;padding-bottom:24px}
-.food-city>header{padding:14px 0;border-top:2px solid var(--rule-strong)}
-.food-city>header p:first-child{font:italic 400 21px var(--f-num);color:var(--muted)}
-.food-city h2{font:700 clamp(27px,5vw,40px)/1.2 var(--f-display);margin:4px 0}
-.food-city>header p:last-child{font-size:14px;color:var(--ink-2)}
+.food-filter-foot{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;gap:12px}
+#food-count{color:var(--muted);font-size:13px}
+.food-spread{display:grid;grid-template-columns:minmax(0,1fr);gap:18px;align-items:start}
+.food-map,.food-results{scroll-margin-top:74px;border-top:2px solid var(--rule-strong);min-width:0}
+.food-map-head,.food-results-head,.food-area-key-head{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:44px}
+.food-map-head b,.food-results-head b,.food-area-key-head b{font:700 17px/1.2 var(--f-display)}
+.food-map-head button{font-weight:500}
+.food-map-key,.food-map-status,.food-results-head span{font-size:12px;color:var(--muted)}
+.food-map-key{margin-bottom:8px}
+.food-map-status:not(:empty){padding:6px 0}
+.food-map-canvas{height:clamp(245px,40vw,390px);position:relative;isolation:isolate;background:var(--sunk)}
+.food-map .leaflet-container{font-family:var(--f-body)}
+.food-map .leaflet-control-zoom a{width:44px;height:44px;line-height:44px}
+.food-map .leaflet-marker-icon:focus-visible{outline:2px solid #172c61;outline-offset:1px;border-radius:50%}
+.food-map .leaflet-popup-content{margin:14px 23px 8px 14px;font-size:14px}
+.food-map .leaflet-popup-content p{margin:5px 0 3px}
+.food-map .leaflet-popup-close-button{min-width:30px;min-height:30px}
+.food-map .leaflet-popup-content button{display:block;text-align:left;color:#143f80}
+.food-map .food-pin{display:grid;place-items:center}
+.food-pin-number,.food-folio,.legend-number{
+ display:inline-grid;place-items:center;flex:none;width:29px;height:29px;border-radius:50%;
+ background:#20344f;color:#fff8e7;font:600 13px/1 var(--f-mono)}
+.food-pin-number{width:32px;height:32px;border:2px solid #fff8e7;box-shadow:0 1px 4px #111b2ba6}
+.food-pin.is-selected .food-pin-number,.food-legend button[aria-pressed=true] .legend-number{
+ color:#1c2636;background:#f4d58b;border-color:#20344f}
+.food-pin.is-selected .food-pin-number{transform:scale(1.12)}
+.food-pin.is-empty:not(.is-selected) .food-pin-number,.food-legend button.is-empty:not([aria-pressed=true]) .legend-number{background:#596578}
+.food-map-tools{display:flex;gap:0 16px;flex-wrap:wrap}
+.food-map-tools button{font-size:12px}
+.food-area-key{border-block:1px solid var(--rule)}
+.food-area-key-head b{font-size:14px}
+.food-legend{margin:0;padding:0 3px 6px;display:flex;gap:4px 8px;overflow:auto;list-style:none;scrollbar-width:thin}
+.food-legend li{flex:none;min-width:0}
+.food-legend button{width:100%;display:flex;gap:6px;align-items:center;text-align:left;padding:4px 8px;
+  border:1px solid var(--rule);border-radius:4px;color:var(--ink);text-decoration:none;background:var(--surface)}
+.food-legend button:hover,.food-legend button[aria-pressed=true]{background:var(--sunk);border-color:var(--muted)}
+.food-legend button small{color:var(--muted);font:500 12px var(--f-mono);margin-left:auto}
+.legend-number{width:24px;height:24px;font-size:11px}
+.food-results-head{border-bottom:1px solid var(--rule)}
+.food-area{padding-block:15px 5px;min-width:0}
+.food-area-head{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:44px}
+.food-area-head button{min-height:44px;min-width:44px;flex:none;background:transparent;border:0;padding:0;color:var(--delft);font:600 12px var(--f-body);cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.food-area-head h3{display:flex;align-items:center;gap:9px;font:700 20px/1.3 var(--f-display);scroll-margin-top:74px}
+.food-area-intro{margin-top:7px;color:var(--ink-2);font-size:14px}
+.food-area>ul{display:grid;grid-template-columns:minmax(0,1fr);gap:0 22px;list-style:none;margin:9px 0 0;padding:0;
+ border-top:1px solid var(--rule)}
+.food-place{display:grid;align-content:start;gap:3px;padding:12px 0;border-bottom:1px solid var(--rule);min-width:0}
+.food-card-head{display:flex;align-items:center;justify-content:space-between;gap:4px 12px}
+.food-card-head h4{font:700 17px/1.35 var(--f-body);margin:0}
+.food-place p{font-size:14px;line-height:1.55;color:var(--ink-2)}
+.food-meta{display:flex;align-items:center;gap:7px;font-size:11px;letter-spacing:.05em;color:var(--muted)}
+.food-pick{background:var(--ink);color:var(--paper);padding:0 6px}
+.food-place .food-order{color:var(--ink);margin-bottom:2px}
+.food-order span,.food-tip b{font-size:11px;font-weight:600;color:var(--muted);margin-right:4px}
+.food-place .food-tip{font-size:12px;margin-top:3px;color:var(--muted)}
+.food-maps{display:flex;gap:6px 9px;flex-wrap:wrap;flex:none;max-width:43%}
+.food-maps a{display:inline-flex;align-items:center;gap:4px;min-height:44px;min-width:44px;color:var(--delft);font-size:13px;text-underline-offset:3px}
+.food-empty{border-left:3px solid var(--delft);padding-left:10px;margin-top:12px;scroll-margin-top:74px}
 .food-special{border-bottom:1px solid var(--rule);padding-bottom:4px;font-size:14px}
 .food-special summary,.food-special a{min-height:44px;padding-block:9px;cursor:pointer;color:var(--delft)}
 .food-special a{display:inline-flex;align-items:center}
 .food-special li i{color:var(--muted)}
-.food-area{margin-top:20px}
-.food-area>h3{font:700 17px var(--f-display);padding-bottom:7px;border-bottom:1px solid var(--rule-strong)}
-.food-area>ul{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0 22px;list-style:none;margin:0;padding:0}
-.food-place{display:grid;align-content:start;gap:4px;padding:12px 0;border-bottom:1px solid var(--rule);min-width:0}
-.food-place h4{font:700 17px/1.35 var(--f-body);margin:0}
-.food-place p{font-size:14px;line-height:1.55;color:var(--ink-2)}
-.food-meta{display:flex;align-items:center;gap:6px;font-size:11px;letter-spacing:.05em;color:var(--muted)}
-.food-pick{background:var(--ink);color:var(--paper);padding:0 5px}
-.food-place .food-order{font-weight:700;color:var(--ink)}
-.food-order span{font-size:11px;font-weight:600;color:var(--muted);margin-right:4px}
-.food-place .food-tip{font-size:12px;color:var(--muted)}
-.food-maps{display:flex;gap:8px 16px;flex-wrap:wrap}
-.food-maps a{display:inline-flex;align-items:center;gap:6px;min-height:44px;min-width:44px;
- color:var(--delft);font-size:14px;text-underline-offset:3px}
 .food-footer{margin-top:0;padding-block:22px 35px}
+.food-footer a{display:inline-flex;align-items:center;min-height:44px;margin-left:8px;color:var(--delft)}
+@media(min-width:860px){
+ .food-spread:has(.food-map-slot:not([hidden])){grid-template-columns:minmax(0,1.03fr) minmax(0,1fr);gap:26px}
+ .food-map-slot{position:sticky;top:calc(66px + env(safe-area-inset-top,0px))}
+ .food-map-canvas{max-height:41svh}
+ .food-legend{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));max-height:151px}
+}
 @media(max-width:760px){
  body{padding-bottom:env(safe-area-inset-bottom,0px)}
- .food-area>ul{grid-template-columns:repeat(2,minmax(0,1fr))}
  .food-cities{margin-inline:calc(-1 * var(--gutter));padding-inline:var(--gutter)}
  .food-filters{grid-template-columns:repeat(2,minmax(0,1fr))}
  .food-filters label:first-child{grid-column:1/-1}
 }
-@media(max-width:480px){
- .food-area>ul{grid-template-columns:minmax(0,1fr)}
- .food-intro{padding-block:20px 14px}
- .food-city{margin-top:13px}
+@media(max-width:620px){
+ .food-intro{padding-block:12px 10px}
+ .food-intro h1{margin-block:3px}
+ .food-city{margin-top:12px}
+ .food-city-lead{grid-template-columns:minmax(0,1fr) minmax(0,33%);gap:4px 10px;padding:11px}
+ .food-city-copy{display:contents}
+ .food-local{font-size:17px}
+ .food-city h2{margin:0 0 4px;grid-column:1}
+ .food-city-photo{grid-column:2;grid-row:1/3}
+ .food-city-photo img{aspect-ratio:1.65}
+ .food-city-photo figcaption{display:none}
+ .food-lead-line,.food-lead-intro,.food-ideas{grid-column:1/-1;margin-top:0}
+ .food-lead-intro{font-size:13px;line-height:1.55}
+ .food-ideas button{font-size:12px}
+ .food-legend{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));max-height:151px}
+ .food-map-canvas{height:270px}
 }
-
-/* Street map stays separate from the directory controls, so the list works offline. */
-.food-map{margin:14px 0 6px;border-block:1px solid var(--rule);color:var(--ink)}
-.food-map>summary{cursor:pointer;list-style:none;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:8px;min-height:48px}
-.food-map>summary::-webkit-details-marker{display:none}
-.food-map-title{font:700 17px/1.3 var(--f-display)}
-.food-map-title small{font:500 12px var(--f-body);color:var(--muted);margin-left:8px}
-.food-map-toggle{font-size:13px;color:var(--delft)}
-.food-map[open] .food-map-toggle::after{content:"收起地圖 −"}
-.food-map:not([open]) .food-map-toggle::after{content:"展開地圖 ＋"}
-.food-map-canvas{height:clamp(260px,42vw,385px);position:relative;isolation:isolate;background:var(--sunk)}
-.food-map-status{font-size:12px;color:var(--muted)}
-.food-map-status:not(:empty){padding:6px 0}
-.food-map .leaflet-container{font-family:var(--f-body)}
-.food-map .leaflet-control-zoom a{width:44px;height:44px;line-height:44px}
-.food-map .leaflet-marker-icon:focus-visible{outline:2px solid #172c61;outline-offset:1px;border-radius:50%}
-.food-map .leaflet-popup-content{margin:13px 21px 7px 13px;font-size:14px}
-.food-map .leaflet-popup-content p{margin:5px 0 8px}
-.food-map .leaflet-popup-close-button{min-width:28px;min-height:28px}
-.food-map .leaflet-popup-content button{display:block;text-align:left}
-.food-map .food-pin{display:grid;place-items:center}
-.food-pin-number{display:grid;place-items:center;width:30px;height:30px;border-radius:50%;border:2px solid #fff8e7;
-  background:#1e3150;color:#fff8e7;box-shadow:0 1px 3px #111b2b8c;font:600 14px/1 var(--f-mono)}
-.food-pin.is-selected .food-pin-number{color:#1c2636;background:#f4d58b;border-color:#1e3150;transform:scale(1.12)}
-.food-pin.is-empty .food-pin-number{color:#fff;background:#526071}
-.food-map-foot{display:flex;align-items:center;justify-content:space-between;gap:0 16px;flex-wrap:wrap}
-.food-map-foot p{font-size:12px;color:var(--muted);padding-block:8px}
-.food-map-tools{display:flex;gap:0 14px;flex-wrap:wrap}
-.food-map button{min-height:44px;background:transparent;border:0;padding:0;color:var(--delft);
-  font:500 13px var(--f-body);cursor:pointer;text-decoration:underline;text-underline-offset:3px}
-.food-map .leaflet-popup-content button{color:#143f80}
-.food-map button:focus-visible{outline:2px solid var(--delft);outline-offset:2px}
-.food-area>h3{scroll-margin-top:70px}
 @media(prefers-color-scheme:dark){.food-map .leaflet-tile-pane{filter:brightness(.8) saturate(.8)}}

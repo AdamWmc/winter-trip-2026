@@ -6,7 +6,12 @@ window.createFoodMap = function (panel, pickArea, showResults) {
   const clear = panel.querySelector('[data-clear-area]');
   const drag = panel.querySelector('[data-map-drag]');
   const reset = panel.querySelector('[data-map-reset]');
+  const toggle = panel.querySelector('[data-map-toggle]');
+  const mapBody = panel.querySelector('#food-map-body');
+  const legend = panel.querySelector('.food-legend');
+  const legendButtons = new Map();
   const tileUrl = panel.dataset.tiles;
+  let legendCity;
   let visible = false, loading, map, markers, mapPopup, openGroup, state, displayedCity, moving = false;
   const mapAssets = 'https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/';
   const integrity = {
@@ -40,7 +45,9 @@ window.createFoodMap = function (panel, pickArea, showResults) {
   function popup(group) {
     const content = document.createElement('div');
     const name = document.createElement('strong');
-    name.textContent = group.name;
+    name.textContent = `${group.number}  ${group.short}`;
+    const intro = document.createElement('p');
+    intro.textContent = group.hint;
     const go = document.createElement('button');
     go.type = 'button';
     go.textContent = `看這區 ${group.count} 個選擇 ↓`;
@@ -48,7 +55,7 @@ window.createFoodMap = function (panel, pickArea, showResults) {
       map.closePopup();
       showResults();
     });
-    content.append(name, go);
+    content.append(name, intro, go);
     if (!group.count) {
       const tip = document.createElement('p');
       tip.textContent = '這區沒有符合的店，可換餐別或關鍵字。';
@@ -57,7 +64,7 @@ window.createFoodMap = function (panel, pickArea, showResults) {
     return content;
   }
   function draw() {
-    if (!map || !visible || !panel.open || !state) return;
+    if (!map || !visible || mapBody.hidden || !state) return;
     const {city, label, groups, selected} = state;
     const cityChanged = city !== displayedCity;
     if (cityChanged) {
@@ -87,7 +94,7 @@ window.createFoodMap = function (panel, pickArea, showResults) {
       const pin = markers.get(group.name);
       if (!pin) return;
       const el = pin.getElement();
-      el.querySelector('.food-pin-number').textContent = group.count;
+      el.querySelector('.food-pin-number').textContent = group.number;
       el.classList.toggle('is-selected', group.name === selected);
       el.classList.toggle('is-empty', !group.count);
       el.setAttribute('aria-label', `${group.name}，${group.count} 個選擇`);
@@ -104,7 +111,7 @@ window.createFoodMap = function (panel, pickArea, showResults) {
     }
   }
   function activate() {
-    if (!panel.open || !visible || !state) return;
+    if (mapBody.hidden || !visible || !state) return;
     if (map) { draw(); return; }
     if (loading) return;
     status.textContent = '正在載入街區地圖…';
@@ -133,8 +140,11 @@ window.createFoodMap = function (panel, pickArea, showResults) {
       mapEl.hidden = true;
     });
   }
-  panel.addEventListener('toggle', () => {
-    if (!panel.open && map) {
+  toggle.addEventListener('click', () => {
+    mapBody.hidden = !mapBody.hidden;
+    toggle.setAttribute('aria-expanded', String(!mapBody.hidden));
+    toggle.textContent = mapBody.hidden ? '展開底圖' : '收起底圖';
+    if (mapBody.hidden && map) {
       map.closePopup();
       setDrag(false);
     }
@@ -144,7 +154,7 @@ window.createFoodMap = function (panel, pickArea, showResults) {
   drag.addEventListener('click', () => setDrag(!moving));
   clear.addEventListener('click', () => {
     pickArea('');
-    panel.querySelector('summary').focus({preventScroll:true});
+    legend.querySelector('button')?.focus({preventScroll:true});
   });
   if ('IntersectionObserver' in window) {
     new IntersectionObserver(([entry]) => {
@@ -152,11 +162,42 @@ window.createFoodMap = function (panel, pickArea, showResults) {
       activate();
     }, {rootMargin:'100px 0px'}).observe(panel);
   } else visible = true;
+  function drawLegend(next) {
+    if (legendCity !== next.city) {
+      legendCity = next.city;
+      legendButtons.clear();
+      legend.replaceChildren(...next.groups.map(group => {
+        const item = document.createElement('li');
+        const button = document.createElement('button');
+        button.type = 'button';
+        const no = document.createElement('span');
+        no.className = 'legend-number';
+        no.textContent = group.number;
+        no.setAttribute('aria-hidden', 'true');
+        const label = document.createElement('b');
+        label.textContent = group.short;
+        const count = document.createElement('small');
+        button.append(no, label, count);
+        button.addEventListener('click', () => pickArea(state.selected === group.name ? '' : group.name));
+        item.append(button);
+        legendButtons.set(group.name, {button, count});
+        return item;
+      }));
+      legend.scrollLeft = 0;
+    }
+    next.groups.forEach(group => {
+      const {button, count} = legendButtons.get(group.name);
+      count.textContent = String(group.count);
+      button.setAttribute('aria-label', `${group.name}，${group.count} 個選擇`);
+      button.setAttribute('aria-pressed', String(next.selected === group.name));
+      button.classList.toggle('is-empty', !group.count);
+    });
+  }
   panel.hidden = false;
   return next => {
     state = next;
-    panel.querySelector('[data-map-city]').textContent = next.label;
     clear.hidden = !next.selected;
+    drawLegend(next);
     activate();
   };
 };

@@ -463,565 +463,1085 @@ section#days{padding-top:44px}
 html{overflow-x:clip}
 .day-act{display:flex;align-items:center;gap:8px 16px;flex-wrap:wrap}
 .nearby-food{display:inline-flex;align-items:center;min-height:44px;color:var(--delft);font-size:14px;text-underline-offset:3px}
-/* Pocket directory: fast to scan, with the same paper and type as the book. */
+/* Dining field guide: map and the numbered pages of a city spread. */
+.food-main{padding-bottom:20px}
 .food-mast{background:var(--night);color:var(--night-ink)}
 .food-mast .wrap{display:flex;align-items:center;justify-content:space-between;gap:10px}
-.food-mast a{display:flex;align-items:center;min-height:48px;text-decoration:none;font-size:14px}
+.food-mast a{display:flex;align-items:center;min-height:46px;text-decoration:none;font-size:14px}
 .food-mast a:hover{text-decoration:underline}
-.food-mast span{font:500 10px var(--f-mono);letter-spacing:.1em;color:var(--night-muted)}
-.food-main{padding-bottom:20px}
-.food-intro{padding-block:clamp(24px,5vw,56px) 20px}
-.food-intro h1{font:900 clamp(35px,7vw,63px)/1.15 var(--f-display);margin:8px 0 10px;text-wrap:initial}
-.food-intro>p:last-child{color:var(--ink-2);max-width:38em;font-size:15px}
+.food-mast span{font:500 10px var(--f-mono);letter-spacing:.14em;color:var(--night-muted)}
+.food-intro{padding-block:clamp(20px,4vw,46px) 18px}
+.food-intro h1{font:900 clamp(29px,5.5vw,60px)/1.14 var(--f-display);margin:5px 0;text-wrap:initial}
+.food-intro>p:last-child{color:var(--muted);font-size:14px}
 .food-cities{position:sticky;top:env(safe-area-inset-top,0px);z-index:3;display:flex;overflow-x:auto;
- gap:8px;padding:6px 0;border-block:1px solid var(--rule);background:var(--paper);scrollbar-width:thin}
+ gap:6px;padding:5px 0;border-block:1px solid var(--rule);background:var(--paper);scrollbar-width:thin}
 .food-cities a{display:flex;align-items:center;min-height:44px;padding:0 12px;flex:none;
  text-decoration:none;font-size:14px;font-weight:600}
 .food-cities a:hover{background:var(--sunk)}
 .food-cities a[aria-current=true]{color:var(--paper);background:var(--ink)}
-.food-filters{scroll-margin-top:calc(58px + env(safe-area-inset-top,0px));
- display:grid;grid-template-columns:minmax(0,2fr) repeat(2,minmax(0,1fr));gap:8px 12px;padding:14px 0 0}
-.food-filters label{display:grid;gap:4px;color:var(--muted);font-size:12px;min-width:0}
+.food-city{scroll-margin-top:calc(62px + env(safe-area-inset-top,0px));margin-top:18px;padding-bottom:24px}
+.food-city-lead{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(0,1fr);gap:12px 26px;
+  background:var(--surface);border-block:1px solid var(--rule);padding:16px}
+.food-city-copy{align-self:center}
+.food-local{font:italic 400 21px var(--f-num);color:var(--muted)}
+.food-city h2{font:900 clamp(29px,4.2vw,49px)/1.18 var(--f-display);margin:2px 0 8px}
+.food-lead-line{font:700 clamp(16px,2vw,23px)/1.42 var(--f-display);color:var(--ink)}
+.food-lead-intro{font-size:14px;color:var(--ink-2);margin-top:5px;max-width:42em}
+.food-city-photo{align-self:center}
+.food-city-photo img{aspect-ratio:2.45;object-fit:cover}
+.food-city-photo figcaption{font-size:11px;line-height:1.45;padding-top:5px}
+.food-ideas{display:flex;align-items:center;gap:0 9px;flex-wrap:wrap;margin-top:5px}
+.food-ideas>span{font:600 11px var(--f-body);color:var(--muted)}
+.food-ideas button,.food-filter-foot button,.food-map button{
+ min-height:44px;background:transparent;border:0;padding:0;color:var(--delft);
+ font:600 13px var(--f-body);cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.food-ideas button{padding-inline:2px}
+.food-main button:focus-visible,.food-filters :focus-visible{outline:2px solid var(--delft);outline-offset:2px}
+.food-filters{scroll-margin-top:calc(60px + env(safe-area-inset-top,0px));
+ display:grid;grid-template-columns:minmax(0,2fr) repeat(2,minmax(0,1fr));gap:5px 12px;padding-top:14px}
+.food-filters label{display:grid;gap:3px;color:var(--muted);font-size:12px;min-width:0}
 .food-filters input,.food-filters select{min-height:44px;width:100%;min-width:0;padding:6px 10px;border:1px solid var(--rule);
  border-radius:4px;background:var(--surface);color:var(--ink);font:400 16px var(--f-body)}
-.food-filters :focus-visible{outline:2px solid var(--delft);outline-offset:2px}
-#food-count{grid-column:1/-1;color:var(--muted);font-size:12px}
-.food-empty{border-left:3px solid var(--delft);padding-left:10px;margin-top:12px}
-.food-city{scroll-margin-top:64px;margin-top:20px;padding-bottom:24px}
-.food-city>header{padding:14px 0;border-top:2px solid var(--rule-strong)}
-.food-city>header p:first-child{font:italic 400 21px var(--f-num);color:var(--muted)}
-.food-city h2{font:700 clamp(27px,5vw,40px)/1.2 var(--f-display);margin:4px 0}
-.food-city>header p:last-child{font-size:14px;color:var(--ink-2)}
+.food-filter-foot{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;gap:12px}
+#food-count{color:var(--muted);font-size:13px}
+.food-spread{display:grid;grid-template-columns:minmax(0,1fr);gap:18px;align-items:start}
+.food-map,.food-results{scroll-margin-top:74px;border-top:2px solid var(--rule-strong);min-width:0}
+.food-map-head,.food-results-head,.food-area-key-head{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:44px}
+.food-map-head b,.food-results-head b,.food-area-key-head b{font:700 17px/1.2 var(--f-display)}
+.food-map-head button{font-weight:500}
+.food-map-key,.food-map-status,.food-results-head span{font-size:12px;color:var(--muted)}
+.food-map-key{margin-bottom:8px}
+.food-map-status:not(:empty){padding:6px 0}
+.food-map-canvas{height:clamp(245px,40vw,390px);position:relative;isolation:isolate;background:var(--sunk)}
+.food-map .leaflet-container{font-family:var(--f-body)}
+.food-map .leaflet-control-zoom a{width:44px;height:44px;line-height:44px}
+.food-map .leaflet-marker-icon:focus-visible{outline:2px solid #172c61;outline-offset:1px;border-radius:50%}
+.food-map .leaflet-popup-content{margin:14px 23px 8px 14px;font-size:14px}
+.food-map .leaflet-popup-content p{margin:5px 0 3px}
+.food-map .leaflet-popup-close-button{min-width:30px;min-height:30px}
+.food-map .leaflet-popup-content button{display:block;text-align:left;color:#143f80}
+.food-map .food-pin{display:grid;place-items:center}
+.food-pin-number,.food-folio,.legend-number{
+ display:inline-grid;place-items:center;flex:none;width:29px;height:29px;border-radius:50%;
+ background:#20344f;color:#fff8e7;font:600 13px/1 var(--f-mono)}
+.food-pin-number{width:32px;height:32px;border:2px solid #fff8e7;box-shadow:0 1px 4px #111b2ba6}
+.food-pin.is-selected .food-pin-number,.food-legend button[aria-pressed=true] .legend-number{
+ color:#1c2636;background:#f4d58b;border-color:#20344f}
+.food-pin.is-selected .food-pin-number{transform:scale(1.12)}
+.food-pin.is-empty:not(.is-selected) .food-pin-number,.food-legend button.is-empty:not([aria-pressed=true]) .legend-number{background:#596578}
+.food-map-tools{display:flex;gap:0 16px;flex-wrap:wrap}
+.food-map-tools button{font-size:12px}
+.food-area-key{border-block:1px solid var(--rule)}
+.food-area-key-head b{font-size:14px}
+.food-legend{margin:0;padding:0 3px 6px;display:flex;gap:4px 8px;overflow:auto;list-style:none;scrollbar-width:thin}
+.food-legend li{flex:none;min-width:0}
+.food-legend button{width:100%;display:flex;gap:6px;align-items:center;text-align:left;padding:4px 8px;
+  border:1px solid var(--rule);border-radius:4px;color:var(--ink);text-decoration:none;background:var(--surface)}
+.food-legend button:hover,.food-legend button[aria-pressed=true]{background:var(--sunk);border-color:var(--muted)}
+.food-legend button small{color:var(--muted);font:500 12px var(--f-mono);margin-left:auto}
+.legend-number{width:24px;height:24px;font-size:11px}
+.food-results-head{border-bottom:1px solid var(--rule)}
+.food-area{padding-block:15px 5px;min-width:0}
+.food-area-head{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:44px}
+.food-area-head button{min-height:44px;min-width:44px;flex:none;background:transparent;border:0;padding:0;color:var(--delft);font:600 12px var(--f-body);cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.food-area-head h3{display:flex;align-items:center;gap:9px;font:700 20px/1.3 var(--f-display);scroll-margin-top:74px}
+.food-area-intro{margin-top:7px;color:var(--ink-2);font-size:14px}
+.food-area>ul{display:grid;grid-template-columns:minmax(0,1fr);gap:0 22px;list-style:none;margin:9px 0 0;padding:0;
+ border-top:1px solid var(--rule)}
+.food-place{display:grid;align-content:start;gap:3px;padding:12px 0;border-bottom:1px solid var(--rule);min-width:0}
+.food-card-head{display:flex;align-items:center;justify-content:space-between;gap:4px 12px}
+.food-card-head h4{font:700 17px/1.35 var(--f-body);margin:0}
+.food-place p{font-size:14px;line-height:1.55;color:var(--ink-2)}
+.food-meta{display:flex;align-items:center;gap:7px;font-size:11px;letter-spacing:.05em;color:var(--muted)}
+.food-pick{background:var(--ink);color:var(--paper);padding:0 6px}
+.food-place .food-order{color:var(--ink);margin-bottom:2px}
+.food-order span,.food-tip b{font-size:11px;font-weight:600;color:var(--muted);margin-right:4px}
+.food-place .food-tip{font-size:12px;margin-top:3px;color:var(--muted)}
+.food-maps{display:flex;gap:6px 9px;flex-wrap:wrap;flex:none;max-width:43%}
+.food-maps a{display:inline-flex;align-items:center;gap:4px;min-height:44px;min-width:44px;color:var(--delft);font-size:13px;text-underline-offset:3px}
+.food-empty{border-left:3px solid var(--delft);padding-left:10px;margin-top:12px;scroll-margin-top:74px}
 .food-special{border-bottom:1px solid var(--rule);padding-bottom:4px;font-size:14px}
 .food-special summary,.food-special a{min-height:44px;padding-block:9px;cursor:pointer;color:var(--delft)}
 .food-special a{display:inline-flex;align-items:center}
 .food-special li i{color:var(--muted)}
-.food-area{margin-top:20px}
-.food-area>h3{font:700 17px var(--f-display);padding-bottom:7px;border-bottom:1px solid var(--rule-strong)}
-.food-area>ul{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0 22px;list-style:none;margin:0;padding:0}
-.food-place{display:grid;align-content:start;gap:4px;padding:12px 0;border-bottom:1px solid var(--rule);min-width:0}
-.food-place h4{font:700 17px/1.35 var(--f-body);margin:0}
-.food-place p{font-size:14px;line-height:1.55;color:var(--ink-2)}
-.food-meta{display:flex;align-items:center;gap:6px;font-size:11px;letter-spacing:.05em;color:var(--muted)}
-.food-pick{background:var(--ink);color:var(--paper);padding:0 5px}
-.food-place .food-order{font-weight:700;color:var(--ink)}
-.food-order span{font-size:11px;font-weight:600;color:var(--muted);margin-right:4px}
-.food-place .food-tip{font-size:12px;color:var(--muted)}
-.food-maps{display:flex;gap:8px 16px;flex-wrap:wrap}
-.food-maps a{display:inline-flex;align-items:center;gap:6px;min-height:44px;min-width:44px;
- color:var(--delft);font-size:14px;text-underline-offset:3px}
 .food-footer{margin-top:0;padding-block:22px 35px}
+.food-footer a{display:inline-flex;align-items:center;min-height:44px;margin-left:8px;color:var(--delft)}
+@media(min-width:860px){
+ .food-spread:has(.food-map-slot:not([hidden])){grid-template-columns:minmax(0,1.03fr) minmax(0,1fr);gap:26px}
+ .food-map-slot{position:sticky;top:calc(66px + env(safe-area-inset-top,0px))}
+ .food-map-canvas{max-height:41svh}
+ .food-legend{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));max-height:151px}
+}
 @media(max-width:760px){
  body{padding-bottom:env(safe-area-inset-bottom,0px)}
- .food-area>ul{grid-template-columns:repeat(2,minmax(0,1fr))}
  .food-cities{margin-inline:calc(-1 * var(--gutter));padding-inline:var(--gutter)}
  .food-filters{grid-template-columns:repeat(2,minmax(0,1fr))}
  .food-filters label:first-child{grid-column:1/-1}
 }
-@media(max-width:480px){
- .food-area>ul{grid-template-columns:minmax(0,1fr)}
- .food-intro{padding-block:20px 14px}
- .food-city{margin-top:13px}
+@media(max-width:620px){
+ .food-intro{padding-block:12px 10px}
+ .food-intro h1{margin-block:3px}
+ .food-city{margin-top:12px}
+ .food-city-lead{grid-template-columns:minmax(0,1fr) minmax(0,33%);gap:4px 10px;padding:11px}
+ .food-city-copy{display:contents}
+ .food-local{font-size:17px}
+ .food-city h2{margin:0 0 4px;grid-column:1}
+ .food-city-photo{grid-column:2;grid-row:1/3}
+ .food-city-photo img{aspect-ratio:1.65}
+ .food-city-photo figcaption{display:none}
+ .food-lead-line,.food-lead-intro,.food-ideas{grid-column:1/-1;margin-top:0}
+ .food-lead-intro{font-size:13px;line-height:1.55}
+ .food-ideas button{font-size:12px}
+ .food-legend{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));max-height:151px}
+ .food-map-canvas{height:270px}
 }
-
-/* Street map stays separate from the directory controls, so the list works offline. */
-.food-map{margin:14px 0 6px;border-block:1px solid var(--rule);color:var(--ink)}
-.food-map>summary{cursor:pointer;list-style:none;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:8px;min-height:48px}
-.food-map>summary::-webkit-details-marker{display:none}
-.food-map-title{font:700 17px/1.3 var(--f-display)}
-.food-map-title small{font:500 12px var(--f-body);color:var(--muted);margin-left:8px}
-.food-map-toggle{font-size:13px;color:var(--delft)}
-.food-map[open] .food-map-toggle::after{content:"收起地圖 −"}
-.food-map:not([open]) .food-map-toggle::after{content:"展開地圖 ＋"}
-.food-map-canvas{height:clamp(260px,42vw,385px);position:relative;isolation:isolate;background:var(--sunk)}
-.food-map-status{font-size:12px;color:var(--muted)}
-.food-map-status:not(:empty){padding:6px 0}
-.food-map .leaflet-container{font-family:var(--f-body)}
-.food-map .leaflet-control-zoom a{width:44px;height:44px;line-height:44px}
-.food-map .leaflet-marker-icon:focus-visible{outline:2px solid #172c61;outline-offset:1px;border-radius:50%}
-.food-map .leaflet-popup-content{margin:13px 21px 7px 13px;font-size:14px}
-.food-map .leaflet-popup-content p{margin:5px 0 8px}
-.food-map .leaflet-popup-close-button{min-width:28px;min-height:28px}
-.food-map .leaflet-popup-content button{display:block;text-align:left}
-.food-map .food-pin{display:grid;place-items:center}
-.food-pin-number{display:grid;place-items:center;width:30px;height:30px;border-radius:50%;border:2px solid #fff8e7;
-  background:#1e3150;color:#fff8e7;box-shadow:0 1px 3px #111b2b8c;font:600 14px/1 var(--f-mono)}
-.food-pin.is-selected .food-pin-number{color:#1c2636;background:#f4d58b;border-color:#1e3150;transform:scale(1.12)}
-.food-pin.is-empty .food-pin-number{color:#fff;background:#526071}
-.food-map-foot{display:flex;align-items:center;justify-content:space-between;gap:0 16px;flex-wrap:wrap}
-.food-map-foot p{font-size:12px;color:var(--muted);padding-block:8px}
-.food-map-tools{display:flex;gap:0 14px;flex-wrap:wrap}
-.food-map button{min-height:44px;background:transparent;border:0;padding:0;color:var(--delft);
-  font:500 13px var(--f-body);cursor:pointer;text-decoration:underline;text-underline-offset:3px}
-.food-map .leaflet-popup-content button{color:#143f80}
-.food-map button:focus-visible{outline:2px solid var(--delft);outline-offset:2px}
-.food-area>h3{scroll-margin-top:70px}
 @media(prefers-color-scheme:dark){.food-map .leaflet-tile-pane{filter:brightness(.8) saturate(.8)}}
 </style>
 </head><body>
 
-<a class="skip-link" href="#food-main">跳到吃喝清單</a>
+<a class="skip-link" href="#food-main">跳到吃喝指南</a>
 <header class="food-mast"><div class="wrap">
   <a href="index.html#overview">← 回旅行手冊</a><span>WINTER RAIL JOURNAL</span>
 </div></header>
 <main class="wrap food-main" id="food-main" tabindex="-1">
-  <header class="food-intro"><p class="kicker">Pocket guide · 01 / 吃喝</p><h1>這附近吃什麼？</h1>
-  <p>先選你在哪座城，點地圖看街區，或搜尋想吃的菜。每家都列出該點什麼、特色和地圖。</p></header>
+  <header class="food-intro"><p class="kicker">Pocket guide / 吃喝</p><h1>這附近吃什麼？</h1>
+  <p>從一個街區、一口當地味道開始。</p></header>
   <nav class="food-cities" aria-label="選擇城市"><a href="#city-ams" data-city="ams">阿姆斯特丹</a><a href="#city-utr" data-city="utr">烏特勒支</a><a href="#city-dh" data-city="dh">海牙</a><a href="#city-lei" data-city="lei">萊登</a><a href="#city-rtm" data-city="rtm">鹿特丹</a><a href="#city-bru" data-city="bru">布魯日</a><a href="#city-bxl" data-city="bxl">布魯塞爾</a><a href="#city-kol" data-city="kol">科隆</a><a href="#city-dus" data-city="dus">杜塞道夫</a><a href="#city-haa" data-city="haa">哈倫</a></nav>
   <div class="food-filters" hidden>
     <label>找店或菜名<input type="search" placeholder="例如：淡菜、蘋果派" id="food-search" autocomplete="off"></label>
     <label>街區<select id="food-area"><option value="">所有街區</option></select></label>
     <label>餐別<select id="food-kind"><option value="">所有餐別</option><option>正餐</option><option>點心</option><option>咖啡</option><option>喝一杯</option><option>市集</option></select></label>
-    <p id="food-count" role="status"></p>
+    <div class="food-filter-foot"><p id="food-count" role="status"></p><button type="button" data-food-results>直接看清單 ↓</button></div>
   </div>
-  <details class="food-map" data-tiles="https://tile.openstreetmap.org/{z}/{x}/{y}.png" hidden open>
-    <summary><span class="food-map-title">街區地圖 <small data-map-city></small></span><span class="food-map-toggle" aria-hidden="true"></span></summary>
-    <div class="food-map-canvas" role="region" aria-label="吃喝街區地圖"></div>
-    <p class="food-map-status" role="status"></p>
-    <div class="food-map-foot">
-      <p>數字是這區符合菜名與餐別的選擇。點一下篩選；店家地址以各店的 Google Maps 連結為準。</p>
+  <div class="food-map" data-tiles="https://tile.openstreetmap.org/{z}/{x}/{y}.png" hidden>
+    <div class="food-map-head"><b>街區地圖</b><button type="button" data-map-toggle aria-expanded="true" aria-controls="food-map-body">收起底圖</button></div>
+    <p class="food-map-key">圖上編號對應街區索引；索引右側是符合條件的店家數。</p>
+    <div id="food-map-body">
+      <div class="food-map-canvas" role="region" aria-label="吃喝街區地圖"></div>
+      <p class="food-map-status" role="status"></p>
       <div class="food-map-tools" hidden>
         <button type="button" data-map-reset>回到全城</button>
         <button type="button" data-map-drag aria-pressed="false">移動地圖</button>
-        <button type="button" data-clear-area hidden>清除街區篩選</button>
       </div>
     </div>
-  </details>
-  <p class="food-empty" hidden>這個條件沒有結果。可以換街區、餐別或關鍵字。</p>
+    <div class="food-area-key">
+      <div class="food-area-key-head"><b>街區索引</b><button type="button" data-clear-area hidden>看全部街區</button></div>
+      <ul class="food-legend" aria-label="從街區選店"></ul>
+    </div>
+  </div>
   <section class="food-city" id="city-ams" data-panel="ams">
-  <header><p>Amsterdam</p><h2>阿姆斯特丹</h2><p>早午餐、薯條、現烤焦糖煎餅，還有荷蘭家常菜和蘇利南料理。</p></header>
-  <details class="food-special"><summary>先認識當地吃什麼</summary><ul><li><b>生鯡魚</b> <i>Haring</i> — 抓尾巴整條吃，或切塊配洋蔥酸黃瓜，完全不腥。</li><li><b>炸肉丸</b> <i>Bitterballen</i> — 酥皮包燉肉泥，沾芥末，酒吧必點。</li><li><b>焦糖煎餅</b> <i>Stroopwafel</i> — 要吃現做的，放涼就差很多。</li><li><b>炸麵球</b> <i>Oliebollen</i> — 12 月限定，滿街小攤，撒糖粉吃。</li><li><b>蘋果派</b> <i>Appeltaart</i> — 配一大匙鮮奶油才對味。</li></ul>
-<a href="index.html#g-ams">回旅行書看菜色照片 ↗</a></details>
-  <section class="food-area" data-area="老城・九條街" data-point="52.3704,4.88369"><h3 tabindex="-1">老城・九條街</h3><ul><li class="food-place" data-kind="正餐">
-  <div class="food-meta">正餐 <span class="food-pick">首選</span></div><h4>Greenwoods Singel</h4>
-  <p class="food-order"><span>該點</span> 英式早午餐</p>
-  <p>Singel 運河旁的早午餐，適合逛老城前先坐下來吃一頓。</p><p class="food-tip">熱門時段可能等位</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Greenwoods+Singel+103+Amsterdam" target="_blank" rel="noopener" aria-label="Greenwoods Singel：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+  <header class="food-city-lead">
+    <div class="food-city-copy">
+      <p class="food-local">Amsterdam</p>
+      <h2>阿姆斯特丹</h2>
+      <p class="food-lead-line">從運河老城吃到市場</p>
+      <p class="food-lead-intro">九條街適合早午餐和邊走邊吃；往 De Pijp 找現做焦糖煎餅和蘇利南料理。想坐下吃荷蘭家常菜，就把晚餐留在安妮之家或 Leidseplein 一帶。</p>
+      <div class="food-ideas" hidden><span>想吃</span><button type="button" data-food-idea="蘋果派">蘋果派</button><button type="button" data-food-idea="焦糖煎餅">焦糖煎餅</button><button type="button" data-food-idea="荷蘭家常菜">荷蘭家常菜</button></div>
+    </div>
+    <figure class="photo food-city-photo" style="--focus:52% 53%"><img src="assets/img/ams/canal-bridges-640.webp" srcset="assets/img/ams/canal-bridges-640.webp 640w, assets/img/ams/canal-bridges-1280.webp 1280w, assets/img/ams/canal-bridges-1920.webp 1920w" sizes="(max-width: 620px) 31vw, 420px" width="640" height="427" alt="阿姆斯特丹皇帝運河與規則運河交會處，磚拱橋亮起暖燈" loading="lazy" decoding="async"><figcaption>阿姆斯特丹｜皇帝運河與規則運河在這裡交會。</figcaption></figure>
+  </header>
+  <div class="food-filter-slot"></div>
+  <div class="food-spread">
+    <aside class="food-map-slot" aria-label="街區導覽" hidden></aside>
+    <div class="food-results">
+      <header class="food-results-head"><b>店家清單</b><span data-results-context>阿姆斯特丹</span></header>
+      <p class="food-empty" hidden>這裡沒有符合的選擇，試試換個街區、餐別或關鍵字。</p>
+      <section class="food-area" data-area="老城・九條街" data-short="九條街" data-point="52.3704,4.88369">
+  <div class="food-area-head"><h3 tabindex="-1"><span class="food-folio" aria-label="街區 1">01</span>老城・九條街</h3><button type="button" data-back-to-map hidden>回地圖 ↑</button></div>
+  <p class="food-area-intro">坐下吃早午餐，或外帶三明治和薯條。</p><ul><li class="food-place" data-kind="正餐">
+  <div class="food-meta">正餐 <span class="food-pick">首選</span></div>
+  <div class="food-card-head"><h4>Greenwoods Singel</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Greenwoods+Singel+103+Amsterdam" target="_blank" rel="noopener" aria-label="Greenwoods Singel：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>英式早午餐</b></p>
+  <p class="food-feature">在 Singel 運河邊坐下來吃完整份早餐；準備一路走老城時，這裡適合當第一站。</p>
+  <p class="food-tip"><b>到店前</b> 熱門時段可能等位</p>
 </li><li class="food-place" data-kind="點心">
-  <div class="food-meta">點心 <span class="food-pick">首選</span></div><h4>Heertje Friet</h4>
-  <p class="food-order"><span>該點</span> 荷蘭薯條</p>
-  <p>Herengracht 運河旁，逛九條街時可以買一份帶著走。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Heertje+Friet+Herengracht+169+Amsterdam" target="_blank" rel="noopener" aria-label="Heertje Friet：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+  <div class="food-meta">點心 <span class="food-pick">首選</span></div>
+  <div class="food-card-head"><h4>Heertje Friet</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Heertje+Friet+Herengracht+169+Amsterdam" target="_blank" rel="noopener" aria-label="Heertje Friet：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>荷蘭薯條</b></p>
+  <p class="food-feature">沿 Herengracht 走到九條街時買一份，邊散步邊吃。</p>
+
 </li><li class="food-place" data-kind="正餐">
-  <div class="food-meta">正餐 <span class="food-pick">首選</span></div><h4>The Seafood Bar（Spui）</h4>
-  <p class="food-order"><span>該點</span> 生蠔 Happy Hour</p>
-  <p>Spui 分店，想吃生蠔就到這家。</p><p class="food-tip">優惠依分店與時段，入座前先問</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=The+Seafood+Bar+Spui+Amsterdam" target="_blank" rel="noopener" aria-label="The Seafood Bar（Spui）：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+  <div class="food-meta">正餐 <span class="food-pick">首選</span></div>
+  <div class="food-card-head"><h4>The Seafood Bar（Spui）</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=The+Seafood+Bar+Spui+Amsterdam" target="_blank" rel="noopener" aria-label="The Seafood Bar（Spui）：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>生蠔 Happy Hour</b></p>
+  <p class="food-feature">想吃生蠔認明 Spui 分店；優惠時段以現場為準。</p>
+  <p class="food-tip"><b>到店前</b> 優惠依分店與時段，入座前先問</p>
 </li><li class="food-place" data-kind="正餐">
-  <div class="food-meta">正餐 <span class="food-pick">首選</span></div><h4>Restaurant &#x27;t Zwaantje</h4>
-  <p class="food-order"><span>該點</span> 荷蘭家常菜</p>
-  <p>Berenstraat 上的荷蘭家常菜，適合散步後坐下吃。</p><p class="food-tip">建議訂位</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Restaurant+t+Zwaantje+Berenstraat+Amsterdam" target="_blank" rel="noopener" aria-label="Restaurant &#x27;t Zwaantje：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+  <div class="food-meta">正餐 <span class="food-pick">首選</span></div>
+  <div class="food-card-head"><h4>Restaurant &#x27;t Zwaantje</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Restaurant+t+Zwaantje+Berenstraat+Amsterdam" target="_blank" rel="noopener" aria-label="Restaurant &#x27;t Zwaantje：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>荷蘭家常菜</b></p>
+  <p class="food-feature">九條街 Berenstraat 上的荷蘭家常菜，逛完運河想坐下吃正餐就選這家。</p>
+  <p class="food-tip"><b>到店前</b> 建議訂位</p>
 </li><li class="food-place" data-kind="正餐">
-  <div class="food-meta">正餐 </div><h4>Chun Café Berenstraat</h4>
-  <p class="food-order"><span>該點</span> 三明治</p>
-  <p>九條街上的三明治店，想簡單吃個午餐時用得上。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Chun+Cafe+Berenstraat+8+Amsterdam" target="_blank" rel="noopener" aria-label="Chun Café Berenstraat：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
-</li></ul></section><section class="food-area" data-area="老城・Dam 廣場" data-point="52.37312,4.89235"><h3 tabindex="-1">老城・Dam 廣場</h3><ul><li class="food-place" data-kind="點心">
-  <div class="food-meta">點心 <span class="food-pick">首選</span></div><h4>Van Stapele Koekmakerij</h4>
-  <p class="food-order"><span>該點</span> 巧克力夾心餅乾</p>
-  <p>只賣一種巧克力夾心餅乾。</p><p class="food-tip">常要排隊</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Van+Stapele+Koekmakerij+Amsterdam" target="_blank" rel="noopener" aria-label="Van Stapele Koekmakerij：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+  <div class="food-meta">正餐 </div>
+  <div class="food-card-head"><h4>Chun Café Berenstraat</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Chun+Cafe+Berenstraat+8+Amsterdam" target="_blank" rel="noopener" aria-label="Chun Café Berenstraat：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>三明治</b></p>
+  <p class="food-feature">逛九條街想抓一份午餐就走，比坐下來吃英式早午餐輕便。</p>
+
+</li></ul>
+</section><section class="food-area" data-area="老城・Dam 廣場" data-short="Dam 廣場" data-point="52.37312,4.89235">
+  <div class="food-area-head"><h3 tabindex="-1"><span class="food-folio" aria-label="街區 2">02</span>老城・Dam 廣場</h3><button type="button" data-back-to-map hidden>回地圖 ↑</button></div>
+  <p class="food-area-intro">巧克力餅乾、薯條和投幣炸物，適合邊走邊吃。</p><ul><li class="food-place" data-kind="點心">
+  <div class="food-meta">點心 <span class="food-pick">首選</span></div>
+  <div class="food-card-head"><h4>Van Stapele Koekmakerij</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Van+Stapele+Koekmakerij+Amsterdam" target="_blank" rel="noopener" aria-label="Van Stapele Koekmakerij：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>巧克力夾心餅乾</b></p>
+  <p class="food-feature">店裡只做這一種餅乾。若今天只想買一樣甜點，可以把排隊時間留給它。</p>
+  <p class="food-tip"><b>到店前</b> 常要排隊</p>
 </li><li class="food-place" data-kind="點心">
-  <div class="food-meta">點心 </div><h4>Fabel Friet</h4>
-  <p class="food-order"><span>該點</span> 荷蘭薯條</p>
-  <p>老城的薯條備選，和 Heertje Friet 擇一就好。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Fabel+Friet+Oude+Hoogstraat+Amsterdam" target="_blank" rel="noopener" aria-label="Fabel Friet：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+  <div class="food-meta">點心 </div>
+  <div class="food-card-head"><h4>Fabel Friet</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Fabel+Friet+Oude+Hoogstraat+Amsterdam" target="_blank" rel="noopener" aria-label="Fabel Friet：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>荷蘭薯條</b></p>
+  <p class="food-feature">走在 Dam 廣場、Oude Hoogstraat 一帶就選這家；若人在九條街，Heertje Friet 更順路。</p>
+
 </li><li class="food-place" data-kind="點心">
-  <div class="food-meta">點心 </div><h4>FEBO（Nieuwendijk）</h4>
-  <p class="food-order"><span>該點</span> 投幣小窗口的炸物</p>
-  <p>荷蘭特色自助炸物，從牆上的投幣小窗口拿可樂餅。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=FEBO+Nieuwendijk+50+Amsterdam" target="_blank" rel="noopener" aria-label="FEBO（Nieuwendijk）：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+  <div class="food-meta">點心 </div>
+  <div class="food-card-head"><h4>FEBO（Nieuwendijk）</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=FEBO+Nieuwendijk+50+Amsterdam" target="_blank" rel="noopener" aria-label="FEBO（Nieuwendijk）：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>投幣小窗口的炸物</b></p>
+  <p class="food-feature">從牆上的小窗口拿炸可樂餅；想體驗荷蘭的自助炸物，比正餐更適合當一口點心。</p>
+
 </li><li class="food-place" data-kind="正餐">
-  <div class="food-meta">正餐 </div><h4>Pancakehouse Upstairs</h4>
-  <p class="food-order"><span>該點</span> 荷蘭煎餅</p>
-  <p>Grimburgwal 樓上的小煎餅店。</p><p class="food-tip">座位少</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Pancakehouse+Upstairs+Grimburgwal+Amsterdam" target="_blank" rel="noopener" aria-label="Pancakehouse Upstairs：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+  <div class="food-meta">正餐 </div>
+  <div class="food-card-head"><h4>Pancakehouse Upstairs</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Pancakehouse+Upstairs+Grimburgwal+Amsterdam" target="_blank" rel="noopener" aria-label="Pancakehouse Upstairs：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>荷蘭煎餅</b></p>
+  <p class="food-feature">想吃煎餅又不想去安妮之家旁那間，可以找 Grimburgwal 樓上的小店。</p>
+  <p class="food-tip"><b>到店前</b> 座位少</p>
 </li><li class="food-place" data-kind="喝一杯">
-  <div class="food-meta">喝一杯 </div><h4>Wynand Fockink</h4>
-  <p class="food-order"><span>該點</span> 荷蘭琴酒</p>
-  <p>老品酒室，站著喝</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Wynand+Fockink+Amsterdam" target="_blank" rel="noopener" aria-label="Wynand Fockink：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+  <div class="food-meta">喝一杯 </div>
+  <div class="food-card-head"><h4>Wynand Fockink</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Wynand+Fockink+Amsterdam" target="_blank" rel="noopener" aria-label="Wynand Fockink：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>荷蘭琴酒</b></p>
+  <p class="food-feature">老品酒室裡站著喝；想認識荷蘭的 genever，可以從小杯開始。</p>
+
 </li><li class="food-place" data-kind="喝一杯">
-  <div class="food-meta">喝一杯 </div><h4>In de Wildeman</h4>
-  <p class="food-order"><span>該點</span> 啤酒</p>
-  <p>老派啤酒吧</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=In+de+Wildeman+Amsterdam" target="_blank" rel="noopener" aria-label="In de Wildeman：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
-</li></ul></section><section class="food-area" data-area="Jordaan・Noordermarkt" data-point="52.37995,4.88687"><h3 tabindex="-1">Jordaan・Noordermarkt</h3><ul><li class="food-place" data-kind="點心">
-  <div class="food-meta">點心 <span class="food-pick">首選</span></div><h4>Winkel 43</h4>
-  <p class="food-order"><span>該點</span> 蘋果派加鮮奶油</p>
-  <p>北市場旁的經典厚切蘋果派，記得加鮮奶油。</p><p class="food-tip">人多時要等</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Winkel+43+Noordermarkt+Amsterdam" target="_blank" rel="noopener" aria-label="Winkel 43：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+  <div class="food-meta">喝一杯 </div>
+  <div class="food-card-head"><h4>In de Wildeman</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=In+de+Wildeman+Amsterdam" target="_blank" rel="noopener" aria-label="In de Wildeman：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>啤酒</b></p>
+  <p class="food-feature">想把老城夜晚留給一杯啤酒，可以到這間老派酒吧坐坐。</p>
+
+</li></ul>
+</section><section class="food-area" data-area="Jordaan・Noordermarkt" data-short="北市場" data-point="52.37995,4.88687">
+  <div class="food-area-head"><h3 tabindex="-1"><span class="food-folio" aria-label="街區 3">03</span>Jordaan・Noordermarkt</h3><button type="button" data-back-to-map hidden>回地圖 ↑</button></div>
+  <p class="food-area-intro">蘋果派、烘焙和咖啡，可以留一個下午。</p><ul><li class="food-place" data-kind="點心">
+  <div class="food-meta">點心 <span class="food-pick">首選</span></div>
+  <div class="food-card-head"><h4>Winkel 43</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Winkel+43+Noordermarkt+Amsterdam" target="_blank" rel="noopener" aria-label="Winkel 43：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>蘋果派加鮮奶油</b></p>
+  <p class="food-feature">北市場旁坐下吃厚切蘋果派；想要的是派和鮮奶油，不是外帶麵包。</p>
+  <p class="food-tip"><b>到店前</b> 人多時要等</p>
 </li><li class="food-place" data-kind="點心">
-  <div class="food-meta">點心 </div><h4>SAINT-JEAN Bakery</h4>
-  <p class="food-order"><span>該點</span> 麵包、可頌</p>
-  <p>Lindengracht 上的烘焙店，適合買麵包和可頌。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=SAINT-JEAN+Bakery+Lindengracht+Amsterdam" target="_blank" rel="noopener" aria-label="SAINT-JEAN Bakery：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+  <div class="food-meta">點心 </div>
+  <div class="food-card-head"><h4>SAINT-JEAN Bakery</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=SAINT-JEAN+Bakery+Lindengracht+Amsterdam" target="_blank" rel="noopener" aria-label="SAINT-JEAN Bakery：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>麵包、可頌</b></p>
+  <p class="food-feature">到 Lindengracht 時買可頌或麵包帶走，留著路上吃。</p>
+
 </li><li class="food-place" data-kind="咖啡">
-  <div class="food-meta">咖啡 </div><h4>Toki</h4>
-  <p class="food-order"><span>該點</span> 咖啡</p>
-  <p>在北市場再往北一點，適合散步時停下喝杯咖啡。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Toki+Binnen+Dommersstraat+Amsterdam" target="_blank" rel="noopener" aria-label="Toki：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+  <div class="food-meta">咖啡 </div>
+  <div class="food-card-head"><h4>Toki</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Toki+Binnen+Dommersstraat+Amsterdam" target="_blank" rel="noopener" aria-label="Toki：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>咖啡</b></p>
+  <p class="food-feature">北市場再往北走，留一站給咖啡；如果已經在 Winkel 43 吃派，這裡就專心喝咖啡。</p>
+
 </li><li class="food-place" data-kind="點心">
-  <div class="food-meta">點心 </div><h4>Café Papeneiland</h4>
-  <p class="food-order"><span>該點</span> 蘋果派</p>
-  <p>Jordaan 的棕色老酒館，Winkel 43 排太長就來這</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Cafe+Papeneiland+Amsterdam" target="_blank" rel="noopener" aria-label="Café Papeneiland：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
-</li></ul></section><section class="food-area" data-area="Oud-West・De Hallen" data-point="52.36695,4.8682"><h3 tabindex="-1">Oud-West・De Hallen</h3><ul><li class="food-place" data-kind="正餐">
-  <div class="food-meta">正餐 <span class="food-pick">首選</span></div><h4>nNea Pizza</h4>
-  <p class="food-order"><span>該點</span> 拿坡里披薩</p>
-  <p>De Hallen 附近，想吃拿坡里披薩時的選擇。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=nNea+Pizza+Bilderdijkstraat+Amsterdam" target="_blank" rel="noopener" aria-label="nNea Pizza：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+  <div class="food-meta">點心 </div>
+  <div class="food-card-head"><h4>Café Papeneiland</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Cafe+Papeneiland+Amsterdam" target="_blank" rel="noopener" aria-label="Café Papeneiland：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>蘋果派</b></p>
+  <p class="food-feature">Winkel 43 隊伍太長時的蘋果派替代；氣氛換成 Jordaan 的老酒館。</p>
+
+</li></ul>
+</section><section class="food-area" data-area="Jordaan・安妮之家" data-short="安妮之家" data-point="52.37516,4.88408">
+  <div class="food-area-head"><h3 tabindex="-1"><span class="food-folio" aria-label="街區 4">04</span>Jordaan・安妮之家</h3><button type="button" data-back-to-map hidden>回地圖 ↑</button></div>
+  <p class="food-area-intro">展後想吃煎餅、荷蘭家常菜或日料，就留在這一帶。</p><ul><li class="food-place" data-kind="正餐">
+  <div class="food-meta">正餐 <span class="food-pick">首選</span></div>
+  <div class="food-card-head"><h4>Moeders</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Moeders+Rozengracht+Amsterdam" target="_blank" rel="noopener" aria-label="Moeders：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>荷蘭家常菜</b></p>
+  <p class="food-feature">從安妮之家走過去約十分鐘。看完展想吃荷蘭家常菜，可以把晚餐留給這裡。</p>
+  <p class="food-tip"><b>到店前</b> 建議訂位</p>
 </li><li class="food-place" data-kind="正餐">
-  <div class="food-meta">正餐 </div><h4>Gitane</h4>
-  <p class="food-order"><span>該點</span> 季節料理、蔬食選項</p>
-  <p>Jan Pieter Heijestraat 上的街區餐廳，菜單有蔬食選擇。</p><p class="food-tip">菜色依現場菜單</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Gitane+Jan+Pieter+Heijestraat+Amsterdam" target="_blank" rel="noopener" aria-label="Gitane：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
-</li><li class="food-place" data-kind="點心">
-  <div class="food-meta">點心 </div><h4>Massimo Gelato</h4>
-  <p class="food-order"><span>該點</span> 義式冰淇淋</p>
-  <p>De Hallen 附近可以順路買義式冰淇淋。</p><p class="food-tip">冬天先看營業時間</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Massimo+Gelato+Jan+Hanzenstraat+Amsterdam" target="_blank" rel="noopener" aria-label="Massimo Gelato：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
-</li></ul></section><section class="food-area" data-area="Bos en Lommer・西區" data-point="52.37802,4.8468"><h3 tabindex="-1">Bos en Lommer・西區</h3><ul><li class="food-place" data-kind="咖啡">
-  <div class="food-meta">咖啡 </div><h4>Friedhats FUKU Cafe</h4>
-  <p class="food-order"><span>該點</span> 精品咖啡</p>
-  <p>想特地喝精品咖啡再去，從 Westerpark 往西要繞一段。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Friedhats+FUKU+Cafe+Amsterdam" target="_blank" rel="noopener" aria-label="Friedhats FUKU Cafe：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
-</li></ul></section><section class="food-area" data-area="Jordaan・安妮之家" data-point="52.37516,4.88408"><h3 tabindex="-1">Jordaan・安妮之家</h3><ul><li class="food-place" data-kind="正餐">
-  <div class="food-meta">正餐 <span class="food-pick">首選</span></div><h4>Moeders</h4>
-  <p class="food-order"><span>該點</span> 荷蘭家常菜</p>
-  <p>從安妮之家走過去約十分鐘，適合看完展後吃荷蘭家常菜。</p><p class="food-tip">建議訂位</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Moeders+Rozengracht+Amsterdam" target="_blank" rel="noopener" aria-label="Moeders：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+  <div class="food-meta">正餐 </div>
+  <div class="food-card-head"><h4>The Pancake Bakery</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=The+Pancake+Bakery+Prinsengracht+Amsterdam" target="_blank" rel="noopener" aria-label="The Pancake Bakery：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>荷蘭煎餅</b></p>
+  <p class="food-feature">就在安妮之家附近，想在同一段運河散步時吃荷蘭煎餅，這家最順路。</p>
+  <p class="food-tip"><b>到店前</b> 觀光客較多</p>
 </li><li class="food-place" data-kind="正餐">
-  <div class="food-meta">正餐 </div><h4>The Pancake Bakery</h4>
-  <p class="food-order"><span>該點</span> 荷蘭煎餅</p>
-  <p>Prinsengracht 運河上的荷蘭煎餅店，靠近安妮之家。</p><p class="food-tip">觀光客較多</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=The+Pancake+Bakery+Prinsengracht+Amsterdam" target="_blank" rel="noopener" aria-label="The Pancake Bakery：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
-</li><li class="food-place" data-kind="正餐">
-  <div class="food-meta">正餐 </div><h4>Akitsu</h4>
-  <p class="food-order"><span>該點</span> 日本料理</p>
-  <p>在 Moeders 附近，逛完安妮之家想換日本料理時用得上。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Akitsu+Rozengracht+Amsterdam" target="_blank" rel="noopener" aria-label="Akitsu：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+  <div class="food-meta">正餐 </div>
+  <div class="food-card-head"><h4>Akitsu</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Akitsu+Rozengracht+Amsterdam" target="_blank" rel="noopener" aria-label="Akitsu：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>日本料理</b></p>
+  <p class="food-feature">和 Moeders 都在 Rozengracht 一帶。看完安妮之家想吃日料，可以直接換這家。</p>
+
 </li><li class="food-place" data-kind="喝一杯">
-  <div class="food-meta">喝一杯 </div><h4>Arendsnest</h4>
-  <p class="food-order"><span>該點</span> 荷蘭精釀</p>
-  <p>運河邊，只賣荷蘭啤酒</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Arendsnest+Herengracht+90+Amsterdam" target="_blank" rel="noopener" aria-label="Arendsnest：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
-</li></ul></section><section class="food-area" data-area="Leidseplein" data-point="52.36396,4.88276"><h3 tabindex="-1">Leidseplein</h3><ul><li class="food-place" data-kind="正餐">
-  <div class="food-meta">正餐 </div><h4>The Pantry</h4>
-  <p class="food-order"><span>該點</span> 荷蘭家常菜</p>
-  <p>Leidseplein 旁的荷蘭家常菜選擇。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=The+Pantry+Leidsekruisstraat+Amsterdam" target="_blank" rel="noopener" aria-label="The Pantry：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+  <div class="food-meta">喝一杯 </div>
+  <div class="food-card-head"><h4>Arendsnest</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Arendsnest+Herengracht+90+Amsterdam" target="_blank" rel="noopener" aria-label="Arendsnest：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>荷蘭精釀</b></p>
+  <p class="food-feature">在運河邊想比較荷蘭各地的精釀，可以在同一家試；這裡專賣荷蘭啤酒。</p>
+
+</li></ul>
+</section><section class="food-area" data-area="Oud-West・De Hallen" data-short="De Hallen" data-point="52.36695,4.8682">
+  <div class="food-area-head"><h3 tabindex="-1"><span class="food-folio" aria-label="街區 5">05</span>Oud-West・De Hallen</h3><button type="button" data-back-to-map hidden>回地圖 ↑</button></div>
+  <p class="food-area-intro">吃披薩或季節料理，再買一份冰淇淋。</p><ul><li class="food-place" data-kind="正餐">
+  <div class="food-meta">正餐 <span class="food-pick">首選</span></div>
+  <div class="food-card-head"><h4>nNea Pizza</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=nNea+Pizza+Bilderdijkstraat+Amsterdam" target="_blank" rel="noopener" aria-label="nNea Pizza：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>拿坡里披薩</b></p>
+  <p class="food-feature">De Hallen 一帶想吃熱食，這家主打拿坡里披薩，適合兩人分著點。</p>
+
 </li><li class="food-place" data-kind="正餐">
-  <div class="food-meta">正餐 </div><h4>Stoop &amp; Stoop eetcafé</h4>
-  <p class="food-order"><span>該點</span> 荷蘭菜</p>
-  <p>同在 Leidseplein 一帶，想吃荷蘭菜可跟 The Pantry 比較。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Stoop+%26+Stoop+eetcafe+Amsterdam" target="_blank" rel="noopener" aria-label="Stoop &amp; Stoop eetcafé：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
-</li></ul></section><section class="food-area" data-area="De Pijp・Albert Cuyp" data-point="52.35523,4.89178"><h3 tabindex="-1">De Pijp・Albert Cuyp</h3><ul><li class="food-place" data-kind="點心">
-  <div class="food-meta">點心 <span class="food-pick">首選</span></div><h4>Rudi&#x27;s Original Stroopwafels</h4>
-  <p class="food-order"><span>該點</span> 現做焦糖煎餅</p>
-  <p>Albert Cuyp 市場攤位，焦糖煎餅現做現吃。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Rudi%27s+Original+Stroopwafels+Albert+Cuyp+Amsterdam" target="_blank" rel="noopener" aria-label="Rudi&#x27;s Original Stroopwafels：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+  <div class="food-meta">正餐 </div>
+  <div class="food-card-head"><h4>Gitane</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Gitane+Jan+Pieter+Heijestraat+Amsterdam" target="_blank" rel="noopener" aria-label="Gitane：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>季節料理、蔬食選項</b></p>
+  <p class="food-feature">Jan Pieter Heijestraat 上的街區餐廳；兩人想吃不同菜、其中一位想吃蔬食時可先看菜單。</p>
+  <p class="food-tip"><b>到店前</b> 菜色依現場菜單</p>
+</li><li class="food-place" data-kind="點心">
+  <div class="food-meta">點心 </div>
+  <div class="food-card-head"><h4>Massimo Gelato</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Massimo+Gelato+Jan+Hanzenstraat+Amsterdam" target="_blank" rel="noopener" aria-label="Massimo Gelato：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>義式冰淇淋</b></p>
+  <p class="food-feature">De Hallen 附近的甜點站；想邊走邊吃，就買義式冰淇淋。</p>
+  <p class="food-tip"><b>到店前</b> 冬天先看營業時間</p>
+</li></ul>
+</section><section class="food-area" data-area="Bos en Lommer・西區" data-short="Bos en Lommer" data-point="52.37802,4.8468">
+  <div class="food-area-head"><h3 tabindex="-1"><span class="food-folio" aria-label="街區 6">06</span>Bos en Lommer・西區</h3><button type="button" data-back-to-map hidden>回地圖 ↑</button></div>
+  <p class="food-area-intro">為了精品咖啡往西繞；只逛老城不用特地過來。</p><ul><li class="food-place" data-kind="咖啡">
+  <div class="food-meta">咖啡 </div>
+  <div class="food-card-head"><h4>Friedhats FUKU Cafe</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Friedhats+FUKU+Cafe+Amsterdam" target="_blank" rel="noopener" aria-label="Friedhats FUKU Cafe：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>精品咖啡</b></p>
+  <p class="food-feature">如果今天重點是精品咖啡，可以往 Bos en Lommer 走；只逛 Westerpark 的話不必硬繞。</p>
+
+</li></ul>
+</section><section class="food-area" data-area="Leidseplein" data-short="Leidseplein" data-point="52.36396,4.88276">
+  <div class="food-area-head"><h3 tabindex="-1"><span class="food-folio" aria-label="街區 7">07</span>Leidseplein</h3><button type="button" data-back-to-map hidden>回地圖 ↑</button></div>
+  <p class="food-area-intro">已走到這一帶，兩家荷蘭菜可以就近比較。</p><ul><li class="food-place" data-kind="正餐">
+  <div class="food-meta">正餐 </div>
+  <div class="food-card-head"><h4>The Pantry</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=The+Pantry+Leidsekruisstraat+Amsterdam" target="_blank" rel="noopener" aria-label="The Pantry：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>荷蘭家常菜</b></p>
+  <p class="food-feature">如果散步已經走到 Leidseplein，再找荷蘭家常菜就不用折回安妮之家一帶。</p>
+
 </li><li class="food-place" data-kind="正餐">
-  <div class="food-meta">正餐 <span class="food-pick">首選</span></div><h4>Warung Spang Makandra</h4>
-  <p class="food-order"><span>該點</span> 蘇利南／印尼菜</p>
-  <p>Gerard Doustraat 上的蘇利南料理，逛完市場可以順路吃。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Warung+Spang+Makandra+Amsterdam" target="_blank" rel="noopener" aria-label="Warung Spang Makandra：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+  <div class="food-meta">正餐 </div>
+  <div class="food-card-head"><h4>Stoop &amp; Stoop eetcafé</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Stoop+%26+Stoop+eetcafe+Amsterdam" target="_blank" rel="noopener" aria-label="Stoop &amp; Stoop eetcafé：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>荷蘭菜</b></p>
+  <p class="food-feature">和 The Pantry 在同一帶；想吃荷蘭菜，可以到附近再看兩家菜單和座位。</p>
+
+</li></ul>
+</section><section class="food-area" data-area="De Pijp・Albert Cuyp" data-short="De Pijp" data-point="52.35523,4.89178">
+  <div class="food-area-head"><h3 tabindex="-1"><span class="food-folio" aria-label="街區 8">08</span>De Pijp・Albert Cuyp</h3><button type="button" data-back-to-map hidden>回地圖 ↑</button></div>
+  <p class="food-area-intro">現做焦糖煎餅、蘇利南料理和起司吧都在這一帶。</p><ul><li class="food-place" data-kind="點心">
+  <div class="food-meta">點心 <span class="food-pick">首選</span></div>
+  <div class="food-card-head"><h4>Rudi&#x27;s Original Stroopwafels</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Rudi%27s+Original+Stroopwafels+Albert+Cuyp+Amsterdam" target="_blank" rel="noopener" aria-label="Rudi&#x27;s Original Stroopwafels：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>現做焦糖煎餅</b></p>
+  <p class="food-feature">在 Albert Cuyp 市場找這一攤；焦糖煎餅買了趁溫熱吃。</p>
+
 </li><li class="food-place" data-kind="正餐">
-  <div class="food-meta">正餐 </div><h4>Kaasbar Amsterdam</h4>
-  <p class="food-order"><span>該點</span> 起司迴轉吧</p>
-  <p>起司會從面前轉過去；烏特勒支也有一家，可以擇一。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Kaasbar+Amsterdam+Ferdinand+Bolstraat" target="_blank" rel="noopener" aria-label="Kaasbar Amsterdam：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+  <div class="food-meta">正餐 <span class="food-pick">首選</span></div>
+  <div class="food-card-head"><h4>Warung Spang Makandra</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Warung+Spang+Makandra+Amsterdam" target="_blank" rel="noopener" aria-label="Warung Spang Makandra：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>蘇利南／印尼菜</b></p>
+  <p class="food-feature">逛完 Albert Cuyp 市場再往 Gerard Doustraat 走，把小吃換成一頓蘇利南／印尼料理。</p>
+
 </li><li class="food-place" data-kind="正餐">
-  <div class="food-meta">正餐 </div><h4>Blue Dragon</h4>
-  <p class="food-order"><span>該點</span> 日本料理</p>
-  <p>Marie Heinekenplein 旁的日本料理備選。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Blue+Dragon+Marie+Heinekenplein+Amsterdam" target="_blank" rel="noopener" aria-label="Blue Dragon：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
-</li></ul></section><section class="food-area" data-area="Amsterdam Zuid" data-point="52.33872,4.87134"><h3 tabindex="-1">Amsterdam Zuid</h3><ul><li class="food-place" data-kind="正餐">
-  <div class="food-meta">正餐 <span class="food-pick">首選</span></div><h4>Hakata Senpachi</h4>
-  <p class="food-order"><span>該點</span> 博多拉麵</p>
-  <p>Wielingenstraat 的博多拉麵，住南區時過去方便。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Hakata+Senpachi+Wielingenstraat+Amsterdam" target="_blank" rel="noopener" aria-label="Hakata Senpachi：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+  <div class="food-meta">正餐 </div>
+  <div class="food-card-head"><h4>Kaasbar Amsterdam</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Kaasbar+Amsterdam+Ferdinand+Bolstraat" target="_blank" rel="noopener" aria-label="Kaasbar Amsterdam：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>起司迴轉吧</b></p>
+  <p class="food-feature">像迴轉壽司一樣看著起司從眼前經過；烏特勒支也有分店，選一間體驗就好。</p>
+
+</li><li class="food-place" data-kind="正餐">
+  <div class="food-meta">正餐 </div>
+  <div class="food-card-head"><h4>Blue Dragon</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Blue+Dragon+Marie+Heinekenplein+Amsterdam" target="_blank" rel="noopener" aria-label="Blue Dragon：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>日本料理</b></p>
+  <p class="food-feature">走到 Marie Heinekenplein 時，想把市場小吃換成一頓日料可以留這家。</p>
+
+</li></ul>
+</section><section class="food-area" data-area="Amsterdam Zuid" data-short="Zuid 南站" data-point="52.33872,4.87134">
+  <div class="food-area-head"><h3 tabindex="-1"><span class="food-folio" aria-label="街區 9">09</span>Amsterdam Zuid</h3><button type="button" data-back-to-map hidden>回地圖 ↑</button></div>
+  <p class="food-area-intro">南區住客的拉麵晚餐、搭車前的咖啡早餐。</p><ul><li class="food-place" data-kind="正餐">
+  <div class="food-meta">正餐 <span class="food-pick">首選</span></div>
+  <div class="food-card-head"><h4>Hakata Senpachi</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Hakata+Senpachi+Wielingenstraat+Amsterdam" target="_blank" rel="noopener" aria-label="Hakata Senpachi：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>博多拉麵</b></p>
+  <p class="food-feature">住南區、晚點才回飯店時，不用再進老城找拉麵。</p>
+
 </li><li class="food-place" data-kind="咖啡">
-  <div class="food-meta">咖啡 </div><h4>Coffee &amp; Coconuts</h4>
-  <p class="food-order"><span>該點</span> 咖啡、可頌</p>
-  <p>在 Zuid 車站旁，搭車前可以買咖啡和可頌。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Coffee+%26+Coconuts+Gustav+Mahlerplein+Amsterdam" target="_blank" rel="noopener" aria-label="Coffee &amp; Coconuts：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
-</li></ul></section><section class="food-area" data-area="Waterlooplein" data-point="52.36845,4.90179"><h3 tabindex="-1">Waterlooplein</h3><ul><li class="food-place" data-kind="點心">
-  <div class="food-meta">點心 </div><h4>De Hapjeshoek</h4>
-  <p class="food-order"><span>該點</span> 蘇利南三明治</p>
-  <p>在 Waterlooplein 地鐵站裡，想吃蘇利南三明治可來這裡。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=De+Hapjeshoek+Waterlooplein+Amsterdam" target="_blank" rel="noopener" aria-label="De Hapjeshoek：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
-</li></ul></section><section class="food-area" data-area="Oost・Middenweg" data-point="52.34898,4.93829"><h3 tabindex="-1">Oost・Middenweg</h3><ul><li class="food-place" data-kind="點心">
-  <div class="food-meta">點心 </div><h4>Volendammer Vishandel</h4>
-  <p class="food-order"><span>該點</span> 生鯡魚、炸魚塊</p>
-  <p>想吃生鯡魚或炸魚塊可去東區這家。</p><p class="food-tip">離老城路線較遠</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Volendammer+Vishandel+Middenweg+Amsterdam" target="_blank" rel="noopener" aria-label="Volendammer Vishandel：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
-</li></ul></section><section class="food-area" data-area="中央車站" data-point="52.3789,4.90058"><h3 tabindex="-1">中央車站</h3><ul><li class="food-place" data-kind="點心">
-  <div class="food-meta">點心 </div><h4>Stubbe&#x27;s Haring</h4>
-  <p class="food-order"><span>該點</span> 生鯡魚</p>
-  <p>Centraal 旁的小攤</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Stubbes+Haring+Amsterdam" target="_blank" rel="noopener" aria-label="Stubbe&#x27;s Haring：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
-</li></ul></section><section class="food-area" data-area="Oost・Funenkade" data-point="52.36686,4.92643"><h3 tabindex="-1">Oost・Funenkade</h3><ul><li class="food-place" data-kind="喝一杯">
-  <div class="food-meta">喝一杯 </div><h4>Brouwerij &#x27;t IJ</h4>
-  <p class="food-order"><span>該點</span> 精釀</p>
-  <p>風車旁的酒廠</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Brouwerij+t+IJ+Amsterdam" target="_blank" rel="noopener" aria-label="Brouwerij &#x27;t IJ：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
-</li></ul></section>
+  <div class="food-meta">咖啡 </div>
+  <div class="food-card-head"><h4>Coffee &amp; Coconuts</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Coffee+%26+Coconuts+Gustav+Mahlerplein+Amsterdam" target="_blank" rel="noopener" aria-label="Coffee &amp; Coconuts：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>咖啡、可頌</b></p>
+  <p class="food-feature">緊鄰 Zuid 車站，留給搭車前想買杯咖啡和可頌的早上。</p>
+
+</li></ul>
+</section><section class="food-area" data-area="Waterlooplein" data-short="Waterlooplein" data-point="52.36845,4.90179">
+  <div class="food-area-head"><h3 tabindex="-1"><span class="food-folio" aria-label="街區 10">10</span>Waterlooplein</h3><button type="button" data-back-to-map hidden>回地圖 ↑</button></div>
+  <p class="food-area-intro">在地鐵站買份蘇利南三明治，適合趕路。</p><ul><li class="food-place" data-kind="點心">
+  <div class="food-meta">點心 </div>
+  <div class="food-card-head"><h4>De Hapjeshoek</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=De+Hapjeshoek+Waterlooplein+Amsterdam" target="_blank" rel="noopener" aria-label="De Hapjeshoek：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>蘇利南三明治</b></p>
+  <p class="food-feature">就在地鐵站裡，趕路時也能帶一份蘇利南三明治走。</p>
+
+</li></ul>
+</section><section class="food-area" data-area="Oost・Middenweg" data-short="Middenweg" data-point="52.34898,4.93829">
+  <div class="food-area-head"><h3 tabindex="-1"><span class="food-folio" aria-label="街區 11">11</span>Oost・Middenweg</h3><button type="button" data-back-to-map hidden>回地圖 ↑</button></div>
+  <p class="food-area-intro">逛到東區再找生鯡魚和炸魚塊。</p><ul><li class="food-place" data-kind="點心">
+  <div class="food-meta">點心 </div>
+  <div class="food-card-head"><h4>Volendammer Vishandel</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Volendammer+Vishandel+Middenweg+Amsterdam" target="_blank" rel="noopener" aria-label="Volendammer Vishandel：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>生鯡魚、炸魚塊</b></p>
+  <p class="food-feature">想比較生鯡魚和炸魚塊，可以同一站買兩種；人在東區才順路。</p>
+  <p class="food-tip"><b>到店前</b> 離老城路線較遠</p>
+</li></ul>
+</section><section class="food-area" data-area="中央車站" data-short="中央車站" data-point="52.3789,4.90058">
+  <div class="food-area-head"><h3 tabindex="-1"><span class="food-folio" aria-label="街區 12">12</span>中央車站</h3><button type="button" data-back-to-map hidden>回地圖 ↑</button></div>
+  <p class="food-area-intro">搭車前後想吃一口生鯡魚，可以找站旁小攤。</p><ul><li class="food-place" data-kind="點心">
+  <div class="food-meta">點心 </div>
+  <div class="food-card-head"><h4>Stubbe&#x27;s Haring</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Stubbes+Haring+Amsterdam" target="_blank" rel="noopener" aria-label="Stubbe&#x27;s Haring：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>生鯡魚</b></p>
+  <p class="food-feature">在 Centraal 附近想試生鯡魚，到小攤買一份就能繼續趕路。</p>
+
+</li></ul>
+</section><section class="food-area" data-area="Oost・Funenkade" data-short="Funenkade" data-point="52.36686,4.92643">
+  <div class="food-area-head"><h3 tabindex="-1"><span class="food-folio" aria-label="街區 13">13</span>Oost・Funenkade</h3><button type="button" data-back-to-map hidden>回地圖 ↑</button></div>
+  <p class="food-area-intro">把看風車和喝精釀排在同一站。</p><ul><li class="food-place" data-kind="喝一杯">
+  <div class="food-meta">喝一杯 </div>
+  <div class="food-card-head"><h4>Brouwerij &#x27;t IJ</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Brouwerij+t+IJ+Amsterdam" target="_blank" rel="noopener" aria-label="Brouwerij &#x27;t IJ：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>精釀</b></p>
+  <p class="food-feature">走到 Funenkade，可以把看風車和喝一杯精釀排在同一站。</p>
+
+</li></ul>
+</section>
+      <details class="food-special"><summary>認識當地菜色</summary><ul><li><b>生鯡魚</b> <i>Haring</i> — 抓尾巴整條吃，或切塊配洋蔥酸黃瓜，完全不腥。</li><li><b>炸肉丸</b> <i>Bitterballen</i> — 酥皮包燉肉泥，沾芥末，酒吧必點。</li><li><b>焦糖煎餅</b> <i>Stroopwafel</i> — 要吃現做的，放涼就差很多。</li><li><b>炸麵球</b> <i>Oliebollen</i> — 12 月限定，滿街小攤，撒糖粉吃。</li><li><b>蘋果派</b> <i>Appeltaart</i> — 配一大匙鮮奶油才對味。</li></ul>
+<a href="index.html#g-ams">看旅行手冊裡的菜色照片 ↗</a></details>
+    </div>
+  </div>
 </section><section class="food-city" id="city-utr" data-panel="utr">
-  <header><p>Utrecht</p><h2>烏特勒支</h2><p>在運河地窖吃烤蘋果，或來份薯條配荷蘭式 oorlog 醬。</p></header>
+  <header class="food-city-lead">
+    <div class="food-city-copy">
+      <p class="food-local">Utrecht</p>
+      <h2>烏特勒支</h2>
+      <p class="food-lead-line">沿著舊運河找一口熱的</p>
+      <p class="food-lead-intro">沿 Oudegracht 走：先喝碗熱湯，再到運河地窖吃烤蘋果。只想買小吃，可以試一份配 oorlog 醬的薯條。</p>
+      <div class="food-ideas" hidden><span>想吃</span><button type="button" data-food-idea="烤蘋果">烤蘋果</button><button type="button" data-food-idea="薯條">薯條</button><button type="button" data-food-idea="起司">起司</button></div>
+    </div>
+    <figure class="photo food-city-photo" style="--focus:55% 55%"><img src="assets/img/utr/oudegracht-640.webp" srcset="assets/img/utr/oudegracht-640.webp 640w, assets/img/utr/oudegracht-1280.webp 1280w, assets/img/utr/oudegracht-1920.webp 1920w" sizes="(max-width: 620px) 31vw, 420px" width="640" height="480" alt="烏特勒支舊運河兩側的碼頭與紅磚拱橋" loading="lazy" decoding="async"><figcaption>烏特勒支 Oudegracht｜走到水邊，街道底下還有一層。</figcaption></figure>
+  </header>
+  <div class="food-filter-slot"></div>
+  <div class="food-spread">
+    <aside class="food-map-slot" aria-label="街區導覽" hidden></aside>
+    <div class="food-results">
+      <header class="food-results-head"><b>店家清單</b><span data-results-context>烏特勒支</span></header>
+      <p class="food-empty" hidden>這裡沒有符合的選擇，試試換個街區、餐別或關鍵字。</p>
+      <section class="food-area" data-area="老城・運河" data-short="老城運河" data-point="52.09104,5.12033">
+  <div class="food-area-head"><h3 tabindex="-1"><span class="food-folio" aria-label="街區 1">01</span>老城・運河</h3><button type="button" data-back-to-map hidden>回地圖 ↑</button></div>
+  <p class="food-area-intro">地窖烤蘋果、熱湯、薯條都沿著老城這一帶找。</p><ul><li class="food-place" data-kind="正餐">
+  <div class="food-meta">正餐 <span class="food-pick">首選</span></div>
+  <div class="food-card-head"><h4>Restaurant Kartoffel</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Restaurant+Kartoffel+Utrecht" target="_blank" rel="noopener" aria-label="Restaurant Kartoffel：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>德國菜：豬腳、炸肉排</b></p>
+  <p class="food-feature">比起一碗湯或一份三明治，這家適合想坐下吃厚實德式午餐的時候。</p>
 
-  <section class="food-area" data-area="老城・運河" data-point="52.09104,5.12033"><h3 tabindex="-1">老城・運河</h3><ul><li class="food-place" data-kind="正餐">
-  <div class="food-meta">正餐 <span class="food-pick">首選</span></div><h4>Restaurant Kartoffel</h4>
-  <p class="food-order"><span>該點</span> 德國菜：豬腳、炸肉排</p>
-  <p>想吃德式豬腳或炸肉排，可以在這裡安排一頓。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Restaurant+Kartoffel+Utrecht" target="_blank" rel="noopener" aria-label="Restaurant Kartoffel：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
 </li><li class="food-place" data-kind="點心">
-  <div class="food-meta">點心 <span class="food-pick">首選</span></div><h4>Graaf Floris</h4>
-  <p class="food-order"><span>該點</span> 運河地窖烤蘋果</p>
-  <p>運河地窖裡吃烤蘋果，重點是坐在河畔街道的下一層。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Graaf+Floris+Utrecht" target="_blank" rel="noopener" aria-label="Graaf Floris：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+  <div class="food-meta">點心 <span class="food-pick">首選</span></div>
+  <div class="food-card-head"><h4>Graaf Floris</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Graaf+Floris+Utrecht" target="_blank" rel="noopener" aria-label="Graaf Floris：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>運河地窖烤蘋果</b></p>
+  <p class="food-feature">重點是坐進運河旁的地窖，吃烤蘋果；和荷蘭常見的蘋果派是不同一站。</p>
+
 </li><li class="food-place" data-kind="正餐">
-  <div class="food-meta">正餐 <span class="food-pick">首選</span></div><h4>Kaasbar Utrecht</h4>
-  <p class="food-order"><span>該點</span> 起司迴轉吧</p>
-  <p>Lijnmarkt 運河邊的起司迴轉吧，跟阿姆斯特丹分店擇一。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Kaasbar+Utrecht+Lijnmarkt" target="_blank" rel="noopener" aria-label="Kaasbar Utrecht：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+  <div class="food-meta">正餐 <span class="food-pick">首選</span></div>
+  <div class="food-card-head"><h4>Kaasbar Utrecht</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Kaasbar+Utrecht+Lijnmarkt" target="_blank" rel="noopener" aria-label="Kaasbar Utrecht：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>起司迴轉吧</b></p>
+  <p class="food-feature">Lijnmarkt 運河邊的迴轉起司；已在阿姆斯特丹吃過就不用重複。</p>
+
 </li><li class="food-place" data-kind="咖啡">
-  <div class="food-meta">咖啡 </div><h4>Darras Coffee Roasters</h4>
-  <p class="food-order"><span>該點</span> 精品咖啡</p>
-  <p>老城中心的精品咖啡，適合逛到一半歇腳。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Darras+Coffee+Roasters+Utrecht" target="_blank" rel="noopener" aria-label="Darras Coffee Roasters：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+  <div class="food-meta">咖啡 </div>
+  <div class="food-card-head"><h4>Darras Coffee Roasters</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Darras+Coffee+Roasters+Utrecht" target="_blank" rel="noopener" aria-label="Darras Coffee Roasters：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>精品咖啡</b></p>
+  <p class="food-feature">老城散步的咖啡站；只想喝杯精品咖啡，不必另外安排正餐。</p>
+
 </li><li class="food-place" data-kind="正餐">
-  <div class="food-meta">正餐 </div><h4>Dimitri Petit</h4>
-  <p class="food-order"><span>該點</span> 希臘小食</p>
-  <p>份量足的希臘小食，是簡單午餐的備案。</p><p class="food-tip">表上評價相對低</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Dimitri+Petit+Utrecht" target="_blank" rel="noopener" aria-label="Dimitri Petit：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+  <div class="food-meta">正餐 </div>
+  <div class="food-card-head"><h4>Dimitri Petit</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Dimitri+Petit+Utrecht" target="_blank" rel="noopener" aria-label="Dimitri Petit：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>希臘小食</b></p>
+  <p class="food-feature">希臘小食份量足；想簡單吃飽，當成正餐備選。</p>
+  <p class="food-tip"><b>到店前</b> 表上評價相對低</p>
 </li><li class="food-place" data-kind="正餐">
-  <div class="food-meta">正餐 </div><h4>Soep-er</h4>
-  <p class="food-order"><span>該點</span> 湯</p>
-  <p>Vismarkt 運河邊，天冷想喝碗熱湯時很合適。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Soep-er+Vismarkt+Utrecht" target="_blank" rel="noopener" aria-label="Soep-er：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+  <div class="food-meta">正餐 </div>
+  <div class="food-card-head"><h4>Soep-er</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Soep-er+Vismarkt+Utrecht" target="_blank" rel="noopener" aria-label="Soep-er：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>湯</b></p>
+  <p class="food-feature">Vismarkt 運河邊。冬天走冷了想喝碗熱湯，可以在這裡停一下。</p>
+
 </li><li class="food-place" data-kind="點心">
-  <div class="food-meta">點心 </div><h4>Dapp Frietwinkel</h4>
-  <p class="food-order"><span>該點</span> 有機帶皮薯條</p>
-  <p>有機帶皮薯條；想試荷蘭口味可點 oorlog 醬：花生醬、美乃滋和洋蔥。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Dapp+Frietwinkel+Vinkenburgstraat+Utrecht" target="_blank" rel="noopener" aria-label="Dapp Frietwinkel：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+  <div class="food-meta">點心 </div>
+  <div class="food-card-head"><h4>Dapp Frietwinkel</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Dapp+Frietwinkel+Vinkenburgstraat+Utrecht" target="_blank" rel="noopener" aria-label="Dapp Frietwinkel：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>有機帶皮薯條</b></p>
+  <p class="food-feature">想試荷蘭味，點 oorlog 醬：花生醬、美乃滋和洋蔥。</p>
+
 </li><li class="food-place" data-kind="咖啡">
-  <div class="food-meta">咖啡 </div><h4>Casa Ferreira</h4>
-  <p class="food-order"><span>該點</span> 咖啡、甜點</p>
-  <p>Ridderschapstraat 上的咖啡甜點備選。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Casa+Ferreira+Utrecht" target="_blank" rel="noopener" aria-label="Casa Ferreira：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+  <div class="food-meta">咖啡 </div>
+  <div class="food-card-head"><h4>Casa Ferreira</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Casa+Ferreira+Utrecht" target="_blank" rel="noopener" aria-label="Casa Ferreira：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>咖啡、甜點</b></p>
+  <p class="food-feature">Ridderschapstraat 的咖啡甜點站，想坐下來休息再繼續逛老城時可留一站。</p>
+
 </li><li class="food-place" data-kind="點心">
-  <div class="food-meta">點心 </div><h4>9ijs</h4>
-  <p class="food-order"><span>該點</span> 珍珠奶茶</p>
-  <p>Potterstraat 的珍珠奶茶，想喝熟悉的口味時有一站。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=9ijs+Potterstraat+Utrecht" target="_blank" rel="noopener" aria-label="9ijs：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+  <div class="food-meta">點心 </div>
+  <div class="food-card-head"><h4>9ijs</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=9ijs+Potterstraat+Utrecht" target="_blank" rel="noopener" aria-label="9ijs：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>珍珠奶茶</b></p>
+  <p class="food-feature">逛到 Potterstraat 時想喝熟悉的口味，就找這家珍奶。</p>
+
 </li><li class="food-place" data-kind="正餐">
-  <div class="food-meta">正餐 </div><h4>O&#x27;Panuozzo</h4>
-  <p class="food-order"><span>該點</span> 拿坡里窯烤三明治</p>
-  <p>不想坐下吃整套正餐時，換一份拿坡里窯烤三明治。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=O%27Panuozzo+Utrecht" target="_blank" rel="noopener" aria-label="O&#x27;Panuozzo：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+  <div class="food-meta">正餐 </div>
+  <div class="food-card-head"><h4>O&#x27;Panuozzo</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=O%27Panuozzo+Utrecht" target="_blank" rel="noopener" aria-label="O&#x27;Panuozzo：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>拿坡里窯烤三明治</b></p>
+  <p class="food-feature">想帶著走又不想只吃甜點，可以買一份拿坡里窯烤三明治。</p>
+
 </li><li class="food-place" data-kind="喝一杯">
-  <div class="food-meta">喝一杯 </div><h4>Olivier</h4>
-  <p class="food-order"><span>該點</span> 比利時啤酒</p>
-  <p>開在老教堂裡</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Olivier+Belgisch+Biercafe+Utrecht" target="_blank" rel="noopener" aria-label="Olivier：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
-</li></ul></section>
+  <div class="food-meta">喝一杯 </div>
+  <div class="food-card-head"><h4>Olivier</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Olivier+Belgisch+Biercafe+Utrecht" target="_blank" rel="noopener" aria-label="Olivier：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>比利時啤酒</b></p>
+  <p class="food-feature">想坐進一座改成啤酒館的老教堂，順便試比利時啤酒，就到這裡。</p>
+
+</li></ul>
+</section>
+
+    </div>
+  </div>
 </section><section class="food-city" id="city-dh" data-panel="dh">
-  <header><p>Den Haag</p><h2>海牙</h2><p>逛市場找炸魚塊，坐下來吃一頓印尼巴東菜。</p></header>
-  <details class="food-special"><summary>先認識當地吃什麼</summary><ul><li><b>印尼菜</b> <i>Rijsttafel</i> — 一桌十幾小碟，海牙最道地。</li><li><b>市場小吃</b> <i>Haagse Markt</i> — 炸魚塊 kibbeling 和各國小吃。</li></ul>
-<a href="index.html#g-dh">回旅行書看菜色照片 ↗</a></details>
-  <section class="food-area" data-area="市中心・Torenstraat" data-point="52.07855,4.30476"><h3 tabindex="-1">市中心・Torenstraat</h3><ul><li class="food-place" data-kind="正餐">
-  <div class="food-meta">正餐 </div><h4>Oblique fusion dining</h4>
-  <p class="food-order"><span>該點</span> 亞洲 fusion</p>
-  <p>海牙 Torenstraat 的亞洲融合料理，想換口味的晚餐選項。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Oblique+fusion+dining+Den+Haag" target="_blank" rel="noopener" aria-label="Oblique fusion dining：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
-</li></ul></section><section class="food-area" data-area="Haagse Markt" data-point="52.0644,4.29932"><h3 tabindex="-1">Haagse Markt</h3><ul><li class="food-place" data-kind="市集">
-  <div class="food-meta">市集 <span class="food-pick">首選</span></div><h4>Haagse Markt</h4>
-  <p class="food-order"><span>該點</span> 市場小吃</p>
-  <p>週一、三、五、六開，入口就在飯店那條街</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Haagse+Markt+Den+Haag" target="_blank" rel="noopener" aria-label="Haagse Markt：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
+  <header class="food-city-lead">
+    <div class="food-city-copy">
+      <p class="food-local">Den Haag</p>
+      <h2>海牙</h2>
+      <p class="food-lead-line">一頓市場小吃，一頓印尼菜</p>
+      <p class="food-lead-intro">想邊走邊吃，先看 Haagse Markt；想坐下來吃印尼巴東菜，留在市場一帶。若人在市中心，就看 Torenstraat 的晚餐選項。</p>
+      <div class="food-ideas" hidden><span>想吃</span><button type="button" data-food-idea="市場小吃">市場小吃</button><button type="button" data-food-idea="印尼巴東菜">印尼巴東菜</button></div>
+    </div>
+    <figure class="photo food-city-photo" style="--focus:48% 55%"><img src="assets/img/dh/mauritshuis-640.webp" srcset="assets/img/dh/mauritshuis-640.webp 640w, assets/img/dh/mauritshuis-1280.webp 1280w, assets/img/dh/mauritshuis-1920.webp 1920w" sizes="(max-width: 620px) 31vw, 420px" width="640" height="427" alt="夜裡亮著燈的莫瑞泰斯美術館與霍夫湖倒影" loading="lazy" decoding="async"><figcaption>海牙 Hofvijver｜美術館的窗光落在霍夫湖上。</figcaption></figure>
+  </header>
+  <div class="food-filter-slot"></div>
+  <div class="food-spread">
+    <aside class="food-map-slot" aria-label="街區導覽" hidden></aside>
+    <div class="food-results">
+      <header class="food-results-head"><b>店家清單</b><span data-results-context>海牙</span></header>
+      <p class="food-empty" hidden>這裡沒有符合的選擇，試試換個街區、餐別或關鍵字。</p>
+      <section class="food-area" data-area="市中心・Torenstraat" data-short="Torenstraat" data-point="52.07855,4.30476">
+  <div class="food-area-head"><h3 tabindex="-1"><span class="food-folio" aria-label="街區 1">01</span>市中心・Torenstraat</h3><button type="button" data-back-to-map hidden>回地圖 ↑</button></div>
+  <p class="food-area-intro">人在市中心時，可留一頓給亞洲融合菜。</p><ul><li class="food-place" data-kind="正餐">
+  <div class="food-meta">正餐 </div>
+  <div class="food-card-head"><h4>Oblique fusion dining</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Oblique+fusion+dining+Den+Haag" target="_blank" rel="noopener" aria-label="Oblique fusion dining：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>亞洲 fusion</b></p>
+  <p class="food-feature">在市中心 Torenstraat；不想再往 Haagse Markt 一帶走時，可把亞洲融合菜留給晚餐。</p>
+
+</li></ul>
+</section><section class="food-area" data-area="Haagse Markt" data-short="海牙市場" data-point="52.0644,4.29932">
+  <div class="food-area-head"><h3 tabindex="-1"><span class="food-folio" aria-label="街區 2">02</span>Haagse Markt</h3><button type="button" data-back-to-map hidden>回地圖 ↑</button></div>
+  <p class="food-area-intro">先逛攤位吃小食，想坐下再找印尼巴東菜。</p><ul><li class="food-place" data-kind="市集">
+  <div class="food-meta">市集 <span class="food-pick">首選</span></div>
+  <div class="food-card-head"><h4>Haagse Markt</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Haagse+Markt+Den+Haag" target="_blank" rel="noopener" aria-label="Haagse Markt：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>市場小吃</b></p>
+  <p class="food-feature">逛市場時先找炸魚塊或其他小吃；想坐下吃一頓印尼菜，再到附近的巴東餐館。</p>
+
 </li><li class="food-place" data-kind="正餐">
-  <div class="food-meta">正餐 <span class="food-pick">首選</span></div><h4>Waroeng Padang Lapek</h4>
-  <p class="food-order"><span>該點</span> 印尼巴東菜</p>
-  <p>滑完雪回海牙的晚餐選項</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Waroeng+Padang+Lapek+Den+Haag" target="_blank" rel="noopener" aria-label="Waroeng Padang Lapek：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
-</li></ul></section>
+  <div class="food-meta">正餐 <span class="food-pick">首選</span></div>
+  <div class="food-card-head"><h4>Waroeng Padang Lapek</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Waroeng+Padang+Lapek+Den+Haag" target="_blank" rel="noopener" aria-label="Waroeng Padang Lapek：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>印尼巴東菜</b></p>
+  <p class="food-feature">在 Haagse Markt 一帶想坐下吃印尼菜，這家走巴東風味。</p>
+
+</li></ul>
+</section>
+      <details class="food-special"><summary>認識當地菜色</summary><ul><li><b>印尼菜</b> <i>Rijsttafel</i> — 一桌十幾小碟，海牙最道地。</li><li><b>市場小吃</b> <i>Haagse Markt</i> — 炸魚塊 kibbeling 和各國小吃。</li></ul>
+<a href="index.html#g-dh">看旅行手冊裡的菜色照片 ↗</a></details>
+    </div>
+  </div>
 </section><section class="food-city" id="city-lei" data-panel="lei">
-  <header><p>Leiden</p><h2>萊登</h2><p>逛到 Pieterskerk 時，順手買點麵包或甜點。</p></header>
+  <header class="food-city-lead">
+    <div class="food-city-copy">
+      <p class="food-local">Leiden</p>
+      <h2>萊登</h2>
+      <p class="food-lead-line">逛老城，順手買麵包</p>
+      <p class="food-lead-intro">走到 Pieterskerk 時停一站。這裡的清單是一間順路烘焙店，適合補個點心再走。</p>
+      <div class="food-ideas" hidden><span>想吃</span><button type="button" data-food-idea="麵包">麵包</button></div>
+    </div>
+    <figure class="photo food-city-photo" style="--focus:55% 52%"><img src="assets/img/lei/rapenburg-640.webp" srcset="assets/img/lei/rapenburg-640.webp 640w, assets/img/lei/rapenburg-1280.webp 1280w, assets/img/lei/rapenburg-1920.webp 1920w" sizes="(max-width: 620px) 31vw, 420px" width="640" height="426" alt="從橋上望向萊登拉彭堡運河和兩岸的樹" loading="lazy" decoding="async"><figcaption>萊登 Rapenburg｜沿著運河走進大學城。</figcaption></figure>
+  </header>
+  <div class="food-filter-slot"></div>
+  <div class="food-spread">
+    <aside class="food-map-slot" aria-label="街區導覽" hidden></aside>
+    <div class="food-results">
+      <header class="food-results-head"><b>店家清單</b><span data-results-context>萊登</span></header>
+      <p class="food-empty" hidden>這裡沒有符合的選擇，試試換個街區、餐別或關鍵字。</p>
+      <section class="food-area" data-area="老城・Pieterskerk" data-short="Pieterskerk" data-point="52.15762,4.48785">
+  <div class="food-area-head"><h3 tabindex="-1"><span class="food-folio" aria-label="街區 1">01</span>老城・Pieterskerk</h3><button type="button" data-back-to-map hidden>回地圖 ↑</button></div>
+  <p class="food-area-intro">教堂附近找一間烘焙店，買點麵包再走。</p><ul><li class="food-place" data-kind="點心">
+  <div class="food-meta">點心 <span class="food-pick">首選</span></div>
+  <div class="food-card-head"><h4>Stadsbakkerij Water &amp; Bloem</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Stadsbakkerij+Water+%26+Bloem+Leiden" target="_blank" rel="noopener" aria-label="Stadsbakkerij Water &amp; Bloem：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>麵包、點心</b></p>
+  <p class="food-feature">就在 Pieterskerk 教堂旁，逛萊登老城途中買麵包，比另找餐廳省時間。</p>
 
-  <section class="food-area" data-area="老城・Pieterskerk" data-point="52.15762,4.48785"><h3 tabindex="-1">老城・Pieterskerk</h3><ul><li class="food-place" data-kind="點心">
-  <div class="food-meta">點心 <span class="food-pick">首選</span></div><h4>Stadsbakkerij Water &amp; Bloem</h4>
-  <p class="food-order"><span>該點</span> 麵包、點心</p>
-  <p>Pieterskerk 教堂旁，適合老城散步時買麵包。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Stadsbakkerij+Water+%26+Bloem+Leiden" target="_blank" rel="noopener" aria-label="Stadsbakkerij Water &amp; Bloem：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
-</li></ul></section>
+</li></ul>
+</section>
+
+    </div>
+  </div>
 </section><section class="food-city" id="city-rtm" data-panel="rtm">
-  <header><p>Rotterdam</p><h2>鹿特丹</h2><p>在 Markthal 吃小食，再到 Meent 吃一塊厚切蘋果派。</p></header>
-  <details class="food-special"><summary>先認識當地吃什麼</summary><ul><li><b>蘋果派</b> <i>Appeltaart</i> — Dudok 公認全城最有名。</li><li><b>地瓜薯條</b> <i>Zoete friet</i> — 住荷蘭的人推 Ter Marsch。</li></ul>
-<a href="index.html#g-rtm">回旅行書看菜色照片 ↗</a></details>
-  <section class="food-area" data-area="Markthal・Blaak" data-point="51.92011,4.48696"><h3 tabindex="-1">Markthal・Blaak</h3><ul><li class="food-place" data-kind="正餐">
-  <div class="food-meta">正餐 <span class="food-pick">首選</span></div><h4>The Duck Truck（Markthal）</h4>
-  <p class="food-order"><span>該點</span> 鴨肉漢堡</p>
-  <p>在 Markthal 裡，想在室內市場吃一份熱的就選鴨肉漢堡。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=The+Duck+Truck+Markthal+Rotterdam" target="_blank" rel="noopener" aria-label="The Duck Truck（Markthal）：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
-</li><li class="food-place" data-kind="點心">
-  <div class="food-meta">點心 <span class="food-pick">首選</span></div><h4>Dudok</h4>
-  <p class="food-order"><span>該點</span> 蘋果派</p>
-  <p>從 Markthal 走幾分鐘到 Meent 88，想吃鹿特丹代表性的蘋果派就來這裡。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Dudok+Meent+Rotterdam" target="_blank" rel="noopener" aria-label="Dudok：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
-</li><li class="food-place" data-kind="點心">
-  <div class="food-meta">點心 </div><h4>Goudstroop（Markthal）</h4>
-  <p class="food-order"><span>該點</span> 焦糖煎餅</p>
-  <p>Markthal 裡的焦糖煎餅攤，逛市場順手買。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Goudstroop+Markthal+Rotterdam" target="_blank" rel="noopener" aria-label="Goudstroop（Markthal）：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
-</li></ul></section><section class="food-area" data-area="Witte de Withstraat" data-point="51.91552,4.47678"><h3 tabindex="-1">Witte de Withstraat</h3><ul><li class="food-place" data-kind="正餐">
-  <div class="food-meta">正餐 <span class="food-pick">首選</span></div><h4>Ter Marsch &amp; Co</h4>
-  <p class="food-order"><span>該點</span> 地瓜薯條、漢堡</p>
-  <p>跟漢堡一起點地瓜薯條；店在 Witte de Withstraat，逛 Markthal 時別找錯地方。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Ter+Marsch+%26+Co+Rotterdam" target="_blank" rel="noopener" aria-label="Ter Marsch &amp; Co：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
-</li></ul></section><section class="food-area" data-area="Delfshaven 方向" data-point="51.9081,4.44837"><h3 tabindex="-1">Delfshaven 方向</h3><ul><li class="food-place" data-kind="正餐">
-  <div class="food-meta">正餐 </div><h4>Balkan Deli</h4>
-  <p class="food-order"><span>該點</span> 巴爾幹料理</p>
-  <p>往 Delfshaven 路上，想換巴爾幹口味的備選。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Balkan+Deli+Rotterdam" target="_blank" rel="noopener" aria-label="Balkan Deli：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
-</li></ul></section><section class="food-area" data-area="市中心・Rodezand" data-point="51.92057,4.48192"><h3 tabindex="-1">市中心・Rodezand</h3><ul><li class="food-place" data-kind="正餐">
-  <div class="food-meta">正餐 <span class="food-pick">首選</span></div><h4>SHIN - True Japanese Flavours</h4>
-  <p class="food-order"><span>該點</span> 日本料理</p>
-  <p>Rodezand 的日式料理，想在市中心好好坐下吃一頓時用得上。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=SHIN+True+Japanese+Flavours+Rotterdam" target="_blank" rel="noopener" aria-label="SHIN - True Japanese Flavours：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
-</li><li class="food-place" data-kind="正餐">
-  <div class="food-meta">正餐 </div><h4>Bao Haus by T&amp;C Haus</h4>
-  <p class="food-order"><span>該點</span> 台灣刈包</p>
-  <p>市中心想吃台灣口味時，可以找這家刈包。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Bao+Haus+by+T%26C+Haus+Rotterdam" target="_blank" rel="noopener" aria-label="Bao Haus by T&amp;C Haus：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
-</li></ul></section><section class="food-area" data-area="北區・Hofbogen" data-point="51.93193,4.47117"><h3 tabindex="-1">北區・Hofbogen</h3><ul><li class="food-place" data-kind="咖啡">
-  <div class="food-meta">咖啡 </div><h4>Man Met Bril</h4>
-  <p class="food-order"><span>該點</span> 咖啡</p>
-  <p>舊鐵道橋下的烘豆店</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Man+Met+Bril+Koffie+Rotterdam" target="_blank" rel="noopener" aria-label="Man Met Bril：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
-</li></ul></section>
-</section><section class="food-city" id="city-bru" data-panel="bru">
-  <header><p>Brugge</p><h2>布魯日</h2><p>想吃淡菜配薯條、啤酒燉牛肉，或找間小酒館喝一杯。</p></header>
-  <details class="food-special"><summary>先認識當地吃什麼</summary><ul><li><b>淡菜鍋</b> <i>Mosselen</i> — 一鍋約 1.2 公斤附薯條，兩人一鍋就夠。</li><li><b>啤酒燉牛肉</b> <i>Stoofvlees</i> — 深色啤酒慢燉，醬汁沾薯條。</li><li><b>薯條</b> <i>Frieten</i> — 鐘樓前的綠色薯條車是城市象徵。</li><li><b>巧克力</b> <i>Pralines</i> — 比利時夾心巧克力，去哪買見下方 The Chocolate Line。</li></ul>
-<a href="index.html#g-bru">回旅行書看菜色照片 ↗</a></details>
-  <section class="food-area" data-area="老城・Markt／Burg" data-point="51.20871,3.2244"><h3 tabindex="-1">老城・Markt／Burg</h3><ul><li class="food-place" data-kind="正餐">
-  <div class="food-meta">正餐 <span class="food-pick">首選</span></div><h4>Cambrinus</h4>
-  <p class="food-order"><span>該點</span> 啤酒燉牛肉</p>
-  <p>佛蘭德啤酒屋，想吃經典燉牛肉配薯條，也能順便挑一杯啤酒。</p><p class="food-tip">建議訂位</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Bierbrasserie+Cambrinus+Brugge" target="_blank" rel="noopener" aria-label="Cambrinus：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
-</li><li class="food-place" data-kind="正餐">
-  <div class="food-meta">正餐 <span class="food-pick">首選</span></div><h4>Breydel De Coninc</h4>
-  <p class="food-order"><span>該點</span> 淡菜配薯條</p>
-  <p>就在 Burg 散步路線上，想選不同煮法的淡菜可以看這家。</p><p class="food-tip">價位偏高</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Breydel+De+Coninc+Brugge" target="_blank" rel="noopener" aria-label="Breydel De Coninc：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
-</li><li class="food-place" data-kind="正餐">
-  <div class="food-meta">正餐 </div><h4>La Dentellière</h4>
-  <p class="food-order"><span>該點</span> 啤酒燉牛肉</p>
-  <p>想吃燉牛肉的備案，評論數較少。</p><p class="food-tip">出發前確認營業</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=La+Dentelliere+Brugge" target="_blank" rel="noopener" aria-label="La Dentellière：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
-</li><li class="food-place" data-kind="正餐">
-  <div class="food-meta">正餐 </div><h4>De Gastro</h4>
-  <p class="food-order"><span>該點</span> 淡菜配薯條</p>
-  <p>老城的家庭餐廳，想換一家吃淡菜配薯條時用得上。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=De+Gastro+Brugge" target="_blank" rel="noopener" aria-label="De Gastro：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
-</li><li class="food-place" data-kind="正餐">
-  <div class="food-meta">正餐 </div><h4>Bistro De Pompe</h4>
-  <p class="food-order"><span>該點</span> 淡菜、燉牛肉</p>
-  <p>想在同一家分吃淡菜和燉牛肉，可以考慮；自製美乃滋也是特色。</p><p class="food-tip">付款方式以現場為準</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Bistro+De+Pompe+Brugge" target="_blank" rel="noopener" aria-label="Bistro De Pompe：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
-</li><li class="food-place" data-kind="點心">
-  <div class="food-meta">點心 </div><h4>Chez Albert</h4>
-  <p class="food-order"><span>該點</span> 鬆餅</p>
-  <p>剛烤好的原味最好吃</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Chez+Albert+Brugge" target="_blank" rel="noopener" aria-label="Chez Albert：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
-</li><li class="food-place" data-kind="喝一杯">
-  <div class="food-meta">喝一杯 </div><h4>Le Trappiste</h4>
-  <p class="food-order"><span>該點</span> 修道院啤酒</p>
-  <p>中世紀地窖改的酒吧</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Le+Trappiste+Brugge" target="_blank" rel="noopener" aria-label="Le Trappiste：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
-</li></ul></section><section class="food-area" data-area="老城・Simon Stevinplein" data-point="51.2065,3.22259"><h3 tabindex="-1">老城・Simon Stevinplein</h3><ul><li class="food-place" data-kind="喝一杯">
-  <div class="food-meta">喝一杯 <span class="food-pick">首選</span></div><h4>&#x27;t Brugs Beertje</h4>
-  <p class="food-order"><span>該點</span> 比利時啤酒（約 300 款）</p>
-  <p>Kemelstraat 小巷裡的比利時啤酒館，適合想多看幾種酒再點。</p><p class="food-tip">入口容易錯過</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=t+Brugs+Beertje+Kemelstraat+5+Brugge" target="_blank" rel="noopener" aria-label="&#x27;t Brugs Beertje：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
-</li><li class="food-place" data-kind="點心">
-  <div class="food-meta">點心 <span class="food-pick">首選</span></div><h4>The Chocolate Line</h4>
-  <p class="food-order"><span>該點</span> 巧克力</p>
-  <p>2023 年全比利時最佳巧克力店</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=The+Chocolate+Line+Simon+Stevinplein+Brugge" target="_blank" rel="noopener" aria-label="The Chocolate Line：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
-</li><li class="food-place" data-kind="正餐">
-  <div class="food-meta">正餐 </div><h4>Poules Moules</h4>
-  <p class="food-order"><span>該點</span> 淡菜</p>
-  <p>想在 Simon Stevinplein 一帶吃淡菜，可以先看這家。</p><p class="food-tip">熱門時可能排隊</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Poules+Moules+Brugge" target="_blank" rel="noopener" aria-label="Poules Moules：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
-</li></ul></section><section class="food-area" data-area="老城・Hoogstraat" data-point="51.20944,3.22872"><h3 tabindex="-1">老城・Hoogstraat</h3><ul><li class="food-place" data-kind="咖啡">
-  <div class="food-meta">咖啡 </div><h4>DEES Specialty Coffee</h4>
-  <p class="food-order"><span>該點</span> 手沖、義式咖啡</p>
-  <p>Hoogstraat 上的自家烘豆咖啡，想喝手沖可以問店員怎麼選豆。</p><p class="food-tip">營業時間以店家公告為準</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Dees+Koffiebranders+Hoogstraat+33+Brugge" target="_blank" rel="noopener" aria-label="DEES Specialty Coffee：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
-</li></ul></section><section class="food-area" data-area="老城・Begijnhof" data-point="51.20135,3.22288"><h3 tabindex="-1">老城・Begijnhof</h3><ul><li class="food-place" data-kind="喝一杯">
-  <div class="food-meta">喝一杯 </div><h4>De Halve Maan</h4>
-  <p class="food-order"><span>該點</span> Brugse Zot</p>
-  <p>老城裡的家族酒廠，導覽 €16 含一杯</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=De+Halve+Maan+Brugge" target="_blank" rel="noopener" aria-label="De Halve Maan：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
-</li></ul></section>
-</section><section class="food-city" id="city-bxl" data-panel="bxl">
-  <header><p>Bruxelles</p><h2>布魯塞爾</h2><p>先在海鮮攤站著吃，再找薯條、鬆餅或咖啡。</p></header>
-  <details class="food-special"><summary>先認識當地吃什麼</summary><ul><li><b>薯條</b> <i>Frites</i> — 炸兩次，醬料試試 andalouse。</li><li><b>Kriek</b> <i>櫻桃啤酒</i> — 酸甜的布魯塞爾特產。</li><li><b>鬆餅</b> <i>Gaufre</i> — 長方形是布魯塞爾式，圓形有珍珠糖的是列日式。</li></ul>
-<a href="index.html#g-bxl">回旅行書看菜色照片 ↗</a></details>
-  <section class="food-area" data-area="Sainte-Catherine" data-point="50.85073,4.34769"><h3 tabindex="-1">Sainte-Catherine</h3><ul><li class="food-place" data-kind="正餐">
-  <div class="food-meta">正餐 <span class="food-pick">首選</span></div><h4>Noordzee／Mer du Nord</h4>
-  <p class="food-order"><span>該點</span> 蝦可樂餅、生蠔、竹蟶</p>
-  <p>站著吃的海鮮攤，可以點幾樣一起分著吃。</p><p class="food-tip">午餐尖峰人多</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Noordzee+Mer+du+Nord+Brussels" target="_blank" rel="noopener" aria-label="Noordzee／Mer du Nord：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
-</li></ul></section><section class="food-area" data-area="老城・大廣場" data-point="50.84673,4.35241"><h3 tabindex="-1">老城・大廣場</h3><ul><li class="food-place" data-kind="點心">
-  <div class="food-meta">點心 </div><h4>Fritland</h4>
-  <p class="food-order"><span>該點</span> 薯條</p>
-  <p>離大廣場近，想吃一份比利時薯條不用特地繞路。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Fritland+Brussels" target="_blank" rel="noopener" aria-label="Fritland：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
-</li><li class="food-place" data-kind="點心">
-  <div class="food-meta">點心 </div><h4>Maison Dandoy</h4>
-  <p class="food-order"><span>該點</span> 焦糖餅乾 speculoos</p>
-  <p>老字號，重點是 speculoos 焦糖香料餅乾，也適合買來帶走。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Maison+Dandoy+Grand+Place+Brussels" target="_blank" rel="noopener" aria-label="Maison Dandoy：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
-</li><li class="food-place" data-kind="咖啡">
-  <div class="food-meta">咖啡 </div><h4>Corica</h4>
-  <p class="food-order"><span>該點</span> 咖啡豆、義式咖啡</p>
-  <p>大廣場旁的老烘豆店，適合站著快速喝一杯或買豆。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Corica+Rue+du+Marche+aux+Poulets+Brussels" target="_blank" rel="noopener" aria-label="Corica：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
-</li><li class="food-place" data-kind="喝一杯">
-  <div class="food-meta">喝一杯 </div><h4>À La Mort Subite</h4>
-  <p class="food-order"><span>該點</span> kriek</p>
-  <p>1928 年的老酒館</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=A+La+Mort+Subite+Brussels" target="_blank" rel="noopener" aria-label="À La Mort Subite：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
-</li></ul></section><section class="food-area" data-area="中央車站" data-point="50.84546,4.35699"><h3 tabindex="-1">中央車站</h3><ul><li class="food-place" data-kind="咖啡">
-  <div class="food-meta">咖啡 <span class="food-pick">首選</span></div><h4>BARKBOY（Cantersteen 分店）</h4>
-  <p class="food-order"><span>該點</span> 咖啡、抹茶拿鐵、肉桂捲</p>
-  <p>Cantersteen 分店就在中央車站旁，想搭車前喝杯咖啡或抹茶拿鐵很方便。</p><p class="food-tip">趕車時留意等候</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Barkboy+Cantersteen+55+Brussels" target="_blank" rel="noopener" aria-label="BARKBOY（Cantersteen 分店）：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
-</li></ul></section><section class="food-area" data-area="Bourse・交易所" data-point="50.84793,4.34909"><h3 tabindex="-1">Bourse・交易所</h3><ul><li class="food-place" data-kind="正餐">
-  <div class="food-meta">正餐 </div><h4>Fin de Siècle</h4>
-  <p class="food-order"><span>該點</span> 燉牛肉、stoemp</p>
-  <p>想吃傳統比利時家常菜的晚餐選項。</p><p class="food-tip">原行程只停半天；有留到晚餐再考慮</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Fin+de+Siecle+Brussels" target="_blank" rel="noopener" aria-label="Fin de Siècle：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
-</li></ul></section>
-</section><section class="food-city" id="city-kol" data-panel="kol">
-  <header><p>Köln</p><h2>科隆</h2><p>啤酒屋吃豬腳配 Kölsch，夜裡到市集找馬鈴薯煎餅。</p></header>
-  <details class="food-special"><summary>先認識當地吃什麼</summary><ul><li><b>Kölsch</b> <i>0.2 L 小杯</i> — 科隆本地啤酒，喝法見「啤酒規矩」。</li><li><b>酸菜燉豬腳</b> <i>Hämchen</i> — 科隆是水煮的，軟嫩。</li><li><b>Halve Hahn</b> <i>「半隻雞」</i> — 其實是黑麥麵包配起司，沒有雞。</li><li><b>馬鈴薯煎餅</b> <i>Reibekuchen</i> — 市集必吃，配蘋果泥。</li></ul>
-<a href="index.html#g-kol">回旅行書看菜色照片 ↗</a></details>
-  <section class="food-area" data-area="比利時區・Friesenstraße" data-point="50.94094,6.94447"><h3 tabindex="-1">比利時區・Friesenstraße</h3><ul><li class="food-place" data-kind="正餐">
-  <div class="food-meta">正餐 <span class="food-pick">首選</span></div><h4>Päffgen</h4>
-  <p class="food-order"><span>該點</span> 烤啤酒豬腳 Bierhaxe、Halven Hahn</p>
-  <p>傳統 Kölsch 啤酒屋，想吃烤豬腳或點一份 Halve Hahn 配酒就來這裡。</p><p class="food-tip">只接受電話訂位</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Brauhaus+Paeffgen+Friesenstrasse+Koeln" target="_blank" rel="noopener" aria-label="Päffgen：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
-</li></ul></section><section class="food-area" data-area="Rudolfplatz" data-point="50.93667,6.93989"><h3 tabindex="-1">Rudolfplatz</h3><ul><li class="food-place" data-kind="市集">
-  <div class="food-meta">市集 </div><h4>Rudolfplatz 聖誕市集</h4>
-  <p class="food-order"><span>該點</span> 馬鈴薯煎餅</p>
-  <p>在 Rudolfplatz 想找熱食，先看看市集的馬鈴薯煎餅。</p><p class="food-tip">市集日期以官方公告為準</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Rudolfplatz+Weihnachtsmarkt+Koeln" target="_blank" rel="noopener" aria-label="Rudolfplatz 聖誕市集：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
-</li></ul></section><section class="food-area" data-area="大教堂・老城" data-point="50.9413,6.95814"><h3 tabindex="-1">大教堂・老城</h3><ul><li class="food-place" data-kind="正餐">
-  <div class="food-meta">正餐 <span class="food-pick">首選</span></div><h4>Brauhaus FRÜH am Dom</h4>
-  <p class="food-order"><span>該點</span> 酸菜燉豬腳 Hämchen、天與地</p>
-  <p>大教堂旁的經典啤酒屋，第一次想試水煮版豬腳可以從這家開始。</p><p class="food-tip">觀光客較多</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Frueh+am+Dom+Koeln" target="_blank" rel="noopener" aria-label="Brauhaus FRÜH am Dom：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
-</li><li class="food-place" data-kind="市集">
-  <div class="food-meta">市集 <span class="food-pick">首選</span></div><h4>大教堂前＋Heinzels 聖誕市集</h4>
-  <p class="food-order"><span>該點</span> 馬鈴薯煎餅、蘑菇、香腸、熱紅酒</p>
-  <p>不想再坐啤酒屋，可以在兩個市集分著買熱食和熱紅酒。</p><p class="food-tip">熱紅酒杯通常有押金</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Weihnachtsmarkt+am+K%C3%B6lner+Dom" target="_blank" rel="noopener" aria-label="大教堂前＋Heinzels 聖誕市集：大教堂前地圖">大教堂前地圖 <span aria-hidden="true">↗</span></a><a href="https://www.google.com/maps/search/?api=1&amp;query=Heumarkt+Koeln" target="_blank" rel="noopener" aria-label="大教堂前＋Heinzels 聖誕市集：Heinzels 地圖">Heinzels 地圖 <span aria-hidden="true">↗</span></a></div>
-</li><li class="food-place" data-kind="喝一杯">
-  <div class="food-meta">喝一杯 </div><h4>Gaffel am Dom</h4>
-  <p class="food-order"><span>該點</span> Kölsch、天與地</p>
-  <p>大教堂旁的大型啤酒屋，適合想找熱鬧氣氛的人。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Gaffel+am+Dom+Koeln" target="_blank" rel="noopener" aria-label="Gaffel am Dom：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
-</li><li class="food-place" data-kind="喝一杯">
-  <div class="food-meta">喝一杯 </div><h4>Peters Brauhaus</h4>
-  <p class="food-order"><span>該點</span> Kölsch</p>
-  <p>想坐進老派啤酒屋看看內裝，可以點一杯 Kölsch。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Peters+Brauhaus+Koeln" target="_blank" rel="noopener" aria-label="Peters Brauhaus：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
-</li></ul></section><section class="food-area" data-area="Heumarkt" data-point="50.935,6.96138"><h3 tabindex="-1">Heumarkt</h3><ul><li class="food-place" data-kind="正餐">
-  <div class="food-meta">正餐 </div><h4>Brauerei zur Malzmühle</h4>
-  <p class="food-order"><span>該點</span> 醋燜牛肉、Hämchen</p>
-  <p>比大教堂旁的啤酒屋低調，想試醋燜牛肉或水煮豬腳時用得上。</p><p class="food-tip">付款方式以現場為準</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Brauerei+zur+Malzmuehle+Koeln" target="_blank" rel="noopener" aria-label="Brauerei zur Malzmühle：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
-</li></ul></section><section class="food-area" data-area="比利時區・Stadtgarten" data-point="50.94299,6.93516"><h3 tabindex="-1">比利時區・Stadtgarten</h3><ul><li class="food-place" data-kind="市集">
-  <div class="food-meta">市集 <span class="food-pick">首選</span></div><h4>Stadtgarten 市集</h4>
-  <p class="food-order"><span>該點</span> 獨立風聖誕市集</p>
-  <p>比利時區旁，比較少觀光客</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Weihnachtsmarkt+Stadtgarten+Koeln" target="_blank" rel="noopener" aria-label="Stadtgarten 市集：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
-</li></ul></section><section class="food-area" data-area="Zülpicher Platz" data-point="50.93069,6.93995"><h3 tabindex="-1">Zülpicher Platz</h3><ul><li class="food-place" data-kind="咖啡">
-  <div class="food-meta">咖啡 </div><h4>The Coffee Gang</h4>
-  <p class="food-order"><span>該點</span> 精品咖啡</p>
-  <p>比利時區 Maastrichter Straße</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=The+Coffee+Gang+Koeln" target="_blank" rel="noopener" aria-label="The Coffee Gang：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
-</li></ul></section>
-</section><section class="food-city" id="city-dus" data-panel="dus">
-  <header><p>Düsseldorf</p><h2>杜塞道夫</h2><p>白天去日本街吃拉麵，晚一點在老城喝 Altbier。</p></header>
-  <details class="food-special"><summary>先認識當地吃什麼</summary><ul><li><b>Altbier</b> <i>0.25 L</i> — 深琥珀色、麥香重。</li><li><b>Killepitsch</b> <i>草本利口酒</i> — 老城的小杯烈酒，站著一口乾。</li><li><b>烤豬腳</b> <i>Schweinshaxe</i> — 外皮酥脆，跟科隆的水煮版對照。</li></ul>
-<a href="index.html#g-dus">回旅行書看菜色照片 ↗</a></details>
-  <section class="food-area" data-area="Little Tokyo・日本街" data-point="51.22499,6.78548"><h3 tabindex="-1">Little Tokyo・日本街</h3><ul><li class="food-place" data-kind="正餐">
-  <div class="food-meta">正餐 <span class="food-pick">首選</span></div><h4>Takumi</h4>
-  <p class="food-order"><span>該點</span> 拉麵</p>
-  <p>日本街的拉麵選手，店小，想少等可以避開午餐尖峰。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Takumi+Immermannstrasse+28+Duesseldorf" target="_blank" rel="noopener" aria-label="Takumi：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
-</li><li class="food-place" data-kind="正餐">
-  <div class="food-meta">正餐 </div><h4>Naniwa Noodles &amp; Soups</h4>
-  <p class="food-order"><span>該點</span> 擔擔麵、蒜味味噌</p>
-  <p>日本街的老牌拉麵店，想換擔擔麵或蒜味味噌時用得上。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Naniwa+Noodles+%26+Soups+Oststra%C3%9Fe+55+D%C3%BCsseldorf" target="_blank" rel="noopener" aria-label="Naniwa Noodles &amp; Soups：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
-</li><li class="food-place" data-kind="正餐">
-  <div class="food-meta">正餐 </div><h4>Tokyo Ramen Takeichi</h4>
-  <p class="food-order"><span>該點</span> 濃厚雞白湯拉麵</p>
-  <p>想喝濃一點的雞白湯，可以在日本街找這家。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Tokyo+Ramen+Takeichi+Duesseldorf" target="_blank" rel="noopener" aria-label="Tokyo Ramen Takeichi：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
-</li><li class="food-place" data-kind="點心">
-  <div class="food-meta">點心 </div><h4>Bing Go</h4>
-  <p class="food-order"><span>該點</span> 鯛魚燒</p>
-  <p>吃完拉麵再找個鯛魚燒當甜點。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Bing+Go+Immermannstrasse+Duesseldorf" target="_blank" rel="noopener" aria-label="Bing Go：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
-</li><li class="food-place" data-kind="喝一杯">
-  <div class="food-meta">喝一杯 </div><h4>Brauerei Schumacher</h4>
-  <p class="food-order"><span>該點</span> Altbier</p>
-  <p>Oststraße 上的老牌 Altbier 酒廠，逛日本街時可順路。</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Brauerei+Schumacher+Oststrasse+Duesseldorf" target="_blank" rel="noopener" aria-label="Brauerei Schumacher：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
-</li></ul></section><section class="food-area" data-area="Altstadt・老城" data-point="51.22585,6.77223"><h3 tabindex="-1">Altstadt・老城</h3><ul><li class="food-place" data-kind="正餐">
-  <div class="food-meta">正餐 <span class="food-pick">首選</span></div><h4>Brauerei im Füchschen</h4>
-  <p class="food-order"><span>該點</span> 烤豬腳、醋燜牛肉</p>
-  <p>想在 Altbier 酒館坐下吃飯，可以點烤豬腳或醋燜牛肉。</p><p class="food-tip">不接受訂位</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Brauerei+im+Fuechschen+Duesseldorf" target="_blank" rel="noopener" aria-label="Brauerei im Füchschen：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
-</li><li class="food-place" data-kind="喝一杯">
-  <div class="food-meta">喝一杯 </div><h4>Zum Uerige</h4>
-  <p class="food-order"><span>該點</span> Altbier</p>
-  <p>老城的代表性 Altbier 酒館，適合喝一杯。</p><p class="food-tip">正餐可另找店家</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Zum+Uerige+Duesseldorf" target="_blank" rel="noopener" aria-label="Zum Uerige：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
-</li><li class="food-place" data-kind="喝一杯">
-  <div class="food-meta">喝一杯 </div><h4>Et Kabüffke</h4>
-  <p class="food-order"><span>該點</span> Killepitsch</p>
-  <p>小到只能站著</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Et+Kabueffke+Duesseldorf" target="_blank" rel="noopener" aria-label="Et Kabüffke：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
-</li><li class="food-place" data-kind="咖啡">
-  <div class="food-meta">咖啡 </div><h4>Rösterei VIER</h4>
-  <p class="food-order"><span>該點</span> 咖啡</p>
-  <p>老城 Marktplatz</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Roesterei+VIER+Marktplatz+Duesseldorf" target="_blank" rel="noopener" aria-label="Rösterei VIER：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
-</li></ul></section>
-</section><section class="food-city" id="city-haa" data-panel="haa">
-  <header><p>Haarlem</p><h2>哈倫</h2><p>在老城的教堂酒廠吃午餐，順便喝一杯哈倫釀的啤酒。</p></header>
+  <header class="food-city-lead">
+    <div class="food-city-copy">
+      <p class="food-local">Rotterdam</p>
+      <h2>鹿特丹</h2>
+      <p class="food-lead-line">市場裡吃熱的，出來吃蘋果派</p>
+      <p class="food-lead-intro">在 Markthal／Blaak 買鴨肉漢堡或焦糖煎餅，再走到 Meent 坐下來吃蘋果派。想找地瓜薯條，就往 Witte de Withstraat 走。</p>
+      <div class="food-ideas" hidden><span>想吃</span><button type="button" data-food-idea="鴨肉漢堡">鴨肉漢堡</button><button type="button" data-food-idea="蘋果派">蘋果派</button><button type="button" data-food-idea="地瓜薯條">地瓜薯條</button></div>
+    </div>
+    <figure class="photo food-city-photo" style="--focus:55% 53%"><img src="assets/img/rtm/erasmusbrug-640.webp" srcset="assets/img/rtm/erasmusbrug-640.webp 640w, assets/img/rtm/erasmusbrug-1280.webp 1280w, assets/img/rtm/erasmusbrug-1920.webp 1920w" sizes="(max-width: 620px) 31vw, 420px" width="640" height="390" alt="鹿特丹天鵝橋的白色斜塔與南岸高樓" loading="lazy" decoding="async"><figcaption>鹿特丹｜天鵝橋把市中心接向馬斯河南岸。</figcaption></figure>
+  </header>
+  <div class="food-filter-slot"></div>
+  <div class="food-spread">
+    <aside class="food-map-slot" aria-label="街區導覽" hidden></aside>
+    <div class="food-results">
+      <header class="food-results-head"><b>店家清單</b><span data-results-context>鹿特丹</span></header>
+      <p class="food-empty" hidden>這裡沒有符合的選擇，試試換個街區、餐別或關鍵字。</p>
+      <section class="food-area" data-area="Markthal・Blaak" data-short="Markthal" data-point="51.92011,4.48696">
+  <div class="food-area-head"><h3 tabindex="-1"><span class="food-folio" aria-label="街區 1">01</span>Markthal・Blaak</h3><button type="button" data-back-to-map hidden>回地圖 ↑</button></div>
+  <p class="food-area-intro">鴨肉漢堡和焦糖煎餅在室內市場，蘋果派在附近的 Meent。</p><ul><li class="food-place" data-kind="正餐">
+  <div class="food-meta">正餐 <span class="food-pick">首選</span></div>
+  <div class="food-card-head"><h4>The Duck Truck（Markthal）</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=The+Duck+Truck+Markthal+Rotterdam" target="_blank" rel="noopener" aria-label="The Duck Truck（Markthal）：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>鴨肉漢堡</b></p>
+  <p class="food-feature">就在 Markthal 裡，想在室內市場吃一份熱的，先點鴨肉漢堡。</p>
 
-  <section class="food-area" data-area="老城・Raaks" data-point="52.38206,4.6306"><h3 tabindex="-1">老城・Raaks</h3><ul><li class="food-place" data-kind="正餐">
-  <div class="food-meta">正餐 </div><h4>Jopenkerk</h4>
-  <p class="food-order"><span>該點</span> 精釀</p>
-  <p>哈倫，教堂改成的酒廠</p><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Jopenkerk+Haarlem" target="_blank" rel="noopener" aria-label="Jopenkerk：地圖">地圖 <span aria-hidden="true">↗</span></a></div>
-</li></ul></section>
+</li><li class="food-place" data-kind="點心">
+  <div class="food-meta">點心 <span class="food-pick">首選</span></div>
+  <div class="food-card-head"><h4>Dudok</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Dudok+Meent+Rotterdam" target="_blank" rel="noopener" aria-label="Dudok：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>蘋果派</b></p>
+  <p class="food-feature">從 Markthal 走到 Meent 88，留一段時間坐下吃蘋果派。</p>
+
+</li><li class="food-place" data-kind="點心">
+  <div class="food-meta">點心 </div>
+  <div class="food-card-head"><h4>Goudstroop（Markthal）</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Goudstroop+Markthal+Rotterdam" target="_blank" rel="noopener" aria-label="Goudstroop（Markthal）：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>焦糖煎餅</b></p>
+  <p class="food-feature">在 Markthal 裡先買一份當點心，不必另外排甜點行程。</p>
+
+</li></ul>
+</section><section class="food-area" data-area="Witte de Withstraat" data-short="Witte de With" data-point="51.91552,4.47678">
+  <div class="food-area-head"><h3 tabindex="-1"><span class="food-folio" aria-label="街區 2">02</span>Witte de Withstraat</h3><button type="button" data-back-to-map hidden>回地圖 ↑</button></div>
+  <p class="food-area-intro">想吃漢堡和地瓜薯條，往這條街走。</p><ul><li class="food-place" data-kind="正餐">
+  <div class="food-meta">正餐 <span class="food-pick">首選</span></div>
+  <div class="food-card-head"><h4>Ter Marsch &amp; Co</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Ter+Marsch+%26+Co+Rotterdam" target="_blank" rel="noopener" aria-label="Ter Marsch &amp; Co：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>地瓜薯條、漢堡</b></p>
+  <p class="food-feature">這家在 Witte de Withstraat。想吃的是漢堡配地瓜薯條，逛 Markthal 時別找錯地方。</p>
+
+</li></ul>
+</section><section class="food-area" data-area="Delfshaven 方向" data-short="Delfshaven" data-point="51.9081,4.44837">
+  <div class="food-area-head"><h3 tabindex="-1"><span class="food-folio" aria-label="街區 3">03</span>Delfshaven 方向</h3><button type="button" data-back-to-map hidden>回地圖 ↑</button></div>
+  <p class="food-area-intro">已經往西走、想換口味時，再找巴爾幹料理。</p><ul><li class="food-place" data-kind="正餐">
+  <div class="food-meta">正餐 </div>
+  <div class="food-card-head"><h4>Balkan Deli</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Balkan+Deli+Rotterdam" target="_blank" rel="noopener" aria-label="Balkan Deli：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>巴爾幹料理</b></p>
+  <p class="food-feature">已經往 Delfshaven 走、想換巴爾幹口味時再去，和市中心的刈包或日料是不同方向。</p>
+
+</li></ul>
+</section><section class="food-area" data-area="市中心・Rodezand" data-short="Rodezand" data-point="51.92057,4.48192">
+  <div class="food-area-head"><h3 tabindex="-1"><span class="food-folio" aria-label="街區 4">04</span>市中心・Rodezand</h3><button type="button" data-back-to-map hidden>回地圖 ↑</button></div>
+  <p class="food-area-intro">想坐下吃日料或簡單買刈包，都留在市中心。</p><ul><li class="food-place" data-kind="正餐">
+  <div class="food-meta">正餐 <span class="food-pick">首選</span></div>
+  <div class="food-card-head"><h4>SHIN - True Japanese Flavours</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=SHIN+True+Japanese+Flavours+Rotterdam" target="_blank" rel="noopener" aria-label="SHIN - True Japanese Flavours：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>日本料理</b></p>
+  <p class="food-feature">逛到 Rodezand 想坐下吃一頓日料，選這家；只想吃份小食則可考慮刈包。</p>
+
+</li><li class="food-place" data-kind="正餐">
+  <div class="food-meta">正餐 </div>
+  <div class="food-card-head"><h4>Bao Haus by T&amp;C Haus</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Bao+Haus+by+T%26C+Haus+Rotterdam" target="_blank" rel="noopener" aria-label="Bao Haus by T&amp;C Haus：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>台灣刈包</b></p>
+  <p class="food-feature">市中心想吃熟悉的台灣味時，買刈包比安排一頓日料輕鬆。</p>
+
+</li></ul>
+</section><section class="food-area" data-area="北區・Hofbogen" data-short="Hofbogen" data-point="51.93193,4.47117">
+  <div class="food-area-head"><h3 tabindex="-1"><span class="food-folio" aria-label="街區 5">05</span>北區・Hofbogen</h3><button type="button" data-back-to-map hidden>回地圖 ↑</button></div>
+  <p class="food-area-intro">北區的咖啡備選，出發前先確認門市。</p><ul><li class="food-place" data-kind="咖啡">
+  <div class="food-meta">咖啡 </div>
+  <div class="food-card-head"><h4>Man Met Bril</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Man+Met+Bril+Koffie+Rotterdam" target="_blank" rel="noopener" aria-label="Man Met Bril：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>咖啡</b></p>
+  <p class="food-feature">在北區想喝咖啡，先用地圖確認現在營業的門市，再決定要不要特地過去。</p>
+
+</li></ul>
+</section>
+      <details class="food-special"><summary>認識當地菜色</summary><ul><li><b>蘋果派</b> <i>Appeltaart</i> — Dudok 公認全城最有名。</li><li><b>地瓜薯條</b> <i>Zoete friet</i> — 住荷蘭的人推 Ter Marsch。</li></ul>
+<a href="index.html#g-rtm">看旅行手冊裡的菜色照片 ↗</a></details>
+    </div>
+  </div>
+</section><section class="food-city" id="city-bru" data-panel="bru">
+  <header class="food-city-lead">
+    <div class="food-city-copy">
+      <p class="food-local">Brugge</p>
+      <h2>布魯日</h2>
+      <p class="food-lead-line">午餐吃淡菜，晚餐留給啤酒燉牛肉</p>
+      <p class="food-lead-intro">看完鐘樓和 Burg，在老城找淡菜配薯條；走到 Simon Stevinplein 也有一間。晚上換成佛蘭德燉牛肉，或去小巷裡慢慢挑一杯比利時啤酒。</p>
+      <div class="food-ideas" hidden><span>想吃</span><button type="button" data-food-idea="淡菜">淡菜</button><button type="button" data-food-idea="燉牛肉">燉牛肉</button><button type="button" data-food-idea="比利時啤酒">比利時啤酒</button></div>
+    </div>
+    <figure class="photo food-city-photo" style="--focus:46% 52%"><img src="assets/img/bru/rozenhoedkaai-640.webp" srcset="assets/img/bru/rozenhoedkaai-640.webp 640w, assets/img/bru/rozenhoedkaai-1280.webp 1280w, assets/img/bru/rozenhoedkaai-1920.webp 1920w" sizes="(max-width: 620px) 31vw, 420px" width="640" height="508" alt="布魯日玫瑰碼頭、運河旁的老屋和遠處鐘樓" loading="lazy" decoding="async"><figcaption>布魯日 Rozenhoedkaai｜從玫瑰碼頭望向鐘樓。</figcaption></figure>
+  </header>
+  <div class="food-filter-slot"></div>
+  <div class="food-spread">
+    <aside class="food-map-slot" aria-label="街區導覽" hidden></aside>
+    <div class="food-results">
+      <header class="food-results-head"><b>店家清單</b><span data-results-context>布魯日</span></header>
+      <p class="food-empty" hidden>這裡沒有符合的選擇，試試換個街區、餐別或關鍵字。</p>
+      <section class="food-area" data-area="老城・Markt／Burg" data-short="Markt／Burg" data-point="51.20871,3.2244">
+  <div class="food-area-head"><h3 tabindex="-1"><span class="food-folio" aria-label="街區 1">01</span>老城・Markt／Burg</h3><button type="button" data-back-to-map hidden>回地圖 ↑</button></div>
+  <p class="food-area-intro">看完鐘樓就近吃淡菜或燉牛肉，飯後還能買鬆餅。</p><ul><li class="food-place" data-kind="正餐">
+  <div class="food-meta">正餐 <span class="food-pick">首選</span></div>
+  <div class="food-card-head"><h4>Cambrinus</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Bierbrasserie+Cambrinus+Brugge" target="_blank" rel="noopener" aria-label="Cambrinus：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>啤酒燉牛肉</b></p>
+  <p class="food-feature">老城啤酒屋的佛蘭德燉牛肉。想吃一盤燉肉配薯條，再挑一杯比利時啤酒，選這家。</p>
+  <p class="food-tip"><b>到店前</b> 建議訂位</p>
+</li><li class="food-place" data-kind="正餐">
+  <div class="food-meta">正餐 <span class="food-pick">首選</span></div>
+  <div class="food-card-head"><h4>Breydel De Coninc</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Breydel+De+Coninc+Brugge" target="_blank" rel="noopener" aria-label="Breydel De Coninc：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>淡菜配薯條</b></p>
+  <p class="food-feature">看完 Burg 走過去，重點是淡菜有不同煮法可選，適合把它當這頓午餐的主角。</p>
+  <p class="food-tip"><b>到店前</b> 價位偏高</p>
+</li><li class="food-place" data-kind="正餐">
+  <div class="food-meta">正餐 </div>
+  <div class="food-card-head"><h4>La Dentellière</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=La+Dentelliere+Brugge" target="_blank" rel="noopener" aria-label="La Dentellière：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>啤酒燉牛肉</b></p>
+  <p class="food-feature">Cambrinus 客滿時的燉牛肉備選；可參考的評論較少，先確認當天營業。</p>
+  <p class="food-tip"><b>到店前</b> 出發前確認營業</p>
+</li><li class="food-place" data-kind="正餐">
+  <div class="food-meta">正餐 </div>
+  <div class="food-card-head"><h4>De Gastro</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=De+Gastro+Brugge" target="_blank" rel="noopener" aria-label="De Gastro：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>淡菜配薯條</b></p>
+  <p class="food-feature">老城的家庭餐廳。想坐下吃淡菜配薯條，又想在 Breydel 之外留一個選項，就看這家。</p>
+
+</li><li class="food-place" data-kind="正餐">
+  <div class="food-meta">正餐 </div>
+  <div class="food-card-head"><h4>Bistro De Pompe</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Bistro+De+Pompe+Brugge" target="_blank" rel="noopener" aria-label="Bistro De Pompe：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>淡菜、燉牛肉</b></p>
+  <p class="food-feature">兩人一個想吃淡菜、一個想吃燉牛肉，這家兩道都能點；薯條可搭自製美乃滋。</p>
+  <p class="food-tip"><b>到店前</b> 付款方式以現場為準</p>
+</li><li class="food-place" data-kind="點心">
+  <div class="food-meta">點心 </div>
+  <div class="food-card-head"><h4>Chez Albert</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Chez+Albert+Brugge" target="_blank" rel="noopener" aria-label="Chez Albert：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>鬆餅</b></p>
+  <p class="food-feature">逛 Markt 或 Burg 的甜點站；第一次可以先點剛烤好的原味鬆餅。</p>
+
+</li><li class="food-place" data-kind="喝一杯">
+  <div class="food-meta">喝一杯 </div>
+  <div class="food-card-head"><h4>Le Trappiste</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Le+Trappiste+Brugge" target="_blank" rel="noopener" aria-label="Le Trappiste：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>修道院啤酒</b></p>
+  <p class="food-feature">想把啤酒喝進老城地窖裡，可以選這間；想試修道院啤酒就問店員。</p>
+
+</li></ul>
+</section><section class="food-area" data-area="老城・Simon Stevinplein" data-short="Simon Stevinplein" data-point="51.2065,3.22259">
+  <div class="food-area-head"><h3 tabindex="-1"><span class="food-folio" aria-label="街區 2">02</span>老城・Simon Stevinplein</h3><button type="button" data-back-to-map hidden>回地圖 ↑</button></div>
+  <p class="food-area-intro">另一個找淡菜的地方，也能買巧克力或鑽進小巷喝啤酒。</p><ul><li class="food-place" data-kind="喝一杯">
+  <div class="food-meta">喝一杯 <span class="food-pick">首選</span></div>
+  <div class="food-card-head"><h4>&#x27;t Brugs Beertje</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=t+Brugs+Beertje+Kemelstraat+5+Brugge" target="_blank" rel="noopener" aria-label="&#x27;t Brugs Beertje：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>比利時啤酒（約 300 款）</b></p>
+  <p class="food-feature">Kemelstraat 小巷裡的啤酒館；想慢慢看酒單、試不同風格的比利時啤酒，再把這裡留到晚上。</p>
+  <p class="food-tip"><b>到店前</b> 入口容易錯過</p>
+</li><li class="food-place" data-kind="點心">
+  <div class="food-meta">點心 <span class="food-pick">首選</span></div>
+  <div class="food-card-head"><h4>The Chocolate Line</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=The+Chocolate+Line+Simon+Stevinplein+Brugge" target="_blank" rel="noopener" aria-label="The Chocolate Line：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>巧克力</b></p>
+  <p class="food-feature">走到 Simon Stevinplein 時可以挑巧克力，適合留作伴手禮。</p>
+
+</li><li class="food-place" data-kind="正餐">
+  <div class="food-meta">正餐 </div>
+  <div class="food-card-head"><h4>Poules Moules</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Poules+Moules+Brugge" target="_blank" rel="noopener" aria-label="Poules Moules：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>淡菜</b></p>
+  <p class="food-feature">若已走到 Simon Stevinplein 一帶，不用回 Burg 就有淡菜可吃。</p>
+  <p class="food-tip"><b>到店前</b> 熱門時可能排隊</p>
+</li></ul>
+</section><section class="food-area" data-area="老城・Hoogstraat" data-short="Hoogstraat" data-point="51.20944,3.22872">
+  <div class="food-area-head"><h3 tabindex="-1"><span class="food-folio" aria-label="街區 3">03</span>老城・Hoogstraat</h3><button type="button" data-back-to-map hidden>回地圖 ↑</button></div>
+  <p class="food-area-intro">從 Burg 往東，留一站給自家烘豆的手沖。</p><ul><li class="food-place" data-kind="咖啡">
+  <div class="food-meta">咖啡 </div>
+  <div class="food-card-head"><h4>DEES Specialty Coffee</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Dees+Koffiebranders+Hoogstraat+33+Brugge" target="_blank" rel="noopener" aria-label="DEES Specialty Coffee：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>手沖、義式咖啡</b></p>
+  <p class="food-feature">從 Burg 往 Hoogstraat 走，想喝手沖可以請店員依口味推薦自家烘的豆。</p>
+  <p class="food-tip"><b>到店前</b> 營業時間以店家公告為準</p>
+</li></ul>
+</section><section class="food-area" data-area="老城・Begijnhof" data-short="Begijnhof" data-point="51.20135,3.22288">
+  <div class="food-area-head"><h3 tabindex="-1"><span class="food-folio" aria-label="街區 4">04</span>老城・Begijnhof</h3><button type="button" data-back-to-map hidden>回地圖 ↑</button></div>
+  <p class="food-area-intro">逛到老城南邊，可順路試一杯酒廠的 Brugse Zot。</p><ul><li class="food-place" data-kind="喝一杯">
+  <div class="food-meta">喝一杯 </div>
+  <div class="food-card-head"><h4>De Halve Maan</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=De+Halve+Maan+Brugge" target="_blank" rel="noopener" aria-label="De Halve Maan：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>Brugse Zot</b></p>
+  <p class="food-feature">走到 Begijnhof 一帶，想試本地酒廠的啤酒，可以先點 Brugse Zot。</p>
+
+</li></ul>
+</section>
+      <details class="food-special"><summary>認識當地菜色</summary><ul><li><b>淡菜鍋</b> <i>Mosselen</i> — 一鍋約 1.2 公斤附薯條，兩人一鍋就夠。</li><li><b>啤酒燉牛肉</b> <i>Stoofvlees</i> — 深色啤酒慢燉，醬汁沾薯條。</li><li><b>薯條</b> <i>Frieten</i> — 鐘樓前的綠色薯條車是城市象徵。</li><li><b>巧克力</b> <i>Pralines</i> — 比利時夾心巧克力，去哪買見下方 The Chocolate Line。</li></ul>
+<a href="index.html#g-bru">看旅行手冊裡的菜色照片 ↗</a></details>
+    </div>
+  </div>
+</section><section class="food-city" id="city-bxl" data-panel="bxl">
+  <header class="food-city-lead">
+    <div class="food-city-copy">
+      <p class="food-local">Bruxelles</p>
+      <h2>布魯塞爾</h2>
+      <p class="food-lead-line">半日停留，先海鮮再點心</p>
+      <p class="food-lead-intro">想吃鹹的，先到 Sainte-Catherine 站著吃海鮮；逛到大廣場買薯條或香料餅乾。快到搭車時間，就把咖啡留在中央車站旁。</p>
+      <div class="food-ideas" hidden><span>想吃</span><button type="button" data-food-idea="蝦可樂餅">蝦可樂餅</button><button type="button" data-food-idea="薯條">薯條</button><button type="button" data-food-idea="咖啡">咖啡</button></div>
+    </div>
+    <figure class="photo food-city-photo" style="--focus:37% 50%"><img src="assets/img/bxl/grand-place-640.webp" srcset="assets/img/bxl/grand-place-640.webp 640w, assets/img/bxl/grand-place-1280.webp 1280w, assets/img/bxl/grand-place-1920.webp 1920w" sizes="(max-width: 620px) 31vw, 420px" width="640" height="437" alt="藍天暮色下，布魯塞爾大廣場的市政廳尖塔與公會建築" loading="lazy" decoding="async"><figcaption>布魯塞爾 Grand-Place｜市政廳尖塔立在暮色裡。</figcaption></figure>
+  </header>
+  <div class="food-filter-slot"></div>
+  <div class="food-spread">
+    <aside class="food-map-slot" aria-label="街區導覽" hidden></aside>
+    <div class="food-results">
+      <header class="food-results-head"><b>店家清單</b><span data-results-context>布魯塞爾</span></header>
+      <p class="food-empty" hidden>這裡沒有符合的選擇，試試換個街區、餐別或關鍵字。</p>
+      <section class="food-area" data-area="Sainte-Catherine" data-short="Sainte-Catherine" data-point="50.85073,4.34769">
+  <div class="food-area-head"><h3 tabindex="-1"><span class="food-folio" aria-label="街區 1">01</span>Sainte-Catherine</h3><button type="button" data-back-to-map hidden>回地圖 ↑</button></div>
+  <p class="food-area-intro">想吃一頓快的，站著分吃蝦可樂餅和海鮮。</p><ul><li class="food-place" data-kind="正餐">
+  <div class="food-meta">正餐 <span class="food-pick">首選</span></div>
+  <div class="food-card-head"><h4>Noordzee／Mer du Nord</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Noordzee+Mer+du+Nord+Brussels" target="_blank" rel="noopener" aria-label="Noordzee／Mer du Nord：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>蝦可樂餅、生蠔、竹蟶</b></p>
+  <p class="food-feature">站著吃的海鮮攤，適合兩人分著點蝦可樂餅、生蠔和竹蟶，吃完接著逛。</p>
+  <p class="food-tip"><b>到店前</b> 午餐尖峰人多</p>
+</li></ul>
+</section><section class="food-area" data-area="老城・大廣場" data-short="大廣場" data-point="50.84673,4.35241">
+  <div class="food-area-head"><h3 tabindex="-1"><span class="food-folio" aria-label="街區 2">02</span>老城・大廣場</h3><button type="button" data-back-to-map hidden>回地圖 ↑</button></div>
+  <p class="food-area-intro">薯條、香料餅乾、咖啡，或一杯櫻桃啤酒。</p><ul><li class="food-place" data-kind="點心">
+  <div class="food-meta">點心 </div>
+  <div class="food-card-head"><h4>Fritland</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Fritland+Brussels" target="_blank" rel="noopener" aria-label="Fritland：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>薯條</b></p>
+  <p class="food-feature">逛完大廣場想買一份比利時薯條，不必為了點心另外繞路。</p>
+
+</li><li class="food-place" data-kind="點心">
+  <div class="food-meta">點心 </div>
+  <div class="food-card-head"><h4>Maison Dandoy</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Maison+Dandoy+Grand+Place+Brussels" target="_blank" rel="noopener" aria-label="Maison Dandoy：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>焦糖餅乾 speculoos</b></p>
+  <p class="food-feature">買的是 speculoos 香料餅乾，適合帶走；想吃現烤鬆餅可以另外選。</p>
+
+</li><li class="food-place" data-kind="咖啡">
+  <div class="food-meta">咖啡 </div>
+  <div class="food-card-head"><h4>Corica</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Corica+Rue+du+Marche+aux+Poulets+Brussels" target="_blank" rel="noopener" aria-label="Corica：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>咖啡豆、義式咖啡</b></p>
+  <p class="food-feature">老烘豆店，適合站著快速喝一杯義式咖啡；想把味道帶回家也可買豆。</p>
+
+</li><li class="food-place" data-kind="喝一杯">
+  <div class="food-meta">喝一杯 </div>
+  <div class="food-card-head"><h4>À La Mort Subite</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=A+La+Mort+Subite+Brussels" target="_blank" rel="noopener" aria-label="À La Mort Subite：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>kriek</b></p>
+  <p class="food-feature">想在老酒館喝帶櫻桃味的比利時啤酒，可以點 kriek。</p>
+
+</li></ul>
+</section><section class="food-area" data-area="中央車站" data-short="中央車站" data-point="50.84546,4.35699">
+  <div class="food-area-head"><h3 tabindex="-1"><span class="food-folio" aria-label="街區 3">03</span>中央車站</h3><button type="button" data-back-to-map hidden>回地圖 ↑</button></div>
+  <p class="food-area-intro">離搭車還有空檔，再找咖啡和肉桂捲。</p><ul><li class="food-place" data-kind="咖啡">
+  <div class="food-meta">咖啡 <span class="food-pick">首選</span></div>
+  <div class="food-card-head"><h4>BARKBOY（Cantersteen 分店）</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Barkboy+Cantersteen+55+Brussels" target="_blank" rel="noopener" aria-label="BARKBOY（Cantersteen 分店）：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>咖啡、抹茶拿鐵、肉桂捲</b></p>
+  <p class="food-feature">靠近中央車站。離上車還有時間，適合用抹茶拿鐵或肉桂捲收尾。</p>
+  <p class="food-tip"><b>到店前</b> 趕車時留意等候</p>
+</li></ul>
+</section><section class="food-area" data-area="Bourse・交易所" data-short="Bourse" data-point="50.84793,4.34909">
+  <div class="food-area-head"><h3 tabindex="-1"><span class="food-folio" aria-label="街區 4">04</span>Bourse・交易所</h3><button type="button" data-back-to-map hidden>回地圖 ↑</button></div>
+  <p class="food-area-intro">有留到晚上，才把比利時家常菜安排進去。</p><ul><li class="food-place" data-kind="正餐">
+  <div class="food-meta">正餐 </div>
+  <div class="food-card-head"><h4>Fin de Siècle</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Fin+de+Siecle+Brussels" target="_blank" rel="noopener" aria-label="Fin de Siècle：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>燉牛肉、stoemp</b></p>
+  <p class="food-feature">要留時間坐下吃的比利時家常菜；stoemp 是蔬菜拌進馬鈴薯泥的配菜。</p>
+  <p class="food-tip"><b>到店前</b> 原行程只停半天；有留到晚餐再考慮</p>
+</li></ul>
+</section>
+      <details class="food-special"><summary>認識當地菜色</summary><ul><li><b>薯條</b> <i>Frites</i> — 炸兩次，醬料試試 andalouse。</li><li><b>Kriek</b> <i>櫻桃啤酒</i> — 酸甜的布魯塞爾特產。</li><li><b>鬆餅</b> <i>Gaufre</i> — 長方形是布魯塞爾式，圓形有珍珠糖的是列日式。</li></ul>
+<a href="index.html#g-bxl">看旅行手冊裡的菜色照片 ↗</a></details>
+    </div>
+  </div>
+</section><section class="food-city" id="city-kol" data-panel="kol">
+  <header class="food-city-lead">
+    <div class="food-city-copy">
+      <p class="food-local">Köln</p>
+      <h2>科隆</h2>
+      <p class="food-lead-line">分清楚兩種豬腳，再喝一杯 Kölsch</p>
+      <p class="food-lead-intro">Friesenstraße 找烤豬腳；大教堂旁試水煮的 Hämchen。晚上把胃留給聖誕市集的馬鈴薯煎餅和熱紅酒。</p>
+      <div class="food-ideas" hidden><span>想吃</span><button type="button" data-food-idea="豬腳">豬腳</button><button type="button" data-food-idea="Kölsch">Kölsch</button><button type="button" data-food-idea="馬鈴薯煎餅">馬鈴薯煎餅</button></div>
+    </div>
+    <figure class="photo food-city-photo" style="--focus:43% 48%"><img src="assets/img/kol/rhine-bridge-640.webp" srcset="assets/img/kol/rhine-bridge-640.webp 640w, assets/img/kol/rhine-bridge-1280.webp 1280w, assets/img/kol/rhine-bridge-1920.webp 1920w" sizes="(max-width: 620px) 31vw, 420px" width="640" height="427" alt="隔著萊茵河望向點亮的科隆大教堂與霍亨索倫橋" loading="lazy" decoding="async"><figcaption>科隆｜從萊茵河東岸看大教堂與霍亨索倫橋。</figcaption></figure>
+  </header>
+  <div class="food-filter-slot"></div>
+  <div class="food-spread">
+    <aside class="food-map-slot" aria-label="街區導覽" hidden></aside>
+    <div class="food-results">
+      <header class="food-results-head"><b>店家清單</b><span data-results-context>科隆</span></header>
+      <p class="food-empty" hidden>這裡沒有符合的選擇，試試換個街區、餐別或關鍵字。</p>
+      <section class="food-area" data-area="比利時區・Friesenstraße" data-short="Friesenstraße" data-point="50.94094,6.94447">
+  <div class="food-area-head"><h3 tabindex="-1"><span class="food-folio" aria-label="街區 1">01</span>比利時區・Friesenstraße</h3><button type="button" data-back-to-map hidden>回地圖 ↑</button></div>
+  <p class="food-area-intro">這一站吃烤豬腳，或點起司黑麥麵包配 Kölsch。</p><ul><li class="food-place" data-kind="正餐">
+  <div class="food-meta">正餐 <span class="food-pick">首選</span></div>
+  <div class="food-card-head"><h4>Päffgen</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Brauhaus+Paeffgen+Friesenstrasse+Koeln" target="_blank" rel="noopener" aria-label="Päffgen：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>烤啤酒豬腳 Bierhaxe、Halven Hahn</b></p>
+  <p class="food-feature">這裡的豬腳走烤的路線；想少點一點，可以點 Halve Hahn（黑麥麵包配起司）配 Kölsch。</p>
+  <p class="food-tip"><b>到店前</b> 只接受電話訂位</p>
+</li></ul>
+</section><section class="food-area" data-area="Rudolfplatz" data-short="Rudolfplatz" data-point="50.93667,6.93989">
+  <div class="food-area-head"><h3 tabindex="-1"><span class="food-folio" aria-label="街區 2">02</span>Rudolfplatz</h3><button type="button" data-back-to-map hidden>回地圖 ↑</button></div>
+  <p class="food-area-intro">逛市集時找一份現煎馬鈴薯餅。</p><ul><li class="food-place" data-kind="市集">
+  <div class="food-meta">市集 </div>
+  <div class="food-card-head"><h4>Rudolfplatz 聖誕市集</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Rudolfplatz+Weihnachtsmarkt+Koeln" target="_blank" rel="noopener" aria-label="Rudolfplatz 聖誕市集：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>馬鈴薯煎餅</b></p>
+  <p class="food-feature">剛好走到 Rudolfplatz 時，先找現煎的馬鈴薯餅；正餐還留得下胃口。</p>
+  <p class="food-tip"><b>到店前</b> 市集日期以官方公告為準</p>
+</li></ul>
+</section><section class="food-area" data-area="大教堂・老城" data-short="大教堂・老城" data-point="50.9413,6.95814">
+  <div class="food-area-head"><h3 tabindex="-1"><span class="food-folio" aria-label="街區 3">03</span>大教堂・老城</h3><button type="button" data-back-to-map hidden>回地圖 ↑</button></div>
+  <p class="food-area-intro">午餐試水煮豬腳，晚上到市集分吃熱食。</p><ul><li class="food-place" data-kind="正餐">
+  <div class="food-meta">正餐 <span class="food-pick">首選</span></div>
+  <div class="food-card-head"><h4>Brauhaus FRÜH am Dom</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Frueh+am+Dom+Koeln" target="_blank" rel="noopener" aria-label="Brauhaus FRÜH am Dom：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>酸菜燉豬腳 Hämchen、天與地</b></p>
+  <p class="food-feature">和 Päffgen 的烤豬腳不同，這家適合試水煮豬腳 Hämchen；就在大教堂旁。</p>
+  <p class="food-tip"><b>到店前</b> 觀光客較多</p>
+</li><li class="food-place" data-kind="市集">
+  <div class="food-meta">市集 <span class="food-pick">首選</span></div>
+  <div class="food-card-head"><h4>大教堂前＋Heinzels 聖誕市集</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Weihnachtsmarkt+am+K%C3%B6lner+Dom" target="_blank" rel="noopener" aria-label="大教堂前＋Heinzels 聖誕市集：大教堂前 Google Maps">大教堂前 <span aria-hidden="true">↗</span></a><a href="https://www.google.com/maps/search/?api=1&amp;query=Heumarkt+Koeln" target="_blank" rel="noopener" aria-label="大教堂前＋Heinzels 聖誕市集：Heinzels Google Maps">Heinzels <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>馬鈴薯煎餅、蘑菇、香腸、熱紅酒</b></p>
+  <p class="food-feature">不想坐下吃整套晚餐，就在市集分著買煎餅、蘑菇和香腸，再來一杯熱紅酒。</p>
+  <p class="food-tip"><b>到店前</b> 熱紅酒杯通常有押金</p>
+</li><li class="food-place" data-kind="喝一杯">
+  <div class="food-meta">喝一杯 </div>
+  <div class="food-card-head"><h4>Gaffel am Dom</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Gaffel+am+Dom+Koeln" target="_blank" rel="noopener" aria-label="Gaffel am Dom：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>Kölsch、天與地</b></p>
+  <p class="food-feature">想體驗大教堂旁熱鬧的大型啤酒屋，可以點 Kölsch 配天與地。</p>
+
+</li><li class="food-place" data-kind="喝一杯">
+  <div class="food-meta">喝一杯 </div>
+  <div class="food-card-head"><h4>Peters Brauhaus</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Peters+Brauhaus+Koeln" target="_blank" rel="noopener" aria-label="Peters Brauhaus：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>Kölsch</b></p>
+  <p class="food-feature">如果想看老派啤酒屋的內裝，這裡比追一款指定啤酒更值得安排。</p>
+
+</li></ul>
+</section><section class="food-area" data-area="Heumarkt" data-short="Heumarkt" data-point="50.935,6.96138">
+  <div class="food-area-head"><h3 tabindex="-1"><span class="food-folio" aria-label="街區 4">04</span>Heumarkt</h3><button type="button" data-back-to-map hidden>回地圖 ↑</button></div>
+  <p class="food-area-intro">想換醋燜牛肉，往這一帶找啤酒屋。</p><ul><li class="food-place" data-kind="正餐">
+  <div class="food-meta">正餐 </div>
+  <div class="food-card-head"><h4>Brauerei zur Malzmühle</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Brauerei+zur+Malzmuehle+Koeln" target="_blank" rel="noopener" aria-label="Brauerei zur Malzmühle：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>醋燜牛肉、Hämchen</b></p>
+  <p class="food-feature">在 Heumarkt 一帶想換醋燜牛肉，或想避開大教堂旁的熱鬧啤酒屋，可以看這家。</p>
+  <p class="food-tip"><b>到店前</b> 付款方式以現場為準</p>
+</li></ul>
+</section><section class="food-area" data-area="比利時區・Stadtgarten" data-short="Stadtgarten" data-point="50.94299,6.93516">
+  <div class="food-area-head"><h3 tabindex="-1"><span class="food-folio" aria-label="街區 5">05</span>比利時區・Stadtgarten</h3><button type="button" data-back-to-map hidden>回地圖 ↑</button></div>
+  <p class="food-area-intro">已在比利時區時，順路逛另一座聖誕市集。</p><ul><li class="food-place" data-kind="市集">
+  <div class="food-meta">市集 <span class="food-pick">首選</span></div>
+  <div class="food-card-head"><h4>Stadtgarten 市集</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Weihnachtsmarkt+Stadtgarten+Koeln" target="_blank" rel="noopener" aria-label="Stadtgarten 市集：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>獨立風聖誕市集</b></p>
+  <p class="food-feature">已在比利時區時，可以走到 Stadtgarten 看和大教堂前不同的市集氣氛。</p>
+
+</li></ul>
+</section><section class="food-area" data-area="Zülpicher Platz" data-short="Zülpicher Platz" data-point="50.93069,6.93995">
+  <div class="food-area-head"><h3 tabindex="-1"><span class="food-folio" aria-label="街區 6">06</span>Zülpicher Platz</h3><button type="button" data-back-to-map hidden>回地圖 ↑</button></div>
+  <p class="food-area-intro">如果今天想喝咖啡，留這一站。</p><ul><li class="food-place" data-kind="咖啡">
+  <div class="food-meta">咖啡 </div>
+  <div class="food-card-head"><h4>The Coffee Gang</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=The+Coffee+Gang+Koeln" target="_blank" rel="noopener" aria-label="The Coffee Gang：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>精品咖啡</b></p>
+  <p class="food-feature">從 Zülpicher Platz 一帶想找一站精品咖啡，可以把它和啤酒屋行程分開。</p>
+
+</li></ul>
+</section>
+      <details class="food-special"><summary>認識當地菜色</summary><ul><li><b>Kölsch</b> <i>0.2 L 小杯</i> — 科隆本地啤酒，喝法見「啤酒規矩」。</li><li><b>酸菜燉豬腳</b> <i>Hämchen</i> — 科隆是水煮的，軟嫩。</li><li><b>Halve Hahn</b> <i>「半隻雞」</i> — 其實是黑麥麵包配起司，沒有雞。</li><li><b>馬鈴薯煎餅</b> <i>Reibekuchen</i> — 市集必吃，配蘋果泥。</li></ul>
+<a href="index.html#g-kol">看旅行手冊裡的菜色照片 ↗</a></details>
+    </div>
+  </div>
+</section><section class="food-city" id="city-dus" data-panel="dus">
+  <header class="food-city-lead">
+    <div class="food-city-copy">
+      <p class="food-local">Düsseldorf</p>
+      <h2>杜塞道夫</h2>
+      <p class="food-lead-line">日本街吃拉麵，老城喝 Altbier</p>
+      <p class="food-lead-intro">拉麵先選湯底：想濃一點找雞白湯，想換口味看擔擔麵或蒜味味噌。從日本街走到老城，再決定只喝一杯還是配豬腳吃晚餐。</p>
+      <div class="food-ideas" hidden><span>想吃</span><button type="button" data-food-idea="拉麵">拉麵</button><button type="button" data-food-idea="雞白湯">雞白湯</button><button type="button" data-food-idea="Altbier">Altbier</button></div>
+    </div>
+    <figure class="photo food-city-photo" style="--focus:50% 50%"><img src="assets/img/dus/medienhafen-640.webp" srcset="assets/img/dus/medienhafen-640.webp 640w, assets/img/dus/medienhafen-1280.webp 1280w, assets/img/dus/medienhafen-1920.webp 1920w" sizes="(max-width: 620px) 31vw, 420px" width="640" height="480" alt="杜塞道夫媒體港的白色曲面建築與停泊船隻" loading="lazy" decoding="async"><figcaption>杜塞道夫 MedienHafen｜碼頭邊的白色建築各有不同的曲線。</figcaption></figure>
+  </header>
+  <div class="food-filter-slot"></div>
+  <div class="food-spread">
+    <aside class="food-map-slot" aria-label="街區導覽" hidden></aside>
+    <div class="food-results">
+      <header class="food-results-head"><b>店家清單</b><span data-results-context>杜塞道夫</span></header>
+      <p class="food-empty" hidden>這裡沒有符合的選擇，試試換個街區、餐別或關鍵字。</p>
+      <section class="food-area" data-area="Little Tokyo・日本街" data-short="日本街" data-point="51.22499,6.78548">
+  <div class="food-area-head"><h3 tabindex="-1"><span class="food-folio" aria-label="街區 1">01</span>Little Tokyo・日本街</h3><button type="button" data-back-to-map hidden>回地圖 ↑</button></div>
+  <p class="food-area-intro">比拉麵湯底、吃鯛魚燒，也有老牌 Altbier 酒廠。</p><ul><li class="food-place" data-kind="正餐">
+  <div class="food-meta">正餐 <span class="food-pick">首選</span></div>
+  <div class="food-card-head"><h4>Takumi</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Takumi+Immermannstrasse+28+Duesseldorf" target="_blank" rel="noopener" aria-label="Takumi：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>拉麵</b></p>
+  <p class="food-feature">日本街的拉麵站；店面小，想少等就避開午餐尖峰。</p>
+
+</li><li class="food-place" data-kind="正餐">
+  <div class="food-meta">正餐 </div>
+  <div class="food-card-head"><h4>Naniwa Noodles &amp; Soups</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Naniwa+Noodles+%26+Soups+Oststra%C3%9Fe+55+D%C3%BCsseldorf" target="_blank" rel="noopener" aria-label="Naniwa Noodles &amp; Soups：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>擔擔麵、蒜味味噌</b></p>
+  <p class="food-feature">日本街的老牌拉麵店。有人想吃擔擔麵、有人想喝蒜味味噌湯時，可以一起來。</p>
+
+</li><li class="food-place" data-kind="正餐">
+  <div class="food-meta">正餐 </div>
+  <div class="food-card-head"><h4>Tokyo Ramen Takeichi</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Tokyo+Ramen+Takeichi+Duesseldorf" target="_blank" rel="noopener" aria-label="Tokyo Ramen Takeichi：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>濃厚雞白湯拉麵</b></p>
+  <p class="food-feature">和蒜味味噌不同，這家的重點是濃厚的雞白湯。</p>
+
+</li><li class="food-place" data-kind="點心">
+  <div class="food-meta">點心 </div>
+  <div class="food-card-head"><h4>Bing Go</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Bing+Go+Immermannstrasse+Duesseldorf" target="_blank" rel="noopener" aria-label="Bing Go：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>鯛魚燒</b></p>
+  <p class="food-feature">吃完拉麵還想要一口甜的，可以在日本街買鯛魚燒。</p>
+
+</li><li class="food-place" data-kind="喝一杯">
+  <div class="food-meta">喝一杯 </div>
+  <div class="food-card-head"><h4>Brauerei Schumacher</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Brauerei+Schumacher+Oststrasse+Duesseldorf" target="_blank" rel="noopener" aria-label="Brauerei Schumacher：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>Altbier</b></p>
+  <p class="food-feature">逛完日本街想先喝 Altbier，不用等走到老城才找；這家就在 Oststraße。</p>
+
+</li></ul>
+</section><section class="food-area" data-area="Altstadt・老城" data-short="Altstadt" data-point="51.22585,6.77223">
+  <div class="food-area-head"><h3 tabindex="-1"><span class="food-folio" aria-label="街區 2">02</span>Altstadt・老城</h3><button type="button" data-back-to-map hidden>回地圖 ↑</button></div>
+  <p class="food-area-intro">在這裡選一杯 Altbier、小杯草本酒，或坐下吃烤豬腳。</p><ul><li class="food-place" data-kind="正餐">
+  <div class="food-meta">正餐 <span class="food-pick">首選</span></div>
+  <div class="food-card-head"><h4>Brauerei im Füchschen</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Brauerei+im+Fuechschen+Duesseldorf" target="_blank" rel="noopener" aria-label="Brauerei im Füchschen：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>烤豬腳、醋燜牛肉</b></p>
+  <p class="food-feature">想在同一家啤酒屋喝 Altbier 又吃正餐，點烤豬腳或醋燜牛肉。</p>
+  <p class="food-tip"><b>到店前</b> 不接受訂位</p>
+</li><li class="food-place" data-kind="喝一杯">
+  <div class="food-meta">喝一杯 </div>
+  <div class="food-card-head"><h4>Zum Uerige</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Zum+Uerige+Duesseldorf" target="_blank" rel="noopener" aria-label="Zum Uerige：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>Altbier</b></p>
+  <p class="food-feature">老城想專心喝一杯 Altbier，先去這家；需要吃飽的話，把正餐留給別處。</p>
+  <p class="food-tip"><b>到店前</b> 正餐可另找店家</p>
+</li><li class="food-place" data-kind="喝一杯">
+  <div class="food-meta">喝一杯 </div>
+  <div class="food-card-head"><h4>Et Kabüffke</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Et+Kabueffke+Duesseldorf" target="_blank" rel="noopener" aria-label="Et Kabüffke：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>Killepitsch</b></p>
+  <p class="food-feature">小酒吧以站飲為主；想試杜塞道夫的草本酒，點小杯 Killepitsch。</p>
+
+</li><li class="food-place" data-kind="咖啡">
+  <div class="food-meta">咖啡 </div>
+  <div class="food-card-head"><h4>Rösterei VIER</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Roesterei+VIER+Marktplatz+Duesseldorf" target="_blank" rel="noopener" aria-label="Rösterei VIER：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>咖啡</b></p>
+  <p class="food-feature">已在老城 Marktplatz，想先喝咖啡再開始逛啤酒屋，可以從這裡開始。</p>
+
+</li></ul>
+</section>
+      <details class="food-special"><summary>認識當地菜色</summary><ul><li><b>Altbier</b> <i>0.25 L</i> — 深琥珀色、麥香重。</li><li><b>Killepitsch</b> <i>草本利口酒</i> — 老城的小杯烈酒，站著一口乾。</li><li><b>烤豬腳</b> <i>Schweinshaxe</i> — 外皮酥脆，跟科隆的水煮版對照。</li></ul>
+<a href="index.html#g-dus">看旅行手冊裡的菜色照片 ↗</a></details>
+    </div>
+  </div>
+</section><section class="food-city" id="city-haa" data-panel="haa">
+  <header class="food-city-lead">
+    <div class="food-city-copy">
+      <p class="food-local">Haarlem</p>
+      <h2>哈倫</h2>
+      <p class="food-lead-line">在老城的教堂酒廠吃午餐</p>
+      <p class="food-lead-intro">這裡留一站給 Jopenkerk：坐下吃午餐，想喝酒就順便試一杯哈倫的精釀。</p>
+      <div class="food-ideas" hidden><span>想吃</span><button type="button" data-food-idea="精釀">精釀</button></div>
+    </div>
+    <figure class="photo food-city-photo" style="--focus:58% 48%"><img src="assets/img/haa/spaarne-640.webp" srcset="assets/img/haa/spaarne-640.webp 640w, assets/img/haa/spaarne-1280.webp 1280w, assets/img/haa/spaarne-1920.webp 1920w" sizes="(max-width: 620px) 31vw, 420px" width="640" height="480" alt="哈倫斯帕訥河畔的泰勒斯博物館與遠處的聖巴沃教堂" loading="lazy" decoding="async"><figcaption>哈倫 Spaarne｜沿著河走，會遇到泰勒斯博物館。</figcaption></figure>
+  </header>
+  <div class="food-filter-slot"></div>
+  <div class="food-spread">
+    <aside class="food-map-slot" aria-label="街區導覽" hidden></aside>
+    <div class="food-results">
+      <header class="food-results-head"><b>店家清單</b><span data-results-context>哈倫</span></header>
+      <p class="food-empty" hidden>這裡沒有符合的選擇，試試換個街區、餐別或關鍵字。</p>
+      <section class="food-area" data-area="老城・Raaks" data-short="Raaks" data-point="52.38206,4.6306">
+  <div class="food-area-head"><h3 tabindex="-1"><span class="food-folio" aria-label="街區 1">01</span>老城・Raaks</h3><button type="button" data-back-to-map hidden>回地圖 ↑</button></div>
+  <p class="food-area-intro">到 Jopenkerk 吃午餐，把教堂酒廠也一起逛了。</p><ul><li class="food-place" data-kind="正餐">
+  <div class="food-meta">正餐 </div>
+  <div class="food-card-head"><h4>Jopenkerk</h4><div class="food-maps"><a href="https://www.google.com/maps/search/?api=1&amp;query=Jopenkerk+Haarlem" target="_blank" rel="noopener" aria-label="Jopenkerk：地圖 Google Maps">地圖 <span aria-hidden="true">↗</span></a></div></div>
+  <p class="food-order"><span>可以點</span> <b>精釀</b></p>
+  <p class="food-feature">把教堂改成酒廠的地方。想坐下吃午餐、順便喝哈倫釀的啤酒，可以排這一站。</p>
+
+</li></ul>
+</section>
+
+    </div>
+  </div>
 </section>
 </main>
-<footer class="wrap food-footer">整理自旅伴的美食清單與手冊選店。菜單、營業時間和訂位方式以店家公告為準。</footer>
-<script src="src/food-map.js" defer></script>
-<script src="src/food.js" defer></script>
+<footer class="wrap food-footer">整理自旅伴的美食清單與手冊選店。菜單、營業時間和訂位方式以店家公告為準。<a href="index.html#photo-credits">照片來源與授權</a></footer>
+<script src="src/food-map.js?v=field-guide" defer></script>
+<script src="src/food.js?v=field-guide" defer></script>
 </body></html>

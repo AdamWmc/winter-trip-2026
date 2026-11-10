@@ -764,7 +764,7 @@ def body():
 </main>
 
 <footer class="wrap"><p>營業時間、票價和車次查於 2026 年 11 月，出發前一週請再用 Google Maps 或官網確認一次。★ 評分來自 Google 地圖，推薦參考旅遊指南、評論網站和 Threads。</p>
-<details class="photo-credits"><summary>照片來源與授權</summary><p>照片用於介紹地點與料理。料理圖片不一定拍自推薦店家；照片已轉檔及縮放，顯示時可能裁切。改作沿用各照片的原授權。</p><ul>{credits()}</ul></details>
+<details class="photo-credits" id="photo-credits"><summary>照片來源與授權</summary><p>照片用於介紹地點與料理。料理圖片不一定拍自推薦店家；照片已轉檔及縮放，顯示時可能裁切。改作沿用各照片的原授權。</p><ul>{credits()}</ul></details>
 </footer>
 {JS}'''
 
@@ -782,7 +782,7 @@ def build(artifact_path, site_path, food_path=None):
     food = None
     if food_path is not None:
         food_css = (ROOT / "src/food.css").read_text(encoding="utf-8")
-        food_body = "\n".join(line.rstrip() for line in dining.page(esc, q).splitlines())
+        food_body = "\n".join(line.rstrip() for line in dining.page(esc, q, photo).splitlines())
         food = ('<!doctype html>\n<html lang="zh-Hant"><head><meta charset="utf-8">\n'
                 '<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">\n'
                 '<meta name="robots" content="noindex, nofollow">\n'
