@@ -579,7 +579,7 @@ JS = r"""
   count();
   // Track sections and dates from the same reading line just below the sticky bars.
   var navLinks={}, chips={}, queued=false, activeNav=null, activeDate=null;
-  document.querySelectorAll('.nav li a').forEach(function(a){navLinks[a.hash.slice(1)||'guides']=a;});
+  document.querySelectorAll('.nav li a').forEach(function(a){if(a.hash || a.getAttribute('href')==='food.html')navLinks[a.hash.slice(1)||'guides']=a;});
   document.querySelectorAll('.dchip').forEach(function(a){chips[a.dataset.day]=a;});
   var sections=Array.from(document.querySelectorAll('.block, #guides, .chapter, .guide'));
   var dates=Array.from(document.querySelectorAll('.chapter, .day, .guide'));
@@ -649,6 +649,7 @@ def body():
       <li><a href="#stays">住宿</a></li>
       <li><a href="#todo">出發前</a></li>
       <li><a href="#info">須知</a></li>
+      <li><a href="tickets.html">票夾</a></li>
     </ul>
     <a class="today" id="todayBtn" href="#days" hidden>今天</a>
   </div>

@@ -1,0 +1,20 @@
+:root { color-scheme: light dark; --paper: #f7f4ec; --ink: #172435; --rule: #c9bda9; --muted: #4d5967; }
+@media (prefers-color-scheme: dark) {
+  :root { --paper: #172435; --ink: #f7f4ec; --rule: #677480; --muted: #c3c9cd; }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--paper); color: var(--ink); font: 16px/1.6 system-ui, sans-serif; }
+main { max-width: 40rem; padding: 2rem 1.25rem 4rem; margin: auto; }
+h1, h2 { font-family: Georgia, "Noto Serif TC", serif; line-height: 1.25; }
+h1 { font-size: clamp(2rem, 8vw, 3.5rem); }
+h2 { margin: .2rem 0; }
+a { color: inherit; }
+label { display: block; }
+input, button, .ticket-link { min-height: 44px; font: inherit; }
+input, button { padding: .5rem .75rem; border: 1px solid var(--rule); border-radius: 4px; }
+input { color: var(--ink); background: var(--paper); width: min(100%, 24rem); margin: .4rem .4rem .4rem 0; }
+button { color: var(--paper); background: var(--ink); cursor: pointer; }
+article { border-top: 1px solid var(--rule); padding-block: 1rem; }
+article p { color: var(--muted); margin: .2rem 0 .5rem; }
+.ticket-link { display: inline-flex; align-items: center; padding: .35rem .55rem; }
+.ticket-actions { display: flex; flex-wrap: wrap; gap: .25rem; }
