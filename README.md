@@ -1,6 +1,6 @@
 # 荷比德冬季旅行手冊
 
-`python3 src/build.py` 以標準函式庫產生 GitHub Pages 使用的 `index.html` 和 `food.html`，寫入前會檢查公開版隱私規則。不要手改產出檔。
+`python3 src/build.py` 以標準函式庫產生 GitHub Pages 使用的 `index.html`、`food.html` 和 `activities.html`，寫入前會檢查公開版隱私規則。不要手改產出檔。
 
 本機預覽：
 

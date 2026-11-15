@@ -776,3 +776,43 @@ FOOD_AREA_GUIDE = {
     },
     'haa': {'老城・Raaks': ('Raaks', '到 Jopenkerk 吃午餐，把教堂酒廠也一起逛了。')},
 }
+
+ACTIVITY_GUIDE = {
+    "title": "推薦活動",
+    "intro": "旅途中有半天空檔，可以選一個順路的體驗。最推薦布魯日啤酒廠、鹿特丹港口船和阿姆斯特丹燈光節散步。想保留彈性，先挑一個最想去的就好。",
+    "note": "價格以每人計，除非另有註明。以下是公開票價與營運資訊，指定日期的餘位及結帳價以訂票頁為準。",
+    "groups": [
+        ("優先推薦", [
+            ("布魯日", "De Halve Maan 啤酒廠", "€16 · 約 45 分鐘", "1214",
+             "12/14｜淡菜午餐後，聖誕市集前",
+             "走進仍在釀酒的酒廠，看不同年代的設備，最後喝一杯未過濾的在地啤酒。可以找 15:00 左右的英文場。路線有約 220 階，早上爬完鐘樓，可以看看大家的腿力。",
+             [("酒廠官網", "https://www.halvemaan.be/nl/bezoek/brouwerij"),
+              ("KKday 巧克力與啤酒工作坊備案", "https://www.kkday.com/zh-tw/product/842000")]),
+            ("鹿特丹", "Spido 港口遊船", "官網 €18.75 · 75 分鐘", "1212",
+             "12/12｜下午 14:00 或 15:30",
+             "從伊拉斯謨橋旁出發，看城市天際線和仍在作業的港區。上午可以慢慢逛，下午再到河邊。Klook 頁面顯示 €20.59，有優惠券可以比結帳價。",
+             [("Spido 官網", "https://www.spido.nl/en/cruises/rotterdam-highlights-harbour-tour"),
+              ("Klook 比價", "https://www.klook.com/nl/destination/c64752-rotterdam/1001-tours/")]),
+            ("阿姆斯特丹", "燈光節運河散步", "免費 · 官方導覽 App €7.99", "1207",
+             "12/7｜國家博物館後",
+             "沿運河看燈光作品。全線 4.5 公里，可以走一段再吃晚餐。每天 16:30–23:00 亮燈。天氣太冷時，有暖氣的室內遊船可以當備案。",
+             [("燈光節官網", "https://amsterdamlightfestival.com/en/dates-hours"),
+              ("Klook 遊船", "https://www.klook.com/activity/99132-amsterdam-light-festival-canal-cruise-trip/")]),
+        ]),
+        ("有空再加", [
+            ("烏特勒支", "DOMunder 地下考古", "€14.50", "1208",
+             "12/8｜逛主教堂廣場時",
+             "拿手電筒走進廣場地下的考古現場，看羅馬堡壘和中世紀遺跡。喜歡聽城市歷史的話，這站值得留時間。",
+             [("DOMunder 官網", "https://www.domunder.nl/bezoek/")]),
+            ("布魯塞爾", "Choco-Story 巧克力博物館", "€14–16 · 含語音導覽與試吃", "1215",
+             "12/15｜搭 16:22 ICE 前",
+             "離大廣場近，天冷或下雨可以在室內逛。想親手做巧克力，也能另外選工作坊。兩種活動挑一個，就有時間吃午餐和去車站。",
+             [("博物館官網", "https://www.choco-story-brussels.be/en/informations"),
+              ("KKday 手作巧克力", "https://www.kkday.com/zh-tw/product/842154")]),
+            ("科隆", "KölnTriangle 觀景台", "€5", "1216",
+             "12/16｜傍晚走過霍亨索倫橋",
+             "從萊茵河對岸把整座大教堂、鐵橋和河景看進去。已在當天路線裡，能見度好時值得上樓。",
+             [("觀景台資訊", "https://pages.et4.de/de/hallo-tourist/streaming/detail/POI/p_100029324/cologne-view")]),
+        ]),
+    ],
+}
