@@ -4,7 +4,7 @@ import sys, html, re, urllib.parse, math, os, json
 from pathlib import Path
 import dining
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from booklet_data import CITIES, DAYS, GUIDES, TRAINS, LINKS, STAYS, BOOKINGS, CLOSED, BACKUPS, SOUVENIRS, CHAPTERS, DAY_PHOTOS, DISH_PHOTOS, PHOTO_TEXT, ACTIVITY_GUIDE
+from booklet_data import CITIES, DAYS, GUIDES, TRAINS, LINKS, STAYS, BOOKINGS, CLOSED, BACKUPS, SOUVENIRS, CHAPTERS, DAY_PHOTOS, DISH_PHOTOS, PHOTO_TEXT, ACTIVITY_GUIDE, SHOPPING_STOPS
 
 def esc(t): return html.escape(t, quote=True)
 def q(t): return "https://www.google.com/maps/search/?api=1&query=" + urllib.parse.quote_plus(t)
@@ -109,6 +109,24 @@ def photo(key, cls='', sizes='(min-width: 1100px) 450px, (min-width: 761px) 40vw
             f'width="{p["width"]}" height="{p["height"]}" alt="{esc(alt)}" {loading}>'
             f'<figcaption>{esc(caption)}</figcaption></figure>')
 
+def shopping_stops(day_id):
+    stops = SHOPPING_STOPS.get(day_id, ())
+    if not stops:
+        return ""
+    items = "".join(
+        f'<li><a href="{esc(q(query))}" target="_blank" rel="noopener">{esc(name)}</a><span>{esc(note)}</span></li>'
+        for name, note, query in stops
+    )
+    return f'<aside class="shopping-stops" aria-label="順路逛逛"><b>順路逛逛</b><ul>{items}</ul></aside>'
+
+
+def shopping_index():
+    return "".join(
+        f'<li><a href="#d{day["id"]}">{esc(day["date"])} {esc(CITIES[day["city"]]["name"])} · {esc(SHOPPING_STOPS[day["id"]][0][0])}</a></li>'
+        for day in DAYS if day["id"] in SHOPPING_STOPS
+    )
+
+
 def day_cards(ids):
     out = []
     for d in DAYS:
@@ -139,6 +157,7 @@ def day_cards(ids):
   <div class="day-body{' has-scene' if scene else ''}">
     <div class="day-plan">
     <ol class="tl">{"".join(lis)}</ol>
+    {shopping_stops(d["id"])}
     {fact}
     <div class="day-act">{rlink}<a class="nearby-food" href="food.html#city-{d["city"]}">附近吃喝 ↗</a></div>
     </div>
@@ -680,6 +699,7 @@ def body():
     </div>
     <p><a class="nearby-food" href="activities.html">看看推薦活動和票價 ↗</a></p>
     <details class="index-fold"><summary>十五天行程一覽</summary><div class="ovlist">{overview()}</div></details>
+    <details class="index-fold shopping-index"><summary>順路逛逛：超市、服飾與伴手禮</summary><ul>{shopping_index()}</ul></details>
     <section class="food-index" id="guides">
       <div class="block-head"><div class="kicker">Eat &amp; drink</div><h2>每座城市，該吃什麼</h2><p>每家店都對照過 Google 評分、旅遊指南和 Threads 上的心得才放進來。標了日期的，已經排進行程。</p></div>
       <p><a class="nearby-food" href="food.html">開啟吃喝清單：依城市、街區找店 ↗</a></p>

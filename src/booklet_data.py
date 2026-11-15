@@ -816,3 +816,37 @@ ACTIVITY_GUIDE = {
         ]),
     ],
 }
+
+# Optional stops near the day's planned route: name, what to look for, Maps query.
+SHOPPING_STOPS = {
+    "1205": (
+        ("Zeedijk・Patta", "荷蘭街頭品牌。看帽子、T 恤和球鞋，也可以順便試尺寸。", "Patta Zeedijk Amsterdam"),
+    ),
+    "1207": (
+        ("阿姆斯特丹・Run2Day", "想試跑鞋或補冬跑手套、跑襪，有空再逛跑步專門店。", "Run2Day Amsterdam"),
+    ),
+    "1211": (
+        ("Markthal・Albert Heijn", "看完市場直接補荷蘭零食。找焦糖煎餅 stroopwafels 和巧克力米 hagelslag。", "Albert Heijn Markthal Rotterdam"),
+    ),
+    "1213": (
+        ("球場・Club Brugge Shop", "想買看球紀念品，賽前看看藍黑圍巾，當天就能戴。", "Club Brugge Shop Jan Breydelstadion"),
+    ),
+    "1214": (
+        ("Simon Stevinplein・The Chocolate Line", "午餐後逛老城時，可以挑幾顆特別口味的巧克力或一盒送人。", "The Chocolate Line Brugge"),
+        ("布魯日老城・Bellerose", "想看比利時服飾，逛男女裝針織和外套。", "Bellerose Bruges"),
+    ),
+    "1215": (
+        ("大廣場附近・Maison Dandoy", "去車站前有空，可以買一包 speculoos 香料餅。超市看到 Côte d’Or 巧克力或 Lotus 餅乾也可以補。", "Maison Dandoy Grand Place Brussels"),
+    ),
+    "1216": (
+        ("Neumarkt・dm", "先找 Balea 護手霜、護唇膏和旅行裝，再看 dmBio 茶包或零食。", "dm Neumarkt 2-4 Köln"),
+        ("Neumarkt・Globetrotter", "跟 dm 一起逛。想找德國戶外品牌，可看 deuter 背包和 ORTLIEB 防水包。跑襪可認 FALKE RU4。", "Globetrotter Köln"),
+        ("Glockengasse・4711", "經過就進去試聞柑橘古龍水，喜歡再挑小瓶。超市可順便找冬季薑餅 Lebkuchen。", "4711 Haus Glockengasse Köln"),
+    ),
+    "1217": (
+        ("日本街・Immermannstraße", "吃拉麵前後，看到日本超市就進去逛。想翻雜誌、看文具或日文書，可去 Takagi。", "Takagi Buchhandlung Immermannstraße Düsseldorf"),
+    ),
+    "1218": (
+        ("哈倫市中心・Dille & Kamille", "逛老城時可以看茶巾、杯子和廚房小物，挑回家會用的。", "Dille & Kamille Haarlem"),
+    ),
+}
