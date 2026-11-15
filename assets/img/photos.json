@@ -524,5 +524,50 @@
     "format": "food",
     "width": 640,
     "height": 480
+  },
+  "shop-ah": {
+    "folder": "rtm",
+    "slug": "markthal-albert-heijn",
+    "focus": "50% 50%",
+    "title": "Markthal - Albert Heijn Supermarkt is OPEN sign, Rotterdam-Centrum, Rotterdam (2022) 01.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Markthal_-_Albert_Heijn_Supermarkt_is_OPEN_sign%2C_Rotterdam-Centrum%2C_Rotterdam_%282022%29_01.jpg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/7/7d/Markthal_-_Albert_Heijn_Supermarkt_is_OPEN_sign%2C_Rotterdam-Centrum%2C_Rotterdam_%282022%29_01.jpg",
+    "author": "Donald Trung Quoc Don (Chữ Hán: 徵國單)",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "crop": [
+      0,
+      0.05,
+      1,
+      0.73
+    ],
+    "width": 640,
+    "height": 773
+  },
+  "shop-chocolate-line": {
+    "folder": "bru",
+    "slug": "chocolate-line-shop",
+    "focus": "50% 50%",
+    "title": "The chocolate line.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:The_chocolate_line.jpg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/f/f9/The_chocolate_line.jpg",
+    "author": "Piet de Kersgieter",
+    "license": "CC BY 3.0",
+    "license_url": "https://creativecommons.org/licenses/by/3.0",
+    "width": 640,
+    "height": 427
+  },
+  "shop-4711": {
+    "folder": "kol",
+    "slug": "4711-glockengasse",
+    "focus": "50% 50%",
+    "title": "4711 Glockengasse Cologne.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:4711_Glockengasse_Cologne.jpg",
+    "download": "https://upload.wikimedia.org/wikipedia/commons/8/8a/4711_Glockengasse_Cologne.jpg",
+    "author": "© Raimond Spekking",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "width": 640,
+    "height": 711
   }
 }
