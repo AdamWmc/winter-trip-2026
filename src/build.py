@@ -4,7 +4,7 @@ import sys, html, re, urllib.parse, math, os, json
 from pathlib import Path
 import dining
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from booklet_data import CITIES, DAYS, GUIDES, TRAINS, LINKS, STAYS, BOOKINGS, CLOSED, BACKUPS, SOUVENIRS, CHAPTERS, DAY_PHOTOS, DISH_PHOTOS, PHOTO_TEXT
+from booklet_data import CITIES, DAYS, GUIDES, TRAINS, LINKS, STAYS, BOOKINGS, CLOSED, BACKUPS, SOUVENIRS, CHAPTERS, DAY_PHOTOS, DISH_PHOTOS, PHOTO_TEXT, ACTIVITY_GUIDE
 
 def esc(t): return html.escape(t, quote=True)
 def q(t): return "https://www.google.com/maps/search/?api=1&query=" + urllib.parse.quote_plus(t)
@@ -646,6 +646,7 @@ def body():
       <li><a href="#overview">總覽</a></li>
       <li><a href="#days">每日</a></li>
       <li><a href="food.html">吃喝</a></li>
+      <li><a href="activities.html">活動</a></li>
       <li><a href="#stays">住宿</a></li>
       <li><a href="#todo">出發前</a></li>
       <li><a href="#info">須知</a></li>
@@ -677,6 +678,7 @@ def body():
         </div>
       </aside>
     </div>
+    <p><a class="nearby-food" href="activities.html">看看推薦活動和票價 ↗</a></p>
     <details class="index-fold"><summary>十五天行程一覽</summary><div class="ovlist">{overview()}</div></details>
     <section class="food-index" id="guides">
       <div class="block-head"><div class="kicker">Eat &amp; drink</div><h2>每座城市，該吃什麼</h2><p>每家店都對照過 Google 評分、旅遊指南和 Threads 上的心得才放進來。標了日期的，已經排進行程。</p></div>
@@ -773,7 +775,47 @@ HEAD_LINKS = '<link rel="preload" href="assets/fonts/noto-serif-tc.woff2" as="fo
 FONTS_CSS = (ROOT / "src/fonts.css").read_text(encoding="utf-8")
 BOOK_CSS = (ROOT / "src/book.css").read_text(encoding="utf-8")
 
-def build(artifact_path, site_path, food_path=None):
+def activities_page():
+    guide = ACTIVITY_GUIDE
+    title = esc(guide["title"])
+    groups = []
+    for heading, activities in guide["groups"]:
+        rows = []
+        for city, name, price, day, timing, description, sources in activities:
+            links = "".join(f'<a href="{esc(url)}">{esc(label)}</a>' for label, url in sources)
+            rows.append(f'''<article class="activity-row">
+  <div class="activity-city">{esc(city)}</div>
+  <h3>{esc(name)}</h3>
+  <p class="activity-price">{esc(price)}</p>
+  <p>{esc(timing)}</p>
+  <p>{esc(description)}</p>
+  <div class="activity-links"><a href="index.html#d{esc(day)}">當天行程</a>{links}</div>
+</article>''')
+        groups.append(f'<section class="activity-group"><h2>{esc(heading)}</h2>{"".join(rows)}</section>')
+    styles = (ROOT / "src/activities.css").read_text(encoding="utf-8")
+    return f'''<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>{title}｜冬季旅行手冊</title>
+<style>{FONTS_CSS}{CSS}{BOOK_CSS}{styles}</style>
+</head>
+<body class="activity-body">
+<main class="wrap activity-page">
+  <nav class="activity-nav" aria-label="旅行手冊"><a href="index.html#overview">← 回旅行手冊</a><a href="food.html">吃喝指南</a></nav>
+  <h1>{title}</h1>
+  <p class="activity-intro">{esc(guide["intro"])}</p>
+  {"".join(groups)}
+  <p class="activity-note">{esc(guide["note"])}</p>
+</main>
+</body>
+</html>
+'''
+
+
+def build(artifact_path, site_path, food_path=None, activities_path=None):
     b = "\n".join(line.rstrip() for line in body().splitlines())
     artifact = (f'<title>荷比德冬季旅行手冊</title>\n<meta name="claude:viewport-fit-sides" content="cover">\n{HEAD_LINKS}\n<style>{FONTS_CSS}{CSS}{BOOK_CSS}</style>\n{b}\n')
     site = ('<!doctype html>\n<html lang="zh-Hant">\n<head>\n<meta charset="utf-8">\n'
@@ -790,14 +832,19 @@ def build(artifact_path, site_path, food_path=None):
                 '<meta name="theme-color" content="#111b2b">\n<title>這附近吃什麼？｜冬季旅行手冊</title>\n'
                 f'<style>{FONTS_CSS}{CSS}{BOOK_CSS}{food_css}</style>\n</head><body>\n'
                 f'{food_body}\n</body></html>\n')
+    activities = activities_page() if activities_path is not None else None
     check_privacy(site)
+    if activities is not None:
+        check_privacy(activities)
     if food is not None:
         check_privacy(food)
     Path(site_path).write_text(site, encoding="utf-8")
     Path(artifact_path).write_text(artifact, encoding="utf-8")
     if food is not None:
         Path(food_path).write_text(food, encoding="utf-8")
-    print("built", len(site), "food", len(food or ''))
+    if activities is not None:
+        Path(activities_path).write_text(activities, encoding="utf-8")
+    print("built", len(site), "food", len(food or ""), "activities", len(activities or ""))
 
 def check_privacy(page):
     # Public page: private terms are blocked by hash so this public source does not name them.
@@ -816,4 +863,5 @@ if __name__ == "__main__":
     site = sys.argv[1] if len(sys.argv) > 1 else os.path.join(root, "index.html")
     art = sys.argv[2] if len(sys.argv) > 2 else os.devnull
     food = os.path.join(root, "food.html") if len(sys.argv) == 1 else None
-    build(art, site, food)
+    activities = os.path.join(root, "activities.html") if len(sys.argv) == 1 else None
+    build(art, site, food, activities)
