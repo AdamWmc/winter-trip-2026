@@ -850,3 +850,30 @@ SHOPPING_STOPS = {
         ("哈倫市中心・Dille & Kamille", "逛老城時可以看茶巾、杯子和廚房小物，挑回家會用的。", "Dille & Kamille Haarlem"),
     ),
 }
+
+SHOPPING_GUIDE = (
+    ("nl", "荷蘭", (
+        ("1205", 0, "阿姆斯特丹", "從阿姆斯特丹起家的街頭服飾品牌。去 Zeedijk 的店，可以把帽子或 T 恤和鞋款一起搭著看。", "https://es.patta.nl/pages/stores/patta-amsterdam", None),
+        ("1207", 0, "阿姆斯特丹", "荷蘭跑步專門店。想知道鞋楦合不合腳，或想找適合冬天晨跑的配件，可以在這裡試。", "https://amsterdam.run2day.nl/winkel/", None),
+        ("1211", 0, "鹿特丹", "荷蘭連鎖超市。Markthal 店適合逛完市場順手買日常零食。", "https://markthal.nl/non-food/albert-heijn/", "shop-ah"),
+        ("1218", 0, "哈倫", "荷蘭家用品品牌。喜歡樸素耐看的餐桌小物，可以在店裡看材質和手感。", "https://www.dille-kamille.com/stores/haarlem/", None),
+    )),
+    ("be", "比利時", (
+        ("1213", 0, "布魯日", "球隊官方商店，除了球衣也有圍巾。球場和老城都有門市。", "https://shop.clubbrugge.be/pages/onze-winkels", None),
+        ("1214", 0, "布魯日", "布魯日巧克力師 Dominique Persoone 的品牌。逛到 Simon Stevinplein 時，可以從櫃裡挑幾顆口味試起。", "https://www.thechocolateline.be/en/p/locations", "shop-chocolate-line"),
+        ("1214", 1, "布魯日", "比利時服飾品牌。老城門市有男女裝，適合兩人一起看冬天的層次搭配。", "https://bellerose.com/pages/stores/bruges", None),
+        ("1215", 0, "布魯塞爾", "布魯塞爾老牌餅乾店。逛大廣場時，可以帶走一份有肉桂等香料風味的脆餅。", "https://maisondandoy.com/boutiques", None),
+    )),
+    ("de", "德國", (
+        ("1216", 0, "科隆", "德國連鎖藥妝。Neumarkt 的店適合補日用品。Balea、dmBio 和 Denkmit 都是 dm 自有品牌。", "https://www.dm.de/store/d13a/none", None),
+        ("1216", 1, "科隆", "德國戶外用品專門店。科隆門市就在 Neumarkt 一帶，適合現場比較背包容量、背負和防水設計。", "https://www.globetrotter.de/filialen/koeln/", None),
+        ("1216", 2, "科隆", "科隆古龍水老牌。Glockengasse 的本店有醒目的藍金色鐘樓，路過可以試聞經典柑橘香。", "https://4711.com/en/pages/faq", "shop-4711"),
+        ("1217", 0, "杜塞道夫", "中央車站旁的日本街。Takagi 是日文書店，吃完拉麵可以把書店和附近的日式超市一起逛。", "https://www.visitduesseldorf.de/attraktionen/takagi-buchhandlung-e7cd74e7c0", None),
+    )),
+)
+
+PHOTO_TEXT.update({
+    "shop-ah": ("鹿特丹 Markthal 的 Albert Heijn 指示牌", "Markthal 裡的 Albert Heijn 超市指示牌"),
+    "shop-chocolate-line": ("布魯日 The Chocolate Line 店面", "布魯日 The Chocolate Line"),
+    "shop-4711": ("科隆 Glockengasse 的 4711 本店外觀", "科隆 4711 本店"),
+})

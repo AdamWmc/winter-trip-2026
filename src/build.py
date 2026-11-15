@@ -4,7 +4,7 @@ import sys, html, re, urllib.parse, math, os, json
 from pathlib import Path
 import dining
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from booklet_data import CITIES, DAYS, GUIDES, TRAINS, LINKS, STAYS, BOOKINGS, CLOSED, BACKUPS, SOUVENIRS, CHAPTERS, DAY_PHOTOS, DISH_PHOTOS, PHOTO_TEXT, ACTIVITY_GUIDE, SHOPPING_STOPS
+from booklet_data import CITIES, DAYS, GUIDES, TRAINS, LINKS, STAYS, BOOKINGS, CLOSED, BACKUPS, SOUVENIRS, CHAPTERS, DAY_PHOTOS, DISH_PHOTOS, PHOTO_TEXT, ACTIVITY_GUIDE, SHOPPING_STOPS, SHOPPING_GUIDE
 
 def esc(t): return html.escape(t, quote=True)
 def q(t): return "https://www.google.com/maps/search/?api=1&query=" + urllib.parse.quote_plus(t)
@@ -666,6 +666,7 @@ def body():
       <li><a href="#days">每日</a></li>
       <li><a href="food.html">吃喝</a></li>
       <li><a href="activities.html">活動</a></li>
+      <li><a href="shopping.html">逛街</a></li>
       <li><a href="#stays">住宿</a></li>
       <li><a href="#todo">出發前</a></li>
       <li><a href="#info">須知</a></li>
@@ -699,7 +700,7 @@ def body():
     </div>
     <p><a class="nearby-food" href="activities.html">看看推薦活動和票價 ↗</a></p>
     <details class="index-fold"><summary>十五天行程一覽</summary><div class="ovlist">{overview()}</div></details>
-    <details class="index-fold shopping-index"><summary>順路逛逛：超市、服飾與伴手禮</summary><ul>{shopping_index()}</ul></details>
+    <details class="index-fold shopping-index"><summary>順路逛逛：超市、服飾與伴手禮</summary><p><a class="nearby-food" href="shopping.html">打開品牌與店面指南 ↗</a></p><ul>{shopping_index()}</ul></details>
     <section class="food-index" id="guides">
       <div class="block-head"><div class="kicker">Eat &amp; drink</div><h2>每座城市，該吃什麼</h2><p>每家店都對照過 Google 評分、旅遊指南和 Threads 上的心得才放進來。標了日期的，已經排進行程。</p></div>
       <p><a class="nearby-food" href="food.html">開啟吃喝清單：依城市、街區找店 ↗</a></p>
@@ -835,7 +836,52 @@ def activities_page():
 '''
 
 
-def build(artifact_path, site_path, food_path=None, activities_path=None):
+def shopping_page():
+    countries = []
+    for key, country, shops in SHOPPING_GUIDE:
+        cards = []
+        for day, index, city, intro, official, image in shops:
+            name, note, query = SHOPPING_STOPS[day][index]
+            figure = photo(image, sizes="(min-width: 1030px) 475px, (min-width: 621px) 46vw, 94vw") if image else ""
+            credit = ""
+            if image:
+                meta = PHOTOS[image]
+                credit = (f'<p class="shopping-credit"><a href="{esc(meta["source"])}">{esc(meta["author"])}</a>'
+                          f' · <a href="{esc(meta["license_url"])}">{esc(meta["license"])}</a> · 轉檔及縮放</p>')
+            cards.append(f'''<article class="shopping-entry">
+  <span class="shopping-city">{esc(city)} · {day[:2]}/{day[2:]}</span>
+  <h3>{esc(name)}</h3>
+  <p>{esc(intro)}</p>
+{figure}{credit}
+  <p><strong>進去看什麼</strong>　{esc(note)}</p>
+  <div class="shopping-links"><a href="{esc(q(query))}">地圖</a><a href="{esc(official)}">店面資訊</a><a href="index.html#d{day}">當天行程</a></div>
+</article>''')
+        countries.append(f'<section class="shopping-country" id="{key}"><h2>{esc(country)}</h2><div class="shopping-grid">{"".join(cards)}</div></section>')
+    country_links = "".join(f'<a href="#{key}">{esc(name)}</a>' for key, name, _ in SHOPPING_GUIDE)
+    styles = (ROOT / "src/shopping.css").read_text(encoding="utf-8")
+    return f'''<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>逛街指南｜冬季旅行手冊</title>
+<style>{FONTS_CSS}{CSS}{BOOK_CSS}{styles}</style>
+</head>
+<body class="shopping-body">
+<main class="wrap shopping-page">
+  <nav class="shopping-nav" aria-label="旅行手冊"><a href="index.html#overview">← 回旅行手冊</a><a href="food.html">吃喝指南</a></nav>
+  <h1>逛街指南</h1>
+  <p>走到哪裡、可以順手逛什麼。從荷蘭街頭服飾、比利時巧克力到德國藥妝。</p>
+  <nav class="shopping-nav" aria-label="選擇國家">{country_links}</nav>
+  {"".join(countries)}
+</main>
+</body>
+</html>
+'''
+
+
+def build(artifact_path, site_path, food_path=None, activities_path=None, shopping_path=None):
     b = "\n".join(line.rstrip() for line in body().splitlines())
     artifact = (f'<title>荷比德冬季旅行手冊</title>\n<meta name="claude:viewport-fit-sides" content="cover">\n{HEAD_LINKS}\n<style>{FONTS_CSS}{CSS}{BOOK_CSS}</style>\n{b}\n')
     site = ('<!doctype html>\n<html lang="zh-Hant">\n<head>\n<meta charset="utf-8">\n'
@@ -853,6 +899,9 @@ def build(artifact_path, site_path, food_path=None, activities_path=None):
                 f'<style>{FONTS_CSS}{CSS}{BOOK_CSS}{food_css}</style>\n</head><body>\n'
                 f'{food_body}\n</body></html>\n')
     activities = activities_page() if activities_path is not None else None
+    shopping = shopping_page() if shopping_path is not None else None
+    if shopping is not None:
+        check_privacy(shopping)
     check_privacy(site)
     if activities is not None:
         check_privacy(activities)
@@ -864,6 +913,8 @@ def build(artifact_path, site_path, food_path=None, activities_path=None):
         Path(food_path).write_text(food, encoding="utf-8")
     if activities is not None:
         Path(activities_path).write_text(activities, encoding="utf-8")
+    if shopping is not None:
+        Path(shopping_path).write_text(shopping, encoding="utf-8")
     print("built", len(site), "food", len(food or ""), "activities", len(activities or ""))
 
 def check_privacy(page):
@@ -884,4 +935,5 @@ if __name__ == "__main__":
     art = sys.argv[2] if len(sys.argv) > 2 else os.devnull
     food = os.path.join(root, "food.html") if len(sys.argv) == 1 else None
     activities = os.path.join(root, "activities.html") if len(sys.argv) == 1 else None
-    build(art, site, food, activities)
+    shopping = os.path.join(root, "shopping.html") if len(sys.argv) == 1 else None
+    build(art, site, food, activities, shopping)
